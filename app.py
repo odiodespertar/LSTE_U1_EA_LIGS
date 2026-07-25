@@ -7,7 +7,7 @@ st.set_page_config(
     layout="wide",
 )
 
-# Estilos CSS avanzados con unificación de contenedores y eliminación del doble recuadro en la pestaña A
+# Estilos CSS avanzados con corrección total de clases y variables para la pestaña A en tonos naranjas
 st.markdown("""
     <style>
     .streamlit-expanderHeader {
@@ -35,17 +35,7 @@ st.markdown("""
         line-height: 1.6 !important;
     }
 
-    /* Caja contenedora general unificada en tono anaranjado (sin el doble recuadro interno) */
-    .sistema-compacto-box-naranja {
-        background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-        border: 3px solid #f97316;
-        border-radius: 20px;
-        padding: 26px;
-        margin: 16px 0;
-        box-shadow: 0 10px 25px rgba(249, 115, 22, 0.15);
-    }
-
-    /* Título de ambiente unificado en tonos anaranjados idénticos a la pestaña B */
+    /* Título de ambiente en tonos naranjas idéntico al estilo verde pero con su respectiva paleta */
     .ambiente-titulo-naranja {
         text-align: center;
         font-size: 22px;
@@ -268,15 +258,12 @@ with tab1:
     with col_btn_seq3:
         st.markdown(f"<p style='text-align: right; font-weight: bold; color: #ea580c; font-size: 17px; padding-top: 8px;'>Paso activo: {st.session_state.paso_seq_a} / 4</p>", unsafe_allow_html=True)
 
-    # Contenedor limpio y unificado en tonos anaranjados (sin doble cuadro interno)
+    # Contenedor principal con sombra corregida en tonos naranjas (#f97316 en lugar del verde de la imagen)
     st.markdown("""
-    
-
-        <div class="sistema-compacto-box" style="border-color: #f29316; background: linear-gradient(135deg, #fff0db 0%, #f2d7b6 100%); border-radius: 20px; padding: 26px; margin: 16px 0; box-shadow: 0 10px 25px rgba(249, 115, 22, 0.15);">
-            <div class="ambiente-titulo-b">🌐 AMBIENTE: Entorno Urbano / Zona Norte (Azcapotzalco)</div>
+        <div class="sistema-compacto-box" style="border-color: #f97316; background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); border-radius: 20px; padding: 26px; margin: 16px 0; box-shadow: 0 10px 25px rgba(249, 115, 22, 0.15);">
+            <div class="ambiente-titulo-naranja">🌐 AMBIENTE: Entorno Urbano / Zona Norte (Azcapotzalco)</div>
     """, unsafe_allow_html=True)
 
-    
     col_n1, col_n2, col_n3, col_n4 = st.columns(4)
 
     # 1. ENTRADA
