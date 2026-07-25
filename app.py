@@ -272,7 +272,7 @@ with tab1:
     st.markdown("""
     
 
-        <div class="sistema-compacto-box" style="border-color: #f29316; background: linear-gradient(135deg, #fff0db 0%, #f2d7b6 100%); border-radius: 20px; padding: 26px; margin: 16px 0; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);">
+        <div class="sistema-compacto-box" style="border-color: #f29316; background: linear-gradient(135deg, #fff0db 0%, #f2d7b6 100%); border-radius: 20px; padding: 26px; margin: 16px 0; box-shadow: 0 10px 25px rgba(249, 115, 22, 0.15);">
             <div class="ambiente-titulo-b">🌐 AMBIENTE: Entorno Urbano / Zona Norte (Azcapotzalco)</div>
     """, unsafe_allow_html=True)
 
