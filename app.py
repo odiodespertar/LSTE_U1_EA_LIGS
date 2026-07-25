@@ -7,7 +7,7 @@ st.set_page_config(
     layout="wide",
 )
 
-# Estilos CSS avanzados para tarjetas, globos/insignias y notificaciones estilizadas
+# Estilos CSS avanzados para tarjetas, globos/insignias, notificaciones y elementos flotantes animados
 st.markdown("""
     <style>
     .system-box {
@@ -70,6 +70,31 @@ st.markdown("""
         50% { transform: scale(1.05); }
         100% { transform: scale(1); }
     }
+
+    /* Animaciones de elementos flotantes en movimiento */
+    @keyframes floatElement {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-8px); }
+        100% { transform: translateY(0px); }
+    }
+
+    .moving-banner {
+        overflow: hidden;
+        white-space: nowrap;
+        background: #e1f5fe;
+        padding: 10px;
+        border-radius: 8px;
+        font-weight: bold;
+        color: #01579b;
+        margin-bottom: 15px;
+    }
+    
+    .floating-icon {
+        display: inline-block;
+        animation: floatElement 2.5s ease-in-out infinite;
+        font-size: 24px;
+        margin: 0 5px;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -82,7 +107,7 @@ with col_logo:
         st.warning("⚠️ Coloca la imagen 'UnADM LOGO.png' en la carpeta.")
 
 with col_txt:
-    st.title("4. Diseños o modelos de transporte aplicando teoría de sistemas")
+    st.title("4. Modelos prácticos adaptados a la localidad")
     st.markdown("**Estudiante:** Liliana García Solís | **Matrícula:** ES251101336 | **Bloque:** 1 | **Asignatura:** Sistemas de Transporte")
 
 st.markdown("---")
@@ -103,6 +128,16 @@ with tab1:
     📖 **Contexto Teórico:**  
     *“La construcción de un Centro de Transferencia Modal (CETRAM) es quizá uno de los proyectos más complejos que se han desarrollado en los últimos años en la ciudad. Su principal objetivo es concentrar y reorganizar los diferentes sistemas de transporte de la ciudad en un solo lugar...”*
     """)
+
+    # Banner animado visual para pasajeros, trenes y buses en movimiento
+    st.markdown("""
+        <div class="moving-banner">
+            <span>Flujo Dinámico Activo: </span>
+            <span class="floating-icon">🚆</span>
+            <span class="floating-icon">🚍</span>
+            <span class="floating-icon">👥</span> Sincronización en Andenes y Redes de Transporte
+        </div>
+    """, unsafe_allow_html=True)
 
     col_c1, col_c2, col_c3, col_c4 = st.columns(4)
     with col_c1:
@@ -223,6 +258,16 @@ with tab2:
     > **Identificación sistémica:** Ámbito urbano/suburbano, medio terrestre, modo vehículos de redilas de reparto local en U.H. El Rosario, especialización carga.  
     > **Descripción técnica:** Modelo logístico de alta capilaridad y frecuencia (Lunes a Viernes de 9:00 a.m. a 5:00 p.m. y Sábados de 9:00 a.m. a mediodía), priorizando seguridad y regularidad de ruteo.
     """)
+
+    # Banner animado visual para camiones y garrafones en movimiento
+    st.markdown("""
+        <div class="moving-banner" style="background: #e8f5e9; color: #1b5e20;">
+            <span>Ruta Logística en Tránsito: </span>
+            <span class="floating-icon">🚚</span>
+            <span class="floating-icon">💧</span>
+            <span class="floating-icon">📦</span> Reparto Local y Abastecimiento Continuo
+        </div>
+    """, unsafe_allow_html=True)
 
     col_d1, col_d2, col_d3 = st.columns(3)
     with col_d1:
