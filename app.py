@@ -3,11 +3,11 @@ import streamlit as st
 # Configuración de la página
 st.set_page_config(
     page_title="Modelos Prácticos - Teoría de Sistemas",
-    page_icon="💧",
+    page_icon="☁️",
     layout="wide",
 )
 
-# Estilos CSS para tarjetas y flujo animado
+# Estilos CSS avanzados para tarjetas y nubes dinámicas
 st.markdown("""
     <style>
     .system-box {
@@ -16,6 +16,11 @@ st.markdown("""
         border-radius: 12px;
         padding: 20px;
         margin-bottom: 15px;
+        transition: transform 0.3s ease-in-out;
+    }
+    .system-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 131, 184, 0.2);
     }
     .flow-arrow {
         text-align: center;
@@ -23,6 +28,20 @@ st.markdown("""
         color: #0083B8;
         font-weight: bold;
         margin: 5px 0;
+    }
+    .floating-cloud {
+        background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        border-left: 5px solid #0083B8;
+        padding: 12px 18px;
+        border-radius: 8px;
+        font-weight: 600;
+        color: #0d47a1;
+        margin-bottom: 15px;
+        animation: fadeIn 0.8s ease-in-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
     </style>
 """, unsafe_allow_html=True)
@@ -64,14 +83,16 @@ with tab1:
             ]
         )
 
-    capacidad_oferta = (num_trenes + num_buses) * 110
     if "Valle" in horario_operativo:
+        st.markdown('<div class="floating-cloud">☁️ <strong>Mensaje del Sistema:</strong> Transición estable detectada. El flujo de pasajeros circula sin fricción en los pasillos de correspondencia.</div>', unsafe_allow_html=True)
         estado_operativo = "Operación fluida, estable y con tiempos de espera mínimos."
         nivel_alerta = False
     else:
+        st.markdown(f'<div class="floating-cloud" style="background: linear-gradient(135deg, #ffebee, #ffcdd2); border-left-color: #c62828; color: #b71c1c;">☁️ <strong>Alerta Dinámica:</strong> Pico operativo detectado ({horario_operativo}). Activando protocolos de desahogo en andenes.</div>', unsafe_allow_html=True)
         estado_operativo = f"Saturación activa por alta demanda pendular ({horario_operativo})."
         nivel_alerta = True
 
+    capacidad_oferta = (num_trenes + num_buses) * 110
     st.markdown(f"**📊 Capacidad operativa calculada por la flota:** {capacidad_oferta} pas/h | **Estatus:** {estado_operativo}")
     st.markdown("---")
     st.subheader("🔄 Diagrama Sistémico Interactivo con Movimiento de Flujos")
@@ -145,6 +166,13 @@ with tab2:
         demanda_estacional = st.selectbox("Variación de Demanda Estacional", ["Temporada Regular", "Temporada de Calor (Alta Demanda)"])
 
     capacidad_total_flota = unidades_reparto * 50
+
+    if pedidos_diarios > capacidad_total_flota:
+        st.markdown(f'<div class="floating-cloud" style="background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-left-color: #ef6c00; color: #e65100;">☁️ <strong>Aviso Logístico:</strong> La demanda ({pedidos_diarios} garrafones) rebasa la capacidad de las unidades activas. Se requiere optimizar el ruteo.</div>', unsafe_allow_html=True)
+    elif "Calor" in demanda_estacional:
+        st.markdown(f'<div class="floating-cloud">☁️ <strong>Aviso Estacional:</strong> Alta demanda por temporada de calor activa. Ventanas de entrega ajustadas al límite.</div>', unsafe_allow_html=True)
+    else:
+        st.markdown(f'<div class="floating-cloud">☁️ <strong>Aviso Logístico:</strong> Operación estable bajo los parámetros programados de lunes a sábado.</div>', unsafe_allow_html=True)
 
     st.markdown(f"**📊 Capacidad de la flota ({unidades_reparto} camiones):** {capacidad_total_flota} garrafones máx. | **Demanda a cubrir:** {pedidos_diarios} garrafones")
     st.markdown("---")
