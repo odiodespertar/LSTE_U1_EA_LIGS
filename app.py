@@ -49,30 +49,32 @@ with tab1:
     *“La construcción de un Centro de Transferencia Modal (Cetram) es quizá uno de los proyectos más complejos que se han desarrollado en los últimos años en la ciudad. Su principal objetivo es concentrar y reorganizar los diferentes sistemas de transporte de la ciudad en un solo lugar. Con base en las estrategias de distribución y control de flujos y circulaciones, se busca mejorar la calidad de vida de quienes se trasladan de un lugar a otro de la ciudad”*.
     """)
 
-    # Controles interactivos con desglose de horarios (Mañana, Tarde, Noche)
-    col_c1, col_c2 = st.columns(2)
+    # Controles interactivos completos (Sliders + Horarios)
+    col_c1, col_c2, col_c3 = st.columns(3)
     with col_c1:
+        num_trenes = st.slider("Trenes activos (L6 y L7)", 10, 50, 25, key="t_pax")
+    with col_c2:
+        num_buses = st.slider("Unidades (Metrobús / Trolebús / Combis)", 5, 40, 20, key="b_pax")
+    with col_c3:
         horario_operativo = st.selectbox(
-            "Seleccionar Franja Horaria de Operación:",
+            "Franja Horaria de Operación:",
             [
                 "Hora Pico Matutina (Mañana)", 
                 "Hora Valle / Intermedia (Tarde)", 
                 "Hora Pico Vespertina / Nocturna (Noche)"
             ]
         )
-    with col_c2:
-        if "Matutina" in horario_operativo:
-            nivel_pax = 12500
-            estado_operativo = "Saturación alta por ingresos pendulares hacia zonas laborales y escolares."
-        elif "Valle" in horario_operativo:
-            nivel_pax = 4500
-            estado_operativo = "Operación fluida, estable y con tiempos de espera mínimos."
-        else:
-            nivel_pax = 11000
-            estado_operativo = "Saturación por retornos masivos de la tarde-noche."
-        
-        st.markdown(f"**Estatus del Sistema:** {estado_operativo}")
 
+    # Cálculo dinámico basado en las barras y el horario
+    capacidad_oferta = (num_trenes + num_buses) * 110
+    if "Valle" in horario_operativo:
+        estado_operativo = "Operación fluida, estable y con tiempos de espera mínimos."
+        nivel_alerta = False
+    else:
+        estado_operativo = f"Saturación activa por alta demanda pendular ({horario_operativo})."
+        nivel_alerta = True
+
+    st.markdown(f"**📊 Capacidad operativa calculada por la flota:** {capacidad_oferta} pas/h | **Estatus:** {estado_operativo}")
     st.markdown("---")
     st.subheader("🔄 Diagrama Sistémico Interactivo con Movimiento de Flujos")
 
@@ -81,11 +83,10 @@ with tab1:
 
     with c_in:
         st.markdown("### 📥 1. Entradas")
-        st.markdown("""
+        st.markdown(f"""
         <div class="system-box">
-        🚆 Trenes (Líneas 6 y 7)<br>
-        🚍 Trolebús y Metrobús<br>
-        🚐 Combis y microbuses<br>
+        🚆 {num_trenes} Trenes activos (L6 y L7)<br>
+        🚍 {num_buses} Unidades (Trolebús/Metrobús/Combis)<br>
         🚲 Infraestructura de ciclovías<br>
         🎟️ Andenes y tarifas de acceso
         </div>
@@ -118,12 +119,12 @@ with tab1:
         </div>
         """, unsafe_allow_html=True)
 
-    # Bloque de Retroalimentación Interactiva con franjas horarias
+    # Bloque de Retroalimentación Interactiva
     st.markdown("### 🔄 4. Retroalimentación (Feedback)")
-    if "Valle" not in horario_operativo:
-        st.warning(f"⚠️ **Alerta activa de retroalimentación ({horario_operativo}):** Se detectan demoras en transbordos y alta acumulación de usuarios en andenes. Se requiere reforzar frecuencias de despacho.")
+    if nivel_alerta:
+        st.warning(f"⚠️ **Alerta activa de retroalimentación ({horario_operativo}):** Se detectan demoras en transbordos y alta acumulación de usuarios en andenes debido a la saturación de la demanda. Se requiere reforzar frecuencias de despacho para la flota de {num_trenes} trenes.")
     else:
-        st.success(f"✅ **Retroalimentación óptima ({horario_operativo}):** Flujo continuo reportado por los usuarios sin saturación crítica en la correspondencia.")
+        st.success(f"✅ **Retroalimentación óptima ({horario_operativo}):** Flujo continuo reportado por los usuarios sin saturación crítica en la correspondencia con la configuración actual.")
 
     st.markdown("---")
     st.markdown("📸 **Ilustrativo 1.** *Diagrama sistémico y evidencia fotográfica del sistema multimodal de transporte de personas en el CETRAM El Rosario (Sussman, 2000; UnADM, 2026).*")
@@ -141,7 +142,7 @@ with tab2:
 
     col_d1, col_d2 = st.columns(2)
     with col_d1:
-        unidades_reparto = st.slider("Vehículos de redilas en ruta", 1, 8, 3, key="slider_camiones")
+        unidades_reparto = st.slider("Vehículos de redilas en ruta", 1, 10, 3, key="slider_camiones")
     with col_d2:
         demanda_estacional = st.selectbox("Variación de Demanda Estacional", ["Temporada Regular", "Temporada de Calor (Alta Demanda)"])
 
@@ -154,11 +155,11 @@ with tab2:
 
     with b_in:
         st.markdown("### 📥 1. Entradas")
-        st.markdown("""
+        st.markdown(f"""
         <div class="system-box">
         💧 Agua purificada en planta<br>
         🔄 Envases de garrafón vacíos<br>
-        🚚 Vehículos de redilas<br>
+        🚚 {unidades_reparto} Vehículos de redilas activos<br>
         📋 Pedidos programados de clientes
         </div>
         """, unsafe_allow_html=True)
@@ -191,6 +192,6 @@ with tab2:
 
     st.markdown("### 🔄 4. Retroalimentación (Feedback)")
     if "Calor" in demanda_estacional:
-        st.warning("⚠️ **Alerta logística:** Incremento por demanda estacional de calor. Se registran tiempos muertos en ruta por mayor tiempo de descarga en puntos de venta.")
+        st.warning(f"⚠️ **Alerta logística:** Incremento por demanda estacional de calor. La flota de {unidades_reparto} unidades registra tiempos muertos en ruta por mayor tiempo de descarga.")
     else:
-        st.success("✅ **Operación estable:** Cumplimiento del 100% de las rutas programadas sin devoluciones extraordinarias por calidad.")
+        st.success(f"✅ **Operación estable:** Cumplimiento del 100% de las rutas programadas con las {unidades_reparto} unidades activas sin reportes extraordinarios.")
