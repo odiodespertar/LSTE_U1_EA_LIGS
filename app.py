@@ -7,9 +7,29 @@ st.set_page_config(
     layout="wide",
 )
 
-# Estilos CSS avanzados para tarjetas, globos/insignias, notificaciones y elementos flotantes animados
+# Estilos CSS avanzados con mayor contraste y visibilidad para las indicaciones
 st.markdown("""
     <style>
+    /* Banner de avisos e indicaciones de alta visibilidad */
+    .instruction-banner {
+        background-color: #fff8e1;
+        border: 2px solid #ffb300;
+        border-left: 8px solid #ff8f00;
+        border-radius: 10px;
+        padding: 18px 22px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 12px rgba(255, 179, 0, 0.2);
+    }
+    .instruction-banner h4 {
+        color: #e65100;
+        margin-top: 0;
+        font-size: 18px;
+    }
+    .instruction-banner p, .instruction-banner li {
+        color: #3e2723;
+        font-size: 15px;
+    }
+
     .system-box {
         background-color: #f8f9fa;
         border: 2px dashed #0083B8;
@@ -43,7 +63,6 @@ st.markdown("""
     .badge-process { background-color: #f57c00; }
     .badge-output { background-color: #388e3c; }
     
-    /* Estilos para notificaciones estilizadas */
     .alert-card-success {
         background-color: #e8f5e9;
         border-left: 6px solid #2e7d32;
@@ -112,16 +131,19 @@ with col_txt:
 st.markdown("---")
 
 # ==========================================
-# GUÍA VISUAL PARA NUEVOS USUARIOS
+# GUÍA VISUAL DE ALTA VISIBILIDAD PARA USUARIOS
 # ==========================================
-with st.expander("👉 Haz clic aquí para ver instrucciones de navegación y uso"):
-    st.markdown("""
-    ¡Bienvenida a la aplicación interactiva! Sigue estos sencillos pasos para navegar:
-    1. **Elige una pestaña abajo:** Selecciona entre el sistema de pasajeros (CETRAM) o el de mercancías (Agua en garrafón).
-    2. **Mueve los controles (Sliders):** Desplaza las barras interactivas para cambiar flotas, pasajeros o pedidos en tiempo real.
-    3. **Observa los cambios:** Las ecuaciones matemáticas, los diagramas sistémicos y las alertas operativas se actualizarán automáticamente según tus ajustes.
-    4. **Despliega los marcos teóricos:** Al final de cada caso encontrarás un menú desplegable con la explicación de los 11 componentes de Van Gigch (2006).
-    """)
+st.markdown("""
+    <div class="instruction-banner">
+        <h4>📌 GUÍA DE NAVEGACIÓN Y USO INTERACTIVO</h4>
+        <p>Para aprovechar al máximo esta aplicación y evitar perderte ningún detalle, sigue estos pasos:</p>
+        <ul>
+            <li><strong>1. Selecciona una pestaña abajo:</strong> Elige entre el caso de pasajeros (CETRAM) o el de mercancías (Agua en garrafón).</li>
+            <li><strong>2. Utiliza los controles deslizantes (Sliders):</strong> Modifica los valores de flota y demanda para ver el comportamiento en tiempo real.</li>
+            <li><strong>3. Analiza los resultados:</strong> Las ecuaciones matemáticas y los estados operativos se actualizarán de forma inmediata según tus ajustes.</li>
+        </ul>
+    </div>
+""", unsafe_allow_html=True)
 
 st.markdown("")
 
@@ -151,7 +173,11 @@ with tab1:
         </div>
     """, unsafe_allow_html=True)
 
-    st.caption("🎛️ **Panel de Control:** Mueve los siguientes selectores y sliders para simular el comportamiento del sistema:")
+    st.markdown("""
+        <div style="background-color: #e0f7fa; padding: 10px 15px; border-radius: 8px; border-left: 5px solid #00acc1; margin-bottom: 15px;">
+            🎛️ <strong>Panel de Control Activo:</strong> Mueve los selectores y controles deslizantes de abajo para simular diferentes escenarios de saturación o fluidez:
+        </div>
+    """, unsafe_allow_html=True)
 
     col_c1, col_c2, col_c3, col_c4 = st.columns(4)
     with col_c1:
@@ -254,7 +280,6 @@ with tab1:
     else:
         st.success(f"✅ **Retroalimentación óptima ({horario_operativo}):** Tránsito fluido y continuo en las líneas de correspondencia.")
 
-    # Desglose detallado de los 11 componentes teóricos aplicados al caso A
     with st.expander("📋 Haz clic aquí para ver el Marco Completo de los 11 Componentes (Van Gigch, 2006) en el CETRAM El Rosario"):
         st.markdown(f"""
         1. **Elementos:** Trenes de L6 y L7, autobuses de superficie, usuarios, andenes y torniquetes.
@@ -293,7 +318,11 @@ with tab2:
         </div>
     """, unsafe_allow_html=True)
 
-    st.caption("🎛️ **Panel de Logística:** Ajusta las unidades y la demanda para evaluar el comportamiento de la ruta:")
+    st.markdown("""
+        <div style="background-color: #e8f5e9; padding: 10px 15px; border-radius: 8px; border-left: 5px solid #2e7d32; margin-bottom: 15px;">
+            🎛️ <strong>Panel de Logística Activa:</strong> Modifica la cantidad de vehículos y la demanda para evaluar el cumplimiento de las entregas:
+        </div>
+    """, unsafe_allow_html=True)
 
     col_d1, col_d2, col_d3 = st.columns(3)
     with col_d1:
@@ -379,7 +408,6 @@ with tab2:
     else:
         st.success(f"✅ **Operación estable:** Las {unidades_reparto} unidades cubren perfectamente los {pedidos_diarios} pedidos dentro de la ventana horaria establecida.")
 
-    # Desglose detallado de los 11 componentes teóricos aplicados al caso B
     with st.expander("📋 Haz clic aquí para ver el Marco Completo de los 11 Componentes (Van Gigch, 2006) en Distribución de Agua en U.H. El Rosario"):
         st.markdown(f"""
         1. **Elementos:** Vehículos de redilas, garrafones, choferes repartidores, planta purificadora y clientes residenciales.
