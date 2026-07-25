@@ -111,6 +111,20 @@ with col_txt:
 
 st.markdown("---")
 
+# ==========================================
+# GUÍA VISUAL PARA NUEVOS USUARIOS
+# ==========================================
+with st.expander("👉 Haz clic aquí para ver instrucciones de navegación y uso"):
+    st.markdown("""
+    ¡Bienvenida a la aplicación interactiva! Sigue estos sencillos pasos para navegar:
+    1. **Elige una pestaña abajo:** Selecciona entre el sistema de pasajeros (CETRAM) o el de mercancías (Agua en garrafón).
+    2. **Mueve los controles (Sliders):** Desplaza las barras interactivas para cambiar flotas, pasajeros o pedidos en tiempo real.
+    3. **Observa los cambios:** Las ecuaciones matemáticas, los diagramas sistémicos y las alertas operativas se actualizarán automáticamente según tus ajustes.
+    4. **Despliega los marcos teóricos:** Al final de cada caso encontrarás un menú desplegable con la explicación de los 11 componentes de Van Gigch (2006).
+    """)
+
+st.markdown("")
+
 # Pestañas principales con los 2 casos de estudio
 tab1, tab2 = st.tabs([
     "A. Sistema Multimodal: CETRAM El Rosario (Pasajeros)",
@@ -136,6 +150,8 @@ with tab1:
             <span class="floating-icon">👥</span> Sincronización en Andenes y Redes de Transporte
         </div>
     """, unsafe_allow_html=True)
+
+    st.caption("🎛️ **Panel de Control:** Mueve los siguientes selectores y sliders para simular el comportamiento del sistema:")
 
     col_c1, col_c2, col_c3, col_c4 = st.columns(4)
     with col_c1:
@@ -239,7 +255,7 @@ with tab1:
         st.success(f"✅ **Retroalimentación óptima ({horario_operativo}):** Tránsito fluido y continuo en las líneas de correspondencia.")
 
     # Desglose detallado de los 11 componentes teóricos aplicados al caso A
-    with st.expander("📋 Ver Marco Completo de los 11 Componentes (Van Gigch, 2006) en el CETRAM El Rosario"):
+    with st.expander("📋 Haz clic aquí para ver el Marco Completo de los 11 Componentes (Van Gigch, 2006) en el CETRAM El Rosario"):
         st.markdown(f"""
         1. **Elementos:** Trenes de L6 y L7, autobuses de superficie, usuarios, andenes y torniquetes.
         2. **Proceso de conversión:** Regulación de flujos peatonales y sincronización de transbordos entre modos de transporte.
@@ -276,6 +292,8 @@ with tab2:
             <span class="floating-icon">📦</span> Reparto Local y Abastecimiento Continuo
         </div>
     """, unsafe_allow_html=True)
+
+    st.caption("🎛️ **Panel de Logística:** Ajusta las unidades y la demanda para evaluar el comportamiento de la ruta:")
 
     col_d1, col_d2, col_d3 = st.columns(3)
     with col_d1:
@@ -362,7 +380,7 @@ with tab2:
         st.success(f"✅ **Operación estable:** Las {unidades_reparto} unidades cubren perfectamente los {pedidos_diarios} pedidos dentro de la ventana horaria establecida.")
 
     # Desglose detallado de los 11 componentes teóricos aplicados al caso B
-    with st.expander("📋 Ver Marco Completo de los 11 Componentes (Van Gigch, 2006) en Distribución de Agua en U.H. El Rosario"):
+    with st.expander("📋 Haz clic aquí para ver el Marco Completo de los 11 Componentes (Van Gigch, 2006) en Distribución de Agua en U.H. El Rosario"):
         st.markdown(f"""
         1. **Elementos:** Vehículos de redilas, garrafones, choferes repartidores, planta purificadora y clientes residenciales.
         2. **Proceso de conversión:** Envasado, planeación de rutas de entrega domiciliaria y carga física de unidades.
