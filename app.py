@@ -47,7 +47,7 @@ st.set_page_config(
     layout="wide",
 )
 
-# Estilos CSS con letras más grandes para mejor legibilidad
+# Estilos CSS con letras grandes, efectos visuales de brillo, flotación y animaciones restauradas
 st.markdown("""
     <style>
     /* Aumento general de texto en widgets y textos de Streamlit */
@@ -89,16 +89,23 @@ st.markdown("""
         margin-top: 15px;
         margin-bottom: 20px;
         line-height: 1.6;
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
     }
 
-    /* Contenedor del Diagrama de Manheim */
+    /* Contenedor del Diagrama de Manheim con animación sutil de brillo */
+    @keyframes pulse-glow {
+        0% { box-shadow: 0 10px 25px rgba(2, 132, 199, 0.15); }
+        50% { box-shadow: 0 15px 35px rgba(2, 132, 199, 0.35); }
+        100% { box-shadow: 0 10px 25px rgba(2, 132, 199, 0.15); }
+    }
+
     .manheim-container {
         background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
         border: 3px solid #0284c7;
         border-radius: 22px;
         padding: 25px;
         margin-bottom: 25px;
-        box-shadow: 0 10px 25px rgba(2, 132, 199, 0.15);
+        animation: pulse-glow 4s infinite ease-in-out;
     }
 
     .manheim-title {
@@ -111,19 +118,33 @@ st.markdown("""
         letter-spacing: 1px;
     }
 
+    /* Animación flotante para las tarjetas de nodos */
+    @keyframes float-card {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-6px); }
+        100% { transform: translateY(0px); }
+    }
+
     .nodo-manheim {
         background: #ffffff;
         border: 3px solid #0284c7;
         border-radius: 16px;
         padding: 20px;
         text-align: center;
-        box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.08);
         height: 100%;
+        transition: all 0.3s ease;
+        animation: float-card 5s infinite ease-in-out;
+    }
+    
+    .nodo-manheim:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 12px 30px rgba(2, 132, 199, 0.3);
     }
 
-    .nodo-t { border-color: #0284c7; background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%); }
-    .nodo-a { border-color: #f59e0b; background: linear-gradient(135deg, #ffffff 0%, #fef3c7 100%); }
-    .nodo-f { border-color: #16a34a; background: linear-gradient(135deg, #ffffff 0%, #dcfce7 100%); }
+    .nodo-t { border-color: #0284c7; background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%); animation-delay: 0s; }
+    .nodo-a { border-color: #f59e0b; background: linear-gradient(135deg, #ffffff 0%, #fef3c7 100%); animation-delay: 1.5s; }
+    .nodo-f { border-color: #16a34a; background: linear-gradient(135deg, #ffffff 0%, #dcfce7 100%); animation-delay: 3s; }
 
     .conexion-badge {
         background: #0f172a;
@@ -134,6 +155,7 @@ st.markdown("""
         font-size: 16px !important;
         display: inline-block;
         margin: 10px 0;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.15);
     }
 
     .ambiente-titulo-naranja {
@@ -148,6 +170,7 @@ st.markdown("""
         margin-bottom: 22px;
         text-transform: uppercase;
         letter-spacing: 1px;
+        box-shadow: 0 5px 15px rgba(249, 115, 22, 0.2);
     }
 
     .ambiente-titulo-b {
@@ -162,6 +185,7 @@ st.markdown("""
         margin-bottom: 22px;
         text-transform: uppercase;
         letter-spacing: 1px;
+        box-shadow: 0 5px 15px rgba(16, 185, 129, 0.2);
     }
 
     .sistema-macro-container {
@@ -170,6 +194,7 @@ st.markdown("""
         border-radius: 25px;
         padding: 25px;
         margin-bottom: 25px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.05);
     }
 
     .supersistema-label {
@@ -191,6 +216,12 @@ st.markdown("""
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
+        transition: all 0.3s ease;
+    }
+    
+    .card-paso:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 28px rgba(0,0,0,0.12);
     }
 
     .card-inactiva {
@@ -219,24 +250,35 @@ st.markdown("""
         background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
         border: 4px solid #0284c7;
         color: #0f172a;
+        box-shadow: 0 8px 22px rgba(2, 132, 199, 0.25);
     }
 
     .card-activa-proceso {
         background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
         border: 4px solid #f59e0b;
         color: #ffffff;
+        box-shadow: 0 8px 22px rgba(245, 158, 11, 0.25);
     }
 
     .card-activa-salida {
         background: linear-gradient(135deg, #ffffff 0%, #dcfce7 100%);
         border: 4px solid #16a34a;
         color: #0f172a;
+        box-shadow: 0 8px 22px rgba(22, 163, 74, 0.25);
     }
 
     .card-activa-retro {
         background: linear-gradient(135deg, #ffffff 0%, #ffedd5 100%);
         border: 4px solid #ea580c;
         color: #0f172a;
+        box-shadow: 0 8px 22px rgba(234, 88, 12, 0.25);
+    }
+
+    /* Animación de marquesina/brillo para el banner dinámico principal */
+    @keyframes banner-glow {
+        0% { filter: brightness(1); }
+        50% { filter: brightness(1.05); }
+        100% { filter: brightness(1); }
     }
 
     .dynamic-banner {
@@ -248,12 +290,22 @@ st.markdown("""
         border: 2px solid #0284c7;
         font-size: 19px !important;
         text-align: center;
+        box-shadow: 0 6px 20px rgba(2, 132, 199, 0.2);
+        animation: banner-glow 3s infinite ease-in-out;
     }
     
+    /* Animación flotante para los íconos dentro del banner */
+    @keyframes float-icon {
+        0% { transform: translateY(0px) scale(1); }
+        50% { transform: translateY(-4px) scale(1.1); }
+        100% { transform: translateY(0px) scale(1); }
+    }
+
     .floating-icon {
         display: inline-block;
         font-size: 28px;
         margin: 0 6px;
+        animation: float-icon 2s infinite ease-in-out;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -532,7 +584,7 @@ with tab2:
     st.markdown("<p style='font-weight: bold; color: #16a34a; font-size: 20px; margin-bottom: 12px;'>B. Distribución de Carga (Garrafones) - U.H. El Rosario [Diagrama de Manheim T-A-F + Modelo Logístico]</p>", unsafe_allow_html=True)
 
     st.markdown("""
-        <div class="manheim-container" style="border-color: #10b981; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);">
+        <div class="manheim-container" style="border-color: #10b981;">
             <div class="manheim-title" style="color: #064e3b;">🔄 Modelo de Interacción del Sistema de Transporte (Manheim, 1979) — Carga</div>
     """, unsafe_allow_html=True)
     
