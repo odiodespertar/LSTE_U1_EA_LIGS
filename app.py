@@ -3,7 +3,7 @@ import streamlit as st
 # Configuración de la página
 st.set_page_config(
     page_title="Modelos Prácticos - Teoría de Sistemas",
-    page_icon="🚍",
+    page_icon="💧",
     layout="wide",
 )
 
@@ -49,7 +49,6 @@ with tab1:
     *“La construcción de un Centro de Transferencia Modal (Cetram) es quizá uno de los proyectos más complejos que se han desarrollado en los últimos años en la ciudad. Su principal objetivo es concentrar y reorganizar los diferentes sistemas de transporte de la ciudad en un solo lugar. Con base en las estrategias de distribución y control de flujos y circulaciones, se busca mejorar la calidad de vida de quienes se trasladan de un lugar a otro de la ciudad”*.
     """)
 
-    # Controles interactivos completos (Sliders + Horarios)
     col_c1, col_c2, col_c3 = st.columns(3)
     with col_c1:
         num_trenes = st.slider("Trenes activos (L6 y L7)", 10, 50, 25, key="t_pax")
@@ -65,7 +64,6 @@ with tab1:
             ]
         )
 
-    # Cálculo dinámico basado en las barras y el horario
     capacidad_oferta = (num_trenes + num_buses) * 110
     if "Valle" in horario_operativo:
         estado_operativo = "Operación fluida, estable y con tiempos de espera mínimos."
@@ -78,7 +76,6 @@ with tab1:
     st.markdown("---")
     st.subheader("🔄 Diagrama Sistémico Interactivo con Movimiento de Flujos")
 
-    # Esquema visual paso a paso con iconos
     c_in, c_arrow1, c_proc, c_arrow2, c_out = st.columns([2, 0.5, 2, 0.5, 2])
 
     with c_in:
@@ -119,7 +116,6 @@ with tab1:
         </div>
         """, unsafe_allow_html=True)
 
-    # Bloque de Retroalimentación Interactiva
     st.markdown("### 🔄 4. Retroalimentación (Feedback)")
     if nivel_alerta:
         st.warning(f"⚠️ **Alerta activa de retroalimentación ({horario_operativo}):** Se detectan demoras en transbordos y alta acumulación de usuarios en andenes debido a la saturación de la demanda. Se requiere reforzar frecuencias de despacho para la flota de {num_trenes} trenes.")
@@ -140,14 +136,23 @@ with tab2:
     > **Descripción técnica:** Modelo logístico de alta capilaridad y frecuencia (Lunes a Viernes de 9:00 a.m. a 5:00 p.m. y Sábados de 9:00 a.m. a mediodía), priorizando seguridad, regularidad y flexibilidad de ruteo.
     """)
 
-    col_d1, col_d2 = st.columns(2)
+    # Controles con barra de unidades, barra de pedidos y clima
+    col_d1, col_d2, col_d3 = st.columns(3)
     with col_d1:
         unidades_reparto = st.slider("Vehículos de redilas en ruta", 1, 10, 3, key="slider_camiones")
     with col_d2:
+        pedidos_diarios = st.slider("Número de Pedidos (Garrafones)", 50, 400, 150, step=10, key="slider_pedidos")
+    with col_d3:
         demanda_estacional = st.selectbox("Variación de Demanda Estacional", ["Temporada Regular", "Temporada de Calor (Alta Demanda)"])
 
-    total_entregas = unidades_reparto * 45 if "Regular" in demanda_estacional else unidades_reparto * 60
+    # Ajuste de capacidad según los pedidos y el clima
+    capacidad_total_flota = unidades_reparto * 50
+    if "Calor" in demanda_estacional:
+        pedidos_ajustados = int(pedidos_diarios * 1.2)
+    else:
+        pedidos_ajustados = pedidos_diarios
 
+    st.markdown(f"**📊 Capacidad de la flota ({unidades_reparto} camiones):** {capacidad_total_flota} garrafones máx. | **Demanda a cubrir:** {pedidos_ajustados} garrafones")
     st.markdown("---")
     st.subheader("🔄 Esquema Sistémico Dinámico de Carga")
 
@@ -160,7 +165,7 @@ with tab2:
         💧 Agua purificada en planta<br>
         🔄 Envases de garrafón vacíos<br>
         🚚 {unidades_reparto} Vehículos de redilas activos<br>
-        📋 Pedidos programados de clientes
+        📋 <strong>{pedidos_ajustados} Pedidos programados</strong>
         </div>
         """, unsafe_allow_html=True)
 
@@ -173,7 +178,7 @@ with tab2:
         <div class="system-box">
         🏭 Proceso de envasado y ruteo<br>
         ⏰ Ventana: L-V (9:00 a 17:00 h) / S (9:00 a 14:00 h)<br>
-        <em>Reparto activo: {total_entregas} garrafones</em>
+        <em>Distribución activa en ruta</em>
         </div>
         """, unsafe_allow_html=True)
 
@@ -182,16 +187,19 @@ with tab2:
 
     with b_out:
         st.markdown("### 📤 3. Salidas")
-        st.markdown("""
+        st.markdown(f"""
         <div class="system-box">
-        🏠 Garrafones entregados con éxito<br>
+        🏠 {pedidos_ajustados} Garrafones entregados<br>
         🔄 Recolección de envases vacíos<br>
         📄 Notas de venta y control
         </div>
         """, unsafe_allow_html=True)
 
     st.markdown("### 🔄 4. Retroalimentación (Feedback)")
-    if "Calor" in demanda_estacional:
-        st.warning(f"⚠️ **Alerta logística:** Incremento por demanda estacional de calor. La flota de {unidades_reparto} unidades registra tiempos muertos en ruta por mayor tiempo de descarga.")
+    # Si los pedidos superan la capacidad de los camiones, activa una alerta de retroalimentación
+    if pedidos_ajustados > capacidad_total_flota:
+        st.warning(f"⚠️ **Alerta logística:** Los {pedidos_ajustados} pedidos superan la capacidad máxima de la flota actual ({capacidad_total_flota} unidades). Se generan tiempos muertos en ruta y retrasos; se requiere incorporar al menos { (pedidos_ajustados - capacidad_total_flota) // 50 + 1 } vehículo(s) adicional(es).")
+    elif "Calor" in demanda_estacional:
+        st.warning(f"⚠️ **Alerta estacional:** Incremento por temporada de calor. La flota opera al límite para cumplir con los {pedidos_ajustados} garrafones solicitados.")
     else:
-        st.success(f"✅ **Operación estable:** Cumplimiento del 100% de las rutas programadas con las {unidades_reparto} unidades activas sin reportes extraordinarios.")
+        st.success(f"✅ **Operación estable:** Las {unidades_reparto} unidades cubren perfectamente los {pedidos_ajustados} pedidos dentro de la ventana horaria establecida sin reportes extraordinarios.")
