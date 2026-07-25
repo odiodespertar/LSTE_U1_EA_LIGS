@@ -47,43 +47,48 @@ st.set_page_config(
     layout="wide",
 )
 
-# Estilos CSS para el diagrama interactivo de Manheim (T, A, F)
+# Estilos CSS con letras más grandes para mejor legibilidad
 st.markdown("""
     <style>
+    /* Aumento general de texto en widgets y textos de Streamlit */
+    html, body, [class*="css"] {
+        font-size: 18px !important;
+    }
+
     .streamlit-expanderHeader {
         background: linear-gradient(135deg, #e0f2fe 100%, #bae6fd 0%) !important;
         border: 2px solid #0284c7 !important;
         border-radius: 12px !important;
         color: #0369a1 !important;
         font-weight: 800 !important;
-        font-size: 20px !important;
+        font-size: 22px !important;
         box-shadow: 0 4px 15px rgba(2, 132, 199, 0.2);
     }
 
     .instrucciones-box {
         background-color: #f0f9ff;
-        padding: 20px;
+        padding: 22px;
         border-radius: 10px;
         border: 2px solid #7dd3fc;
-        font-size: 19px !important;
+        font-size: 20px !important;
         color: #0c4a6e;
     }
     
     .instrucciones-box p, .instrucciones-box li {
-        font-size: 19px !important;
+        font-size: 20px !important;
         line-height: 1.6 !important;
     }
 
     .nota-calculo {
         background-color: #fffbeb;
-        border-left: 4px solid #f59e0b;
-        padding: 12px 16px;
+        border-left: 5px solid #f59e0b;
+        padding: 16px 20px;
         border-radius: 6px;
-        font-size: 15px;
+        font-size: 18px !important;
         color: #b45309;
-        margin-top: 10px;
-        margin-bottom: 15px;
-        line-height: 1.5;
+        margin-top: 15px;
+        margin-bottom: 20px;
+        line-height: 1.6;
     }
 
     /* Contenedor del Diagrama de Manheim */
@@ -98,7 +103,7 @@ st.markdown("""
 
     .manheim-title {
         text-align: center;
-        font-size: 20px;
+        font-size: 22px !important;
         font-weight: 900;
         color: #0369a1;
         margin-bottom: 20px;
@@ -110,16 +115,10 @@ st.markdown("""
         background: #ffffff;
         border: 3px solid #0284c7;
         border-radius: 16px;
-        padding: 18px;
+        padding: 20px;
         text-align: center;
         box-shadow: 0 6px 15px rgba(0,0,0,0.05);
         height: 100%;
-        transition: all 0.3s ease;
-    }
-
-    .nodo-manheim:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 10px 25px rgba(2, 132, 199, 0.25);
     }
 
     .nodo-t { border-color: #0284c7; background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%); }
@@ -132,40 +131,37 @@ st.markdown("""
         padding: 6px 14px;
         border-radius: 20px;
         font-weight: 800;
-        font-size: 14px;
+        font-size: 16px !important;
         display: inline-block;
         margin: 10px 0;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
     .ambiente-titulo-naranja {
         text-align: center;
-        font-size: 22px;
+        font-size: 24px !important;
         font-weight: 900;
         color: #7c2d12;
         background: linear-gradient(90deg, #ffedd5 0%, #fed7aa 100%);
-        padding: 14px 20px;
+        padding: 16px 22px;
         border-radius: 12px;
         border: 2px solid #f97316;
         margin-bottom: 22px;
         text-transform: uppercase;
         letter-spacing: 1px;
-        box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
     }
 
     .ambiente-titulo-b {
         text-align: center;
-        font-size: 22px;
+        font-size: 24px !important;
         font-weight: 900;
         color: #064e3b;
         background: linear-gradient(90deg, #d1fae5 0%, #a7f3d0 100%);
-        padding: 14px 20px;
+        padding: 16px 22px;
         border-radius: 12px;
         border: 2px solid #10b981;
         margin-bottom: 22px;
         text-transform: uppercase;
         letter-spacing: 1px;
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
     }
 
     .sistema-macro-container {
@@ -174,15 +170,13 @@ st.markdown("""
         border-radius: 25px;
         padding: 25px;
         margin-bottom: 25px;
-        position: relative;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
     }
 
     .supersistema-label {
-        font-size: 13px;
+        font-size: 16px !important;
         font-weight: 800;
         text-transform: uppercase;
-        color: #64748b;
+        color: #475569;
         text-align: center;
         margin-bottom: 15px;
         letter-spacing: 2px;
@@ -190,36 +184,33 @@ st.markdown("""
 
     .card-paso {
         border-radius: 18px;
-        padding: 20px;
+        padding: 22px;
         text-align: left;
-        min-height: 380px;
+        min-height: 410px;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
-        transition: all 0.5s ease-in-out;
     }
 
     .card-inactiva {
         background: #ffffff;
         border: 2px dashed #cbd5e1;
         color: #475569;
-        opacity: 0.75;
-        transform: scale(0.97);
-        box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        opacity: 0.8;
         text-align: center;
         justify-content: center;
         align-items: center;
     }
     
     .card-inactiva h4 {
-        font-size: 18px !important;
+        font-size: 20px !important;
         font-weight: 800 !important;
         color: #334155 !important;
     }
 
     .card-inactiva p {
-        font-size: 15px !important;
+        font-size: 17px !important;
         color: #475569 !important;
         font-weight: 600 !important;
     }
@@ -228,56 +219,46 @@ st.markdown("""
         background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
         border: 4px solid #0284c7;
         color: #0f172a;
-        box-shadow: 0 12px 30px rgba(2, 132, 199, 0.35);
-        transform: scale(1.04);
     }
 
     .card-activa-proceso {
         background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
         border: 4px solid #f59e0b;
         color: #ffffff;
-        box-shadow: 0 12px 30px rgba(245, 158, 11, 0.35);
-        transform: scale(1.04);
     }
 
     .card-activa-salida {
         background: linear-gradient(135deg, #ffffff 0%, #dcfce7 100%);
         border: 4px solid #16a34a;
         color: #0f172a;
-        box-shadow: 0 12px 30px rgba(22, 163, 74, 0.35);
-        transform: scale(1.04);
     }
 
     .card-activa-retro {
         background: linear-gradient(135deg, #ffffff 0%, #ffedd5 100%);
         border: 4px solid #ea580c;
         color: #0f172a;
-        box-shadow: 0 12px 30px rgba(234, 88, 12, 0.35);
-        transform: scale(1.04);
     }
 
     .dynamic-banner {
         background: linear-gradient(90deg, #e0f2fe 0%, #fef3c7 50%, #dcfce7 100%);
-        padding: 16px 22px;
+        padding: 18px 24px;
         border-radius: 12px;
         font-weight: 800;
-        color: #0369a1;
         margin-bottom: 18px;
         border: 2px solid #0284c7;
-        font-size: 17px;
+        font-size: 19px !important;
         text-align: center;
-        box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
     }
     
     .floating-icon {
         display: inline-block;
-        font-size: 26px;
+        font-size: 28px;
         margin: 0 6px;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# Cabecera institucional completa con logo y datos de estudiante
+# Cabecera institucional completa
 col_logo, col_txt = st.columns([1, 6])
 with col_logo:
     try:
@@ -287,17 +268,17 @@ with col_logo:
 
 with col_txt:
     st.markdown("### 4. Diseño o modelo de transporte aplicando Teoría de Sistemas en mi localidad")
-    st.markdown("<p style='font-size:16px; margin:0;'><strong>Estudiante:</strong> Liliana García Solís | <strong>Matrícula:</strong> ES251101336 | <strong>Actividad:</strong> Evidencia de Aprendizaje | <strong>Asignatura:</strong> Sistemas de Transporte</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size:18px; margin:0;'><strong>Estudiante:</strong> Liliana García Solís | <strong>Matrícula:</strong> ES251101336 | <strong>Actividad:</strong> Evidencia de Aprendizaje | <strong>Asignatura:</strong> Sistemas de Transporte</p>", unsafe_allow_html=True)
 
 st.markdown("---")
 
 with st.expander("👉 Indicaciones de navegación y modelos teóricos", expanded=False):
     st.markdown("""
     <div class="instrucciones-box">
-        <p style="margin: 0 0 8px 0; font-weight: bold; color: #0369a1; font-size: 20px !important;">Instrucciones de Uso:</p>
+        <p style="margin: 0 0 10px 0; font-weight: bold; color: #0369a1; font-size: 22px !important;">Instrucciones de Uso:</p>
         <ul style="margin: 0; padding-left: 20px; color: #0c4a6e;">
-            <li style="margin-bottom: 8px;"><strong>Diagrama de Manheim (T - A - F):</strong> Visualiza la interacción sistémica entre el Sistema de Transporte, el Sistema de Actividades y los Flujos de transporte.</li>
-            <li style="margin-bottom: 8px;"><strong>Pestañas A y B:</strong> Explora el sistema multimodal de pasajeros y la distribución de carga en garrafones.</li>
+            <li style="margin-bottom: 10px;"><strong>Diagrama de Manheim (T - A - F):</strong> Visualiza la interacción sistémica entre el Sistema de Transporte, el Sistema de Actividades y los Flujos.</li>
+            <li style="margin-bottom: 10px;"><strong>Pestañas A y B:</strong> Explora el sistema multimodal de pasajeros y la distribución de carga en garrafones.</li>
             <li><strong>Avance secuencial:</strong> Utiliza el botón de "Avanzar Secuencia Teórica" para recorrer las dimensiones de Entrada, Proceso, Salida y Retroalimentación.</li>
         </ul>
     </div>
@@ -317,9 +298,8 @@ if "paso_seq_b" not in st.session_state:
 # PESTAÑA A: CETRAM EL ROSARIO
 # ==========================================
 with tab1:
-    st.markdown("<p style='font-weight: bold; color: #ea580c; font-size: 18px; margin-bottom: 8px;'>A. Sistema Multimodal de Pasajeros - CETRAM El Rosario [Diagrama de Manheim T-A-F + Modelo Sistémico]</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-weight: bold; color: #ea580c; font-size: 20px; margin-bottom: 12px;'>A. Sistema Multimodal de Pasajeros - CETRAM El Rosario [Diagrama de Manheim T-A-F + Modelo Sistémico]</p>", unsafe_allow_html=True)
 
-    # Diagrama de Interacción de Manheim (T - A - F) Estilizado
     st.markdown("""
         <div class="manheim-container">
             <div class="manheim-title">🔄 Modelo de Interacción del Sistema de Transporte (Manheim, 1979)</div>
@@ -329,25 +309,25 @@ with tab1:
     with ma1:
         st.markdown("""
             <div class="nodo-manheim nodo-t">
-                <strong style="color: #0284c7; font-size: 16px;">Sistema de Transporte (T)</strong><br>
+                <strong style="color: #0284c7; font-size: 18px;">Sistema de Transporte (T)</strong><br>
                 <span class="conexion-badge">Oferta / Capacidad</span><br>
-                <span style="font-size: 14px; color: #334155;">Infraestructura CETRAM + Metro L6/L7 + Buses</span>
+                <span style="font-size: 16px; color: #334155;">Infraestructura CETRAM + Metro L6/L7 + Buses</span>
             </div>
         """, unsafe_allow_html=True)
     with ma2:
         st.markdown("""
             <div class="nodo-manheim nodo-a">
-                <strong style="color: #d97706; font-size: 16px;">Sistema de Actividades (A)</strong><br>
+                <strong style="color: #d97706; font-size: 18px;">Sistema de Actividades (A)</strong><br>
                 <span class="conexion-badge" style="background: #f59e0b; color: #ffffff;">Demanda / Patrones</span><br>
-                <span style="font-size: 14px; color: #334155;">Dinámica urbana y movilidad poblacional local</span>
+                <span style="font-size: 16px; color: #334155;">Dinámica urbana y movilidad poblacional local</span>
             </div>
         """, unsafe_allow_html=True)
     with ma3:
         st.markdown("""
             <div class="nodo-manheim nodo-f">
-                <strong style="color: #16a34a; font-size: 16px;">Flujos (F)</strong><br>
+                <strong style="color: #16a34a; font-size: 18px;">Flujos (F)</strong><br>
                 <span class="conexion-badge" style="background: #16a34a; color: #ffffff;">Interacción T ⇄ A</span><br>
-                <span style="font-size: 14px; color: #334155;">Volumen real de pasajeros transportados y servicio</span>
+                <span style="font-size: 16px; color: #334155;">Volumen real de pasajeros transportados y servicio</span>
             </div>
         """, unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
@@ -416,7 +396,7 @@ with tab1:
     st.markdown(f"""
         <div class="dynamic-banner" style="color: {color_b_a}; border-color: {color_b_a};">
             🚀 FLUJO ACTIVO [F]: <span class="floating-icon">🚆</span> {num_trenes*2} Trenes | <span class="floating-icon">🚍</span> {num_buses} Buses | <span class="floating-icon">👥</span> {demanda_ajustada:,} Pax<br>
-            <span style="font-size: 15px;">{alerta_banner_a}</span>
+            <span style="font-size: 17px;">{alerta_banner_a}</span>
         </div>
     """, unsafe_allow_html=True)
 
@@ -430,7 +410,7 @@ with tab1:
             st.session_state.paso_seq_a = 1
             st.rerun()
     with col_btn_seq3:
-        st.markdown(f"<p style='text-align: right; font-weight: bold; color: #ea580c; font-size: 17px; padding-top: 8px;'>Dimensión Activa: {st.session_state.paso_seq_a} / 4</p>", unsafe_allow_html=True)
+        st.markdown(f"<p style='text-align: right; font-weight: bold; color: #ea580c; font-size: 18px; padding-top: 8px;'>Dimensión Activa: {st.session_state.paso_seq_a} / 4</p>", unsafe_allow_html=True)
 
     st.markdown("""
         <div class="sistema-macro-container">
@@ -444,14 +424,14 @@ with tab1:
         if st.session_state.paso_seq_a == 1:
             st.markdown(f"""
             <div class="card-paso card-activa-entrada">
-                <h4 style="color: #0284c7; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">📥 ENTRADA (Recursos/Energía)</h4>
-                <p style="font-size: 13px; margin: 0; line-height: 1.4;">
+                <h4 style="color: #0284c7; margin: 0 0 10px 0; font-size: 20px; font-weight: 900;">📥 ENTRADA (Recursos/Energía)</h4>
+                <p style="font-size: 15px; margin: 0; line-height: 1.5;">
                     <strong>Elementos:</strong><br>
                     • 🚆 {num_trenes*2} Trenes activos<br>
                     • 🚍 {num_buses} Autobuses<br>
                     • 👨‍✈️ Operadores y personal<br>
                     • ⛽ Energía y combustible<br>
-                    • 👥 Demanda: {pasajeros_flota:,} pax<br>
+                    • 👥 Demanda: {pasajeros_flota:,} pax<br><br>
                     <strong>Oferta Total [T]:</strong> {capacidad_oferta:,} pax.
                 </p>
             </div>
@@ -468,13 +448,13 @@ with tab1:
         if st.session_state.paso_seq_a == 2:
             st.markdown(f"""
             <div class="card-paso card-activa-proceso">
-                <h4 style="color: #fbbf24; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">⚙️ SUBSISTEMAS Y PROCESO [F]</h4>
-                <p style="font-size: 13px; margin: 0; line-height: 1.4; color: #f8fafc;">
+                <h4 style="color: #fbbf24; margin: 0 0 10px 0; font-size: 20px; font-weight: 900;">⚙️ SUBSISTEMAS Y PROCESO [F]</h4>
+                <p style="font-size: 15px; margin: 0; line-height: 1.5; color: #f8fafc;">
                     <strong>Componentes:</strong><br>
                     • Planeación de frecuencias<br>
                     • Asignación de unidades<br>
                     • Control operativo<br>
-                    • Transporte de pasajeros<br>
+                    • Transporte de pasajeros<br><br>
                     <strong>Volumen [F] ({horario_operativo}):</strong> <strong>{demanda_ajustada:,} pax</strong>.
                 </p>
             </div>
@@ -491,12 +471,12 @@ with tab1:
         if st.session_state.paso_seq_a == 3:
             st.markdown(f"""
             <div class="card-paso card-activa-salida">
-                <h4 style="color: #16a34a; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">📤 SALIDA (Información/Recursos)</h4>
-                <p style="font-size: 13px; margin: 0; line-height: 1.4;">
+                <h4 style="color: #16a34a; margin: 0 0 10px 0; font-size: 20px; font-weight: 900;">📤 SALIDA (Información/Recursos)</h4>
+                <p style="font-size: 15px; margin: 0; line-height: 1.5;">
                     <strong>Elementos:</strong><br>
                     • Pasajeros transportados<br>
                     • Nivel de servicio [S]<br>
-                    • Flujo de pasajeros activo<br>
+                    • Flujo de pasajeros activo<br><br>
                     <strong>Índice de Servicio:</strong> <strong>{nivel_servicio_s:.2f}</strong>. Transferencia eficiente a red masiva.
                 </p>
             </div>
@@ -525,8 +505,8 @@ with tab1:
 
             st.markdown(f"""
             <div class="card-paso card-activa-retro">
-                <h4 style="color: #ea580c; margin: 0 0 8px 0; font-size: 16px; font-weight: 900;">🔄 RETROALIMENTACIÓN</h4>
-                <p style="font-size: 12px; margin: 0; line-height: 1.35; color: #9a3412; font-weight: 700;">
+                <h4 style="color: #ea580c; margin: 0 0 10px 0; font-size: 20px; font-weight: 900;">🔄 RETROALIMENTACIÓN</h4>
+                <p style="font-size: 14px; margin: 0; line-height: 1.45; color: #9a3412; font-weight: 700;">
                     <strong>Control del Sistema:</strong><br>
                     • Saturación del sistema<br>
                     • Ajuste de frecuencias<br>
@@ -549,9 +529,8 @@ with tab1:
 # PESTAÑA B: DISTRIBUCIÓN DE AGUA
 # ==========================================
 with tab2:
-    st.markdown("<p style='font-weight: bold; color: #16a34a; font-size: 18px; margin-bottom: 8px;'>B. Distribución de Carga (Garrafones) - U.H. El Rosario [Diagrama de Manheim T-A-F + Modelo Logístico]</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-weight: bold; color: #16a34a; font-size: 20px; margin-bottom: 12px;'>B. Distribución de Carga (Garrafones) - U.H. El Rosario [Diagrama de Manheim T-A-F + Modelo Logístico]</p>", unsafe_allow_html=True)
 
-    # Diagrama de Interacción de Manheim (T - A - F) para Carga Estilizado
     st.markdown("""
         <div class="manheim-container" style="border-color: #10b981; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);">
             <div class="manheim-title" style="color: #064e3b;">🔄 Modelo de Interacción del Sistema de Transporte (Manheim, 1979) — Carga</div>
@@ -561,25 +540,25 @@ with tab2:
     with mb1:
         st.markdown("""
             <div class="nodo-manheim nodo-t" style="border-color: #10b981;">
-                <strong style="color: #10b981; font-size: 16px;">Sistema de Transporte (T)</strong><br>
+                <strong style="color: #10b981; font-size: 18px;">Sistema de Transporte (T)</strong><br>
                 <span class="conexion-badge" style="background: #10b981; color: #ffffff;">Flota / Capacidad</span><br>
-                <span style="font-size: 14px; color: #334155;">Vehículos de redilas y rutas de reparto local</span>
+                <span style="font-size: 16px; color: #334155;">Vehículos de redilas y rutas de reparto local</span>
             </div>
         """, unsafe_allow_html=True)
     with mb2:
         st.markdown("""
             <div class="nodo-manheim nodo-a" style="border-color: #f59e0b;">
-                <strong style="color: #d97706; font-size: 16px;">Sistema de Actividades (A)</strong><br>
+                <strong style="color: #d97706; font-size: 18px;">Sistema de Actividades (A)</strong><br>
                 <span class="conexion-badge" style="background: #f59e0b; color: #ffffff;">Demanda / Pedidos</span><br>
-                <span style="font-size: 14px; color: #334155;">Consumo diario de agua en U.H. El Rosario</span>
+                <span style="font-size: 16px; color: #334155;">Consumo diario de agua en U.H. El Rosario</span>
             </div>
         """, unsafe_allow_html=True)
     with mb3:
         st.markdown("""
             <div class="nodo-manheim nodo-f" style="border-color: #16a34a;">
-                <strong style="color: #16a34a; font-size: 16px;">Flujos (F)</strong><br>
+                <strong style="color: #16a34a; font-size: 18px;">Flujos (F)</strong><br>
                 <span class="conexion-badge" style="background: #16a34a; color: #ffffff;">Interacción T ⇄ A</span><br>
-                <span style="font-size: 14px; color: #334155;">Volumen real de garrafones distribuidos y entregas</span>
+                <span style="font-size: 16px; color: #334155;">Volumen real de garrafones distribuidos y entregas</span>
             </div>
         """, unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
@@ -636,7 +615,7 @@ with tab2:
     st.markdown(f"""
         <div class="dynamic-banner" style="background: linear-gradient(90deg, #dcfce7 0%, #fef3c7 50%, #e0f2fe 100%); color: {color_b_b}; border-color: {color_b_b};">
             🚚 RUTA LOGÍSTICA [F]: <span class="floating-icon">🚚</span> {unidades_reparto} Unidades ({capacidad_total_flota:,} cap.) | <span class="floating-icon">💧</span> {pedidos_ajustados:,} Garrafones<br>
-            <span style="font-size: 15px;">{alerta_banner_b}</span>
+            <span style="font-size: 17px;">{alerta_banner_b}</span>
         </div>
     """, unsafe_allow_html=True)
 
@@ -650,7 +629,7 @@ with tab2:
             st.session_state.paso_seq_b = 1
             st.rerun()
     with col_btn_seqb3:
-        st.markdown(f"<p style='text-align: right; font-weight: bold; color: #16a34a; font-size: 17px; padding-top: 8px;'>Dimensión Activa: {st.session_state.paso_seq_b} / 4</p>", unsafe_allow_html=True)
+        st.markdown(f"<p style='text-align: right; font-weight: bold; color: #16a34a; font-size: 18px; padding-top: 8px;'>Dimensión Activa: {st.session_state.paso_seq_b} / 4</p>", unsafe_allow_html=True)
 
     st.markdown("""
         <div class="sistema-macro-container" style="border-color: #10b981; background: linear-gradient(135deg, #f0fdf4 0%, #e6f4ea 100%);">
@@ -664,13 +643,13 @@ with tab2:
         if st.session_state.paso_seq_b == 1:
             st.markdown(f"""
             <div class="card-paso card-activa-entrada">
-                <h4 style="color: #0284c7; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">📥 ENTRADA (Recursos/Energía)</h4>
-                <p style="font-size: 13px; margin: 0; line-height: 1.4;">
+                <h4 style="color: #0284c7; margin: 0 0 10px 0; font-size: 20px; font-weight: 900;">📥 ENTRADA (Recursos/Energía)</h4>
+                <p style="font-size: 15px; margin: 0; line-height: 1.5;">
                     <strong>Elementos:</strong><br>
                     • 🚚 {unidades_reparto} Vehículos de redilas<br>
                     • 👨‍✈️ Operadores de reparto<br>
                     • ⛽ Combustible y recursos<br>
-                    • 💧 Pedidos: {pedidos_diarios} garrafones<br>
+                    • 💧 Pedidos: {pedidos_diarios} garrafones<br><br>
                     <strong>Capacidad Flota [T]:</strong> {capacidad_total_flota:,} garrafones.
                 </p>
             </div>
@@ -687,13 +666,13 @@ with tab2:
         if st.session_state.paso_seq_b == 2:
             st.markdown(f"""
             <div class="card-paso card-activa-proceso">
-                <h4 style="color: #fbbf24; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">⚙️ SUBSISTEMAS Y PROCESO [F]</h4>
-                <p style="font-size: 13px; margin: 0; line-height: 1.4; color: #f0fdf4;">
+                <h4 style="color: #fbbf24; margin: 0 0 10px 0; font-size: 20px; font-weight: 900;">⚙️ SUBSISTEMAS Y PROCESO [F]</h4>
+                <p style="font-size: 15px; margin: 0; line-height: 1.5; color: #f0fdf4;">
                     <strong>Componentes:</strong><br>
                     • Planeación de rutas de entrega<br>
                     • Asignación de vehículos<br>
                     • Control operativo en U.H.<br>
-                    • Distribución de carga<br>
+                    • Distribución de carga<br><br>
                     <strong>Volumen [F] ({demanda_estacional}):</strong> <strong>{pedidos_ajustados:,} garrafones</strong>.
                 </p>
             </div>
@@ -710,12 +689,12 @@ with tab2:
         if st.session_state.paso_seq_b == 3:
             st.markdown(f"""
             <div class="card-paso card-activa-salida">
-                <h4 style="color: #16a34a; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">📤 SALIDA (Recursos/Información)</h4>
-                <p style="font-size: 13px; margin: 0; line-height: 1.4;">
+                <h4 style="color: #16a34a; margin: 0 0 10px 0; font-size: 20px; font-weight: 900;">📤 SALIDA (Recursos/Información)</h4>
+                <p style="font-size: 15px; margin: 0; line-height: 1.5;">
                     <strong>Elementos:</strong><br>
                     • Garrafones entregados<br>
                     • Nivel de servicio en ventanas horarias<br>
-                    • Flujo de distribución exitoso<br>
+                    • Flujo de distribución exitoso<br><br>
                     <strong>Total Distribuido:</strong> <span style="color: #16a34a; font-weight: bold;">{pedidos_ajustados:,} garrafones</span>.
                 </p>
             </div>
@@ -744,8 +723,8 @@ with tab2:
 
             st.markdown(f"""
             <div class="card-paso card-activa-retro">
-                <h4 style="color: #ea580c; margin: 0 0 8px 0; font-size: 16px; font-weight: 900;">🔄 RETROALIMENTACIÓN</h4>
-                <p style="font-size: 12px; margin: 0; line-height: 1.35; color: #9a3412; font-weight: 700;">
+                <h4 style="color: #ea580c; margin: 0 0 10px 0; font-size: 20px; font-weight: 900;">🔄 RETROALIMENTACIÓN</h4>
+                <p style="font-size: 14px; margin: 0; line-height: 1.45; color: #9a3412; font-weight: 700;">
                     <strong>Control del Sistema:</strong><br>
                     • Saturación de flota<br>
                     • Ajuste de frecuencias de reparto<br>
