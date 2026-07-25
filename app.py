@@ -136,23 +136,20 @@ with tab2:
     > **Descripción técnica:** Modelo logístico de alta capilaridad y frecuencia (Lunes a Viernes de 9:00 a.m. a 5:00 p.m. y Sábados de 9:00 a.m. a mediodía), priorizando seguridad, regularidad y flexibilidad de ruteo.
     """)
 
-    # Controles con barra de unidades, barra de pedidos y clima
+    # Controles con barra de unidades, barra exacta de pedidos y clima informativo
     col_d1, col_d2, col_d3 = st.columns(3)
     with col_d1:
         unidades_reparto = st.slider("Vehículos de redilas en ruta", 1, 10, 3, key="slider_camiones")
     with col_d2:
+        # El valor de esta barra es exactamente el que se usará en todo el sistema sin alteraciones ocultas
         pedidos_diarios = st.slider("Número de Pedidos (Garrafones)", 50, 400, 150, step=10, key="slider_pedidos")
     with col_d3:
         demanda_estacional = st.selectbox("Variación de Demanda Estacional", ["Temporada Regular", "Temporada de Calor (Alta Demanda)"])
 
-    # Ajuste de capacidad según los pedidos y el clima
+    # Capacidad máxima estimada (asumiendo 50 garrafones por unidad en promedio)
     capacidad_total_flota = unidades_reparto * 50
-    if "Calor" in demanda_estacional:
-        pedidos_ajustados = int(pedidos_diarios * 1.2)
-    else:
-        pedidos_ajustados = pedidos_diarios
 
-    st.markdown(f"**📊 Capacidad de la flota ({unidades_reparto} camiones):** {capacidad_total_flota} garrafones máx. | **Demanda a cubrir:** {pedidos_ajustados} garrafones")
+    st.markdown(f"**📊 Capacidad de la flota ({unidades_reparto} camiones):** {capacidad_total_flota} garrafones máx. | **Demanda a cubrir:** {pedidos_diarios} garrafones")
     st.markdown("---")
     st.subheader("🔄 Esquema Sistémico Dinámico de Carga")
 
@@ -165,7 +162,7 @@ with tab2:
         💧 Agua purificada en planta<br>
         🔄 Envases de garrafón vacíos<br>
         🚚 {unidades_reparto} Vehículos de redilas activos<br>
-        📋 <strong>{pedidos_ajustados} Pedidos programados</strong>
+        📋 <strong>{pedidos_diarios} Pedidos programados</strong>
         </div>
         """, unsafe_allow_html=True)
 
@@ -189,17 +186,17 @@ with tab2:
         st.markdown("### 📤 3. Salidas")
         st.markdown(f"""
         <div class="system-box">
-        🏠 {pedidos_ajustados} Garrafones entregados<br>
+        🏠 <strong>{pedidos_diarios} Garrafones entregados</strong><br>
         🔄 Recolección de envases vacíos<br>
         📄 Notas de venta y control
         </div>
         """, unsafe_allow_html=True)
 
     st.markdown("### 🔄 4. Retroalimentación (Feedback)")
-    # Si los pedidos superan la capacidad de los camiones, activa una alerta de retroalimentación
-    if pedidos_ajustados > capacidad_total_flota:
-        st.warning(f"⚠️ **Alerta logística:** Los {pedidos_ajustados} pedidos superan la capacidad máxima de la flota actual ({capacidad_total_flota} unidades). Se generan tiempos muertos en ruta y retrasos; se requiere incorporar al menos { (pedidos_ajustados - capacidad_total_flota) // 50 + 1 } vehículo(s) adicional(es).")
+    # Evaluación de la retroalimentación basada estrictamente en los pedidos reales y la capacidad
+    if pedidos_diarios > capacidad_total_flota:
+        st.warning(f"⚠️ **Alerta logística:** Los {pedidos_diarios} pedidos superan la capacidad máxima de la flota actual ({capacidad_total_flota} unidades). Se generan tiempos muertos en ruta y retrasos; se requiere incorporar al menos { (pedidos_diarios - capacidad_total_flota) // 50 + 1 } vehículo(s) adicional(es).")
     elif "Calor" in demanda_estacional:
-        st.warning(f"⚠️ **Alerta estacional:** Incremento por temporada de calor. La flota opera al límite para cumplir con los {pedidos_ajustados} garrafones solicitados.")
+        st.warning(f"⚠️ **Alerta estacional ({demanda_estacional}):** La flota opera bajo alta exigencia para cumplir puntualmente con los {pedidos_diarios} garrafones solicitados dentro de la ventana horaria.")
     else:
-        st.success(f"✅ **Operación estable:** Las {unidades_reparto} unidades cubren perfectamente los {pedidos_ajustados} pedidos dentro de la ventana horaria establecida sin reportes extraordinarios.")
+        st.success(f"✅ **Operación estable:** Las {unidades_reparto} unidades cubren perfectamente los {pedidos_diarios} pedidos dentro de la ventana horaria establecida sin reportes extraordinarios.")
