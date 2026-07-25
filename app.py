@@ -1,4 +1,83 @@
 import streamlit as st
+import numpy as np
+import math
+
+import streamlit as st
+import numpy as np
+import math
+
+
+# ==========================================================
+# FUNCIONES DEL MODELO SISTÉMICO
+# ==========================================================
+
+def calcular_modelo_manheim(T, A, capacidad_total):
+
+    """
+    Modelo simplificado basado en Manheim (1979)
+
+    T = Sistema de Transporte
+    A = Sistema de Actividades
+    V = Volumen de flujo
+    S = Nivel de servicio
+    F0 = Equilibrio operativo
+    """
+
+    V = A
+
+    if capacidad_total > 0:
+        S = capacidad_total / V
+    else:
+        S = 0
+
+    saturacion = (V / capacidad_total) * 100 if capacidad_total else 0
+
+
+    if saturacion <= 85:
+        estado = "🟢 Homeostasis óptima"
+
+    elif saturacion <= 100:
+        estado = "🟡 Cercano a saturación"
+
+    else:
+        estado = "🔴 Sistema saturado"
+
+
+    F0 = {
+        "Volumen": V,
+        "Nivel_servicio": S,
+        "Saturacion": saturacion,
+        "Estado": estado
+    }
+
+
+    return F0
+
+
+
+def recomendar_unidades(deficit, capacidad_unidad):
+
+    """
+    Calcula unidades adicionales necesarias
+    """
+
+    if deficit <= 0:
+        return 0
+
+    return math.ceil(deficit / capacidad_unidad)
+
+
+
+# ==========================================================
+# CONFIGURACIÓN DE STREAMLIT
+# ==========================================================
+
+st.set_page_config(
+    page_title="Modelos Prácticos - Enfoque Sistémico Interactivo",
+    page_icon="💧",
+    layout="wide",
+)
+
 
 # Configuración de la página
 st.set_page_config(
@@ -237,9 +316,83 @@ with tab1:
         factor_franja = 0.85
         desc_franja = "Flujo regular / Valle (-15% demanda)"
 
-    demanda_ajustada = int(pasajeros_flota * factor_franja)
-    capacidad_oferta = (num_trenes + num_buses) * 110
-    tasa_saturacion = (demanda_ajustada / capacidad_oferta) * 100 if capacidad_oferta > 0 else 0
+    # ==========================================================
+# MODELO SISTÉMICO CETRAM - MANHEIM
+# ==========================================================
+
+# Sistema de Transporte (T)
+# Matriz: [Modo, unidades disponibles, capacidad por unidad]
+
+matriz_capacidad = np.array([
+    ["Metro Línea 6", num_trenes, 110],
+    ["Metro Línea 7", num_trenes, 110],
+    ["Autobuses", num_buses, 80]
+], dtype=object)
+
+
+# Capacidad individual por modo
+
+capacidad_l6 = int(matriz_capacidad[0, 1]) * int(matriz_capacidad[0, 2])
+
+capacidad_l7 = int(matriz_capacidad[1, 1]) * int(matriz_capacidad[1, 2])
+
+capacidad_bus = int(matriz_capacidad[2, 1]) * int(matriz_capacidad[2, 2])
+
+
+# Capacidad total del sistema de transporte T
+
+capacidad_oferta = (
+    capacidad_l6 +
+    capacidad_l7 +
+    capacidad_bus
+)
+
+
+# Sistema de Actividades (A)
+demanda_ajustada = int(
+    pasajeros_flota * factor_franja
+)
+
+
+# Modelo Manheim:
+# T = transporte disponible
+# A = actividades/demanda
+# V = flujo
+# S = nivel de servicio
+
+modelo_pasajeros = calcular_modelo_manheim(
+    T=capacidad_oferta,
+    A=demanda_ajustada,
+    capacidad_total=capacidad_oferta
+)
+
+
+# Saturación del sistema
+
+tasa_saturacion = modelo_pasajeros["Saturacion"]
+
+
+# Retroalimentación:
+# cálculo de déficit y unidades necesarias
+
+deficit_pasajeros = (
+    demanda_ajustada -
+    capacidad_oferta
+)
+
+
+trenes_extra = recomendar_unidades(
+    deficit_pasajeros,
+    110
+)
+
+
+autobuses_extra = recomendar_unidades(
+    deficit_pasajeros,
+    80
+)
+
+
 
     st.markdown("""
         <div class="static-banner">
@@ -332,9 +485,24 @@ with tab1:
     with col_n4:
         if st.session_state.paso_seq_a == 4:
             if demanda_ajustada > capacidad_oferta:
-                txt_r = f"⚠️ Alerta: Demanda supera oferta ({tasa_saturacion:.1f}%). Requiere ajuste de frecuencias."
+
+                txt_r = (
+                    f"⚠️ Sistema saturado ({tasa_saturacion:.1f}%). "
+                    f"Demanda superior a capacidad. "
+                    f"Se requieren aproximadamente "
+                    f"{trenes_extra} tren(es) adicionales "
+                    f"o {autobuses_extra} autobús(es) adicionales "
+                    f"para recuperar el nivel de servicio."
+                )
+
             else:
-                txt_r = f"✅ Homeostasis óptima: Flujo estable ({tasa_saturacion:.1f}% de ocupación)."
+
+                txt_r = (
+                    f"✅ {modelo_pasajeros['Estado']} "
+                    f"({tasa_saturacion:.1f}% de ocupación). "
+                    f"El flujo se mantiene dentro de la capacidad operativa."
+                )
+
             
             st.markdown(f"""
             <div class="card-paso card-activa-retro">
@@ -376,9 +544,86 @@ with tab2:
         factor_temp = 1.00
         desc_temp = "Demanda normal / estándar"
 
-    pedidos_ajustados = int(pedidos_diarios * factor_temp)
-    capacidad_total_flota = unidades_reparto * 50
-    eficiencia_flota = (pedidos_ajustados / capacidad_total_flota) * 100 if capacidad_total_flota > 0 else 0
+    # ==========================================================
+# MODELO SISTÉMICO DE DISTRIBUCIÓN DE GARRAFONES
+# MANHEIM - MERCANCÍAS
+# ==========================================================
+
+# Sistema de Transporte (T)
+# Matriz logística:
+# [Tipo de vehículo, cantidad, capacidad por unidad]
+
+matriz_logistica = np.array([
+    ["Camión de redilas", unidades_reparto, 50]
+], dtype=object)
+
+
+# Capacidad total de la flota
+
+capacidad_total_flota = (
+    int(matriz_logistica[0, 1]) *
+    int(matriz_logistica[0, 2])
+)
+
+
+# Sistema de Actividades (A)
+# Demanda de la población
+
+pedidos_ajustados = int(
+    pedidos_diarios * factor_temp
+)
+
+
+# Modelo Manheim aplicado a mercancías
+
+modelo_garrafones = calcular_modelo_manheim(
+    T=capacidad_total_flota,
+    A=pedidos_ajustados,
+    capacidad_total=capacidad_total_flota
+)
+
+
+# Nivel de utilización de la flota
+
+eficiencia_flota = (
+    modelo_garrafones["Saturacion"]
+)
+
+
+# Retroalimentación logística
+
+deficit_garrafones = (
+    pedidos_ajustados -
+    capacidad_total_flota
+)
+
+
+vehiculos_extra = recomendar_unidades(
+    deficit_garrafones,
+    50
+)
+
+
+# Simulación básica de rutas
+
+rutas = [
+    "Ruta Norte",
+    "Ruta Centro",
+    "Ruta Sur"
+]
+
+
+rutas_visitadas = set()
+
+
+for ruta in rutas:
+    rutas_visitadas.add(ruta)
+
+
+total_rutas_operadas = len(rutas_visitadas)
+
+
+
 
     st.markdown("""
         <div class="static-banner" style="background: linear-gradient(90deg, #dcfce7 0%, #fef3c7 50%, #e0f2fe 100%); color: #16a34a; border-color: #16a34a;">
@@ -469,9 +714,25 @@ with tab2:
     with col_bn4:
         if st.session_state.paso_seq_b == 4:
             if pedidos_ajustados > capacidad_total_flota:
-                txt_rb = f"⚠️ Ajuste necesario: Demanda supera capacidad ({eficiencia_flota:.1f}%). Requiere ruta extra."
-            else:
-                txt_rb = f"✅ Homeostasis lograda: Reparto y retorno estables ({eficiencia_flota:.1f}%)."
+                txt_rb = (
+                    f"⚠️ Sistema logístico saturado ({eficiencia_flota:.1f}%). "
+                    f"La demanda supera la capacidad de reparto. "
+                    f"Se requieren aproximadamente "
+                    f"{vehiculos_extra} vehículo(s) adicional(es) "
+                    f"para mantener el nivel de servicio."
+                )
+        else:
+            txt_rb = (
+                f"✅ {modelo_garrafones['Estado']} "
+                f"({eficiencia_flota:.1f}% de utilización). "
+                f"La distribución mantiene equilibrio operativo."
+            )
+
+
+
+
+
+            
             
             st.markdown(f"""
             <div class="card-paso card-activa-retro">
