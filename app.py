@@ -362,7 +362,7 @@ with tab2:
         st.success(f"✅ **Operación estable:** Las {unidades_reparto} unidades cubren perfectamente los {pedidos_diarios} pedidos dentro de la ventana horaria establecida.")
 
     # Desglose detallado de los 11 componentes teóricos aplicados al caso B
-    with st.expander("📋 Ver Marco Completo de los 11 Componentes (Van Gigch, 2006) en Distribución de Agua"):
+    with st.expander("📋 Ver Marco Completo de los 11 Componentes (Van Gigch, 2006) en Distribución de Agua en U.H. El Rosario"):
         st.markdown(f"""
         1. **Elementos:** Vehículos de redilas, garrafones, choferes repartidores, planta purificadora y clientes residenciales.
         2. **Proceso de conversión:** Envasado, planeación de rutas de entrega domiciliaria y carga física de unidades.
