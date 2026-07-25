@@ -2,130 +2,190 @@ import streamlit as st
 
 # Configuración de la página
 st.set_page_config(
-    page_title="Simulador de Teoría de Sistemas - Transporte",
-    page_icon="🔄",
+    page_title="Modelos Prácticos - Teoría de Sistemas",
+    page_icon="🚍",
     layout="wide",
 )
 
+# Estilos CSS para dar efecto visual de tarjetas y flujo animado
+st.markdown("""
+    <style>
+    .system-box {
+        background-color: #f8f9fa;
+        border: 2px dashed #0083B8;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 15px;
+    }
+    .flow-arrow {
+        text-align: center;
+        font-size: 28px;
+        color: #0083B8;
+        font-weight: bold;
+        margin: 5px 0;
+    }
+    .metric-container {
+        background-color: #e3f2fd;
+        padding: 10px;
+        border-radius: 8px;
+        text-align: center;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # Título principal
-st.title("🔄 Simulador Sistémico Interactivo de Transporte")
+st.title("4. Modelos prácticos adaptados a la localidad")
 st.markdown("**Estudiante:** Liliana García Solís | **Matrícula:** ES251101336 | **Asignatura:** Fundamentos del Sistema de Transporte")
 st.markdown("---")
 
-# Menú principal de pestañas
+# Pestañas principales
 tab1, tab2 = st.tabs([
-    "🚍 CETRAM El Rosario (Sistema de Pasajeros)",
-    "💧 Distribución de Agua en Garrafón (Sistema de Carga)"
+    "A. Sistema Multimodal: CETRAM El Rosario (Pasajeros)",
+    "B. Distribución de Carga: Agua en Garrafón (Mercancías)"
 ])
 
 # ==========================================
-# PESTAÑA 1: CETRAM EL ROSARIO
+# PESTAÑA A: CETRAM EL ROSARIO
 # ==========================================
 with tab1:
-    st.header("Modelo Sistémico: CETRAM El Rosario")
-    st.markdown("Modifica los parámetros para ver cómo se transforman las fases del sistema en tiempo real.")
+    st.header("A. Sistema multimodal de transporte de pasajeros en la localidad (CETRAM El Rosario)")
+    
+    st.info("""
+    📖 **Contexto Teórico:**  
+    *“La construcción de un Centro de Transferencia Modal (Cetram) es quizá uno de los proyectos más complejos que se han desarrollado en los últimos años en la ciudad. Su principal objetivo es concentrar y reorganizar los diferentes sistemas de transporte de la ciudad en un solo lugar. Con base en las estrategias de distribución y control de flujos y circulaciones, se busca mejorar la calidad de vida de quienes se trasladan de un lugar a otro de la ciudad”*.
+    """)
 
-    col_ctrl_1, col_view_1 = st.columns([1, 2])
+    # Panel de controles interactivos para simular el flujo dinámico
+    col_c1, col_c2 = st.columns(2)
+    with col_c1:
+        nivel_pax = st.slider("Simular Volumen de Demanda (Pasajeros/Hora)", 1000, 15000, 5000, step=500, key="slider_pax")
+    with col_c2:
+        estado_operativo = "Saturación en andenes" if nivel_pax > 10000 else "Operación fluida y coordinada"
+        st.markdown(f"**Estatus del Sistema:** {estado_operativo}")
 
-    with col_ctrl_1:
-        st.subheader("🎛️ Controles del Sistema")
-        num_trenes = st.slider("Trenes activos (Líneas 6 y 7)", 10, 50, 25, key="t_pax")
-        num_buses = st.slider("Unidades de Metrobús y Trolebús", 5, 30, 15, key="b_pax")
-        demanda_pax = st.selectbox("Fluctuación de Demanda", ["Hora Valle (Baja)", "Hora Pico Matutina (Alta)", "Hora Pico Vespertina (Alta)"], key="d_pax")
+    st.markdown("---")
+    st.subheader("🔄 Diagrama Sistémico Interactivo con Movimiento de Flujos")
 
-        # Variables dinámicas para el proceso
-        if "Alta" in demanda_pax:
-            estado_sistema = "Saturación Operativa"
-            tiempo_transbordo = f"{num_trenes * 1.4:.1f} min"
-        else:
-            estado_sistema = "Fluido / Eficiente"
-            tiempo_transbordo = "3.0 min"
+    # Esquema visual paso a paso con iconos
+    c_in, c_arrow1, c_proc, c_arrow2, c_out = st.columns([2, 0.5, 2, 0.5, 2])
 
-    with col_view_1:
-        st.subheader("📊 Métricas Operativas en Vivo")
-        metric1, metric2, metric3 = st.columns(3)
-        metric1.metric("Capacidad de Oferta", f"{(num_trenes + num_buses) * 110} pas/h")
-        metric2.metric("Tiempo de Transbordo", tiempo_transbordo)
-        metric3.metric("Estado del Sistema", estado_sistema)
+    with c_in:
+        st.markdown("### 📥 1. Entradas")
+        st.markdown("""
+        <div class="system-box">
+        🚆 Trenes (L6 y L7)<br>
+        🚍 Trolebús y Metrobús<br>
+        🚐 Combis y microbuses<br>
+        🚲 Infraestructura de ciclovías<br>
+        🎟️ Andenes y tarifas de acceso
+        </div>
+        """, unsafe_allow_html=True)
 
-        st.markdown("### 🧩 Fases del Sistema de Transporte Interactivas")
-        
-        # Desplegables interactivos de las fases
-        with st.expander("📥 1. Entradas (Inputs) - Ver estado actual", expanded=True):
-            st.write(f"- **Infraestructura:** Andenes del CETRAM, carriles confinados y ciclovías.")
-            st.write(f"- **Flota activa:** {num_trenes} trenes y {num_buses} unidades de superficie (Trolebús/Metrobús).")
-            st.write(f"- **Demanda ingresada:** Condición actual en nivel **{demanda_pax}**.")
+    with c_arrow1:
+        st.markdown("<br><br><div class='flow-arrow'>⬇️<br>🔄</div>", unsafe_allow_html=True)
 
-        with st.expander("⚙️ 2. Proceso de Conversión - Ver operación"):
-            st.write(f"- Regulación de flujos peatonales masivos en pasillos de correspondencia.")
-            st.write(f"- Sincronización de intervalos de despacho ajustados a {tiempo_transbordo} promedio de espera.")
-            st.write(f"- Operación intermodal coordinada entre transporte masivo, concesionado y no motorizado.")
+    with c_proc:
+        st.markdown("### ⚙️ 2. Conversión")
+        st.markdown(f"""
+        <div class="system-box">
+        ⚙️ Regulación de flujos<br>
+        ⏱️ Programación de correspondencias<br>
+        📋 Control de despacho en andenes<br>
+        🔀 Gestión intermodal<br>
+        <em>Volumen actual: {nivel_pax} pas/h</em>
+        </div>
+        """, unsafe_allow_html=True)
 
-        with st.expander("📤 3. Salidas (Outputs) - Ver resultados"):
-            st.write(f"- Personas transferidas eficientemente hacia sus destinos urbanos.")
-            st.write(f"- Condición general de operación resultante: **{estado_sistema}**.")
-            st.write("- Mitigación acumulada de emisiones por uso de transporte masivo.")
+    with c_arrow2:
+        st.markdown("<br><br><div class='flow-arrow'>⬇️<br>🔄</div>", unsafe_allow_html=True)
 
-        with st.expander("🔄 4. Retroalimentación (Feedback) - Ver avisos"):
-            if "Alta" in demanda_pax:
-                st.warning("⚠️ **Alerta de Retroalimentación:** Se detectan filas prolongadas en andenes. El sistema requiere reordenamiento inmediato de frecuencias o apoyo operativo.")
-            else:
-                st.success("✅ **Retroalimentación favorable:** Los tiempos de espera se encuentran dentro de los rangos óptimos de satisfacción del usuario.")
+    with c_out:
+        st.markdown("### 📤 3. Salidas")
+        st.markdown("""
+        <div class="system-box">
+        👥 Pasajeros transferidos eficientemente<br>
+        🌿 Reducción de emisiones<br>
+        🏙️ Ordenamiento del espacio público
+        </div>
+        """, unsafe_allow_html=True)
+
+    # Bloque de Retroalimentación Interactiva
+    st.markdown("### 🔄 4. Retroalimentación (Feedback)")
+    if nivel_pax > 10000:
+        st.error("⚠️ **Alerta activa de retroalimentación:** Se detecta saturación en horas pico y tiempos de demora elevados en transbordos. Requiere ajuste inmediato en frecuencias de despacho.")
+    else:
+        st.success("✅ **Retroalimentación óptima:** Flujo continuo reportado por usuarios sin congestionamientos críticos en andenes.")
+
+    st.markdown("---")
+    st.markdown("📸 **Ilustrativo 1.** *Diagrama sistémico y evidencia fotográfica del sistema multimodal de transporte de personas en el CETRAM El Rosario (Sussman, 2000; UnADM, 2026).*")
 
 # ==========================================
-# PESTAÑA 2: DISTRIBUCIÓN DE GARRAFONES
+# PESTAÑA B: DISTRIBUCIÓN DE AGUA EN GARRAFÓN
 # ==========================================
 with tab2:
-    st.Modelo = "Modelo Sistémico: Distribución de Carga"
-    st.header("Modelo Sistémico: Distribución Local de Agua en Garrafón")
-    st.markdown("Configura los recursos logísticos para visualizar el comportamiento de las fases del sistema.")
+    st.header("B. Distribución local de agua embotellada (Transporte de mercancías / Garrafón)")
+    
+    st.markdown("""
+    > **Identificación sistémica:** Ámbito urbano/suburbano, medio terrestre, modo vehículos de redilas de reparto local, especialización carga.  
+    > **Descripción técnica:** Modelo logístico de alta capilaridad y frecuencia (Lunes a Viernes de 9:00 a.m. a 5:00 p.m. y Sábados de 9:00 a.m. a mediodía), priorizando seguridad, regularidad y flexibilidad de ruteo.
+    """)
 
-    col_ctrl_2, col_view_2 = st.columns([1, 2])
+    # Controles para simular la carga
+    col_d1, col_d2 = st.columns(2)
+    with col_d1:
+        unidades_reparto = st.slider("Vehículos de redilas en ruta", 1, 8, 3, key="slider_camiones")
+    with col_d2:
+        demanda_estacional = st.selectbox("Variación de Demanda Estacional", ["Temporada Regular", "Temporada de Calor (Alta Demanda)"])
 
-    with col_ctrl_2:
-        st.subheader("🎛️ Controles del Sistema")
-        camiones = st.slider("Vehículos de redilas activos", 1, 10, 3, key="c_carga")
-        capacidad_unitaria = st.slider("Garrafones por unidad", 20, 100, 50, key="cap_carga")
-        clima = st.selectbox("Condición Climática", ["Templado (Demanda Normal)", "Calor Extremo (Alta Demanda)"], key="clim_carga")
+    total_entregas = unidades_reparto * 45 if "Regular" in demanda_estacional else unidades_reparto * 60
 
-        # Cálculos dinámicos
-        total_garrafones = camiones * capacidad_unitaria
-        if "Calor" in clima:
-            total_garrafones = int(total_garrafones * 1.25)
-            estatus_flota = "Alta Exigencia / Sobrecarga"
-        else:
-            estatus_flota = "Operación Estable"
+    st.markdown("---")
+    st.subheader("🔄 Esquema Sistémico Dinámico de Carga")
 
-    with col_view_2:
-        st.subheader("📊 Métricas Logísticas en Vivo")
-        c_m1, c_m2, c_m3 = st.columns(3)
-        c_m1.metric("Flota en Ruta", f"{camiones} camiones")
-        c_m2.metric("Volumen Suministrado", f"{total_garrafones} garrafones")
-        c_m3.metric("Estatus de Flota", estatus_flota)
+    # Esquema visual de carga
+    b_in, b_arrow1, b_proc, b_arrow2, b_out = st.columns([2, 0.5, 2, 0.5, 2])
 
-        st.markdown("### 🧩 Fases del Sistema de Logística Interactivas")
+    with b_in:
+        st.markdown("### 📥 1. Entradas")
+        st.markdown("""
+        <div class="system-box">
+        💧 Agua purificada en planta<br>
+        🔄 Envases de garrafón vacíos<br>
+        🚚 Vehículos de redilas<br>
+        📋 Pedidos programados de clientes
+        </div>
+        """, unsafe_allow_html=True)
 
-        with st.expander("📥 1. Entradas (Inputs) - Ver estado actual", expanded=True):
-            st.write(f"- **Insumos:** Agua purificada procesada y envases de policarbonato.")
-            st.write(f"- **Recursos físicos:** {camiones} vehículos de redilas operativos.")
-            st.write(f"- **Contexto ambiental:** Condición climática registrada como **{clima}**.")
+    with b_arrow1:
+        st.markdown("<br><br><div class='flow-arrow'>⬇️<br>📦</div>", unsafe_allow_html=True)
 
-        with st.expander("⚙️ 2. Proceso de Conversión - Ver operación"):
-            st.write(f"- Envasado en planta bajo controles estrictos de calidad.")
-            st.write(f"- Ruteo diario de distribución cubriendo un volumen de {total_garrafones} unidades.")
-            st.write(f"- Ejecución de entregas en ventana horaria establecida (L-V 9:00 a 17:00 h).")
+    with b_proc:
+        st.markdown("### ⚙️ 2. Conversión")
+        st.markdown(f"""
+        <div class="system-box">
+        🏭 Proceso de envasado<br>
+        🗺️ Ruteo operativo diario<br>
+        ⏰ Ventana: L-V 9:00-17:00 / S 9:00-12:00<br>
+        <em>Reparto activo: {total_entregas} garrafones</em>
+        </div>
+        """, unsafe_allow_html=True)
 
-        with st.expander("📤 3. Salidas (Outputs) - Ver resultados"):
-            st.write(f"- Entrega final satisfactoria en hogares y comercios minoristas.")
-            st.write(f"- Recolección simultánea de envases vacíos para reingresar al ciclo de lavado.")
-            st.write(f"- Estatus del servicio: **{estatus_flota}**.")
+    with b_arrow2:
+        st.markdown("<br><br><div class='flow-arrow'>⬇️<br>📦</div>", unsafe_allow_html=True)
 
-        with st.expander("🔄 4. Retroalimentación (Feedback) - Ver avisos"):
-            if "Calor" in clima:
-                st.warning("⚠️ **Alerta de Retroalimentación:** Aumento drástico de consumo. Se agotan inventarios antes de concluir la ruta programada; se sugiere enviar una unidad de refuerzo.")
-            else:
-                st.success("✅ **Retroalimentación favorable:** Cumplimiento del 100% de las rutas sin reportes de desabasto ni demoras extraordinarias.")
+    with b_out:
+        st.markdown("### 📤 3. Salidas")
+        st.markdown("""
+        <div class="system-box">
+        🏠 Garrafones entregados con éxito<br>
+        🔄 Recolección de envases vacíos<br>
+        📄 Notas de venta y control
+        </div>
+        """, unsafe_allow_html=True)
 
-# Pie de página
-st.markdown("---")
-st.markdown("📌 *Simulador interactivo basado en la teoría general de sistemas aplicada al transporte.*")
+    # Retroalimentación logística
+    st.markdown("### 🔄 4. Retroalimentación (Feedback)")
+    if "Calor" in demanda_estacional:
+        st.warning("⚠️ **Alerta logística:** Incremento por demanda estacional de calor. Se registran tiempos muertos en ruta por mayor tiempo de descarga en puntos de venta.")
+    else:
+        st.success("✅ **Operación estable:** Cumplimiento del 100% de las rutas programadas sin devoluciones extraordinarias por calidad.")
