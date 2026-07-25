@@ -71,7 +71,6 @@ st.markdown("""
         100% { transform: scale(1); }
     }
 
-    /* Animaciones de elementos flotantes en movimiento */
     @keyframes floatElement {
         0% { transform: translateY(0px); }
         50% { transform: translateY(-8px); }
@@ -112,7 +111,7 @@ with col_txt:
 
 st.markdown("---")
 
-# Pestañas principales
+# Pestañas principales con los 2 casos de estudio
 tab1, tab2 = st.tabs([
     "A. Sistema Multimodal: CETRAM El Rosario (Pasajeros)",
     "B. Distribución de Carga: Agua en Garrafón en U.H. El Rosario (Mercancías)"
@@ -125,11 +124,10 @@ with tab1:
     st.header("A. Sistema multimodal de transporte de pasajeros en la localidad (CETRAM El Rosario)")
     
     st.info("""
-    📖 **Contexto Teórico:**  
-    *“La construcción de un Centro de Transferencia Modal (CETRAM) es quizá uno de los proyectos más complejos que se han desarrollado en los últimos años en la ciudad. Su principal objetivo es concentrar y reorganizar los diferentes sistemas de transporte de la ciudad en un solo lugar...”*
+    📖 **Contexto Teórico (Van Gigch, 2006):**  
+    *“La construcción de un Centro de Transferencia Modal (CETRAM) es quizá uno de los proyectos más complejos... Los sistemas contienen componentes estructurados para satisfacer necesidades y cumplir objetivos específicos de movilidad.”*
     """)
 
-    # Banner animado visual para pasajeros, trenes y buses en movimiento
     st.markdown("""
         <div class="moving-banner">
             <span>Flujo Dinámico Activo: </span>
@@ -157,11 +155,9 @@ with tab1:
             key="h_pax"
         )
 
-    # Cálculo matemático de capacidad de oferta de pasajeros total
     capacidad_oferta = (num_trenes + num_buses) * 110
     balance_pasajeros = capacidad_oferta - pasajeros_flota
 
-    # Bloque de apoyo visual con Fórmulas Matemáticas en LaTeX
     st.markdown("📐 **Soporte Matemático y Modelo de Cálculo de Pasajeros:**")
     st.latex(r"C_{\text{oferta}} = (\text{Trenes} + \text{Unidades}) \times \text{Capacidad Promedio}")
     st.latex(r"C_{\text{oferta}} = (" + str(num_trenes) + " + " + str(num_buses) + r") \times 110 = " + str(capacidad_oferta) + r" \text{ pasajeros}")
@@ -175,7 +171,6 @@ with tab1:
         estado_operativo = f"Saturación activa por alta demanda pendular ({horario_operativo})."
         nivel_alerta = True
 
-    # Notificación estilizada para la Pestaña A
     if nivel_alerta or pasajeros_flota > capacidad_oferta:
         st.markdown(f"""
         <div class="alert-card-warning">
@@ -192,19 +187,18 @@ with tab1:
         """, unsafe_allow_html=True)
 
     st.markdown("---")
-    st.subheader("🔄 Diagrama Sistémico Interactivo")
+    st.subheader("🔄 Diagrama Sistémico Interactivo (Integrando los 11 Componentes de Van Gigch)")
 
     c_in, c_arrow1, c_proc, c_arrow2, c_out = st.columns([2, 0.5, 2, 0.5, 2])
 
     with c_in:
-        st.markdown('<div class="stage-badge badge-input">🔵 SEÑAL: ENTRADAS ACTIVAS</div>', unsafe_allow_html=True)
-        st.markdown("### 📥 1. Entradas")
+        st.markdown('<div class="stage-badge badge-input">🔵 3. ENTRADAS Y RECURSOS</div>', unsafe_allow_html=True)
+        st.markdown("### 📥 Entradas y Elementos")
         st.markdown(f"""
         <div class="system-box">
-        🚆 {num_trenes} Trenes activos (L6 y L7)<br>
-        🚍 {num_buses} Unidades de superficie<br>
-        👥 <strong>{pasajeros_flota} Pasajeros en demanda</strong><br>
-        🎟️ Andenes y torniquetes
+        🚆 <strong>Elementos físicos:</strong> {num_trenes} Trenes (L6 y L7), {num_buses} unidades de superficie, andenes.<br>
+        👥 <strong>Materia prima / Entrada modificable:</strong> <strong>{pasajeros_flota} Pasajeros en demanda</strong> que ingresan al sistema para ser trasladados.<br>
+        ⚡ <strong>Recursos:</strong> Infraestructura eléctrica, torniquetes y pasillos de correspondencia.
         </div>
         """, unsafe_allow_html=True)
 
@@ -212,14 +206,13 @@ with tab1:
         st.markdown("<br><br><div class='flow-arrow'>⬇️<br>🔄</div>", unsafe_allow_html=True)
 
     with c_proc:
-        st.markdown('<div class="stage-badge badge-process">🟠 SEÑAL: PROCESO / CONVERSIÓN</div>', unsafe_allow_html=True)
-        st.markdown("### ⚙️ 2. Conversión")
+        st.markdown('<div class="stage-badge badge-process">🟠 2. PROCESO DE CONVERSIÓN</div>', unsafe_allow_html=True)
+        st.markdown("### ⚙️ Conversión y Estructura")
         st.markdown(f"""
         <div class="system-box">
-        ⚙️ Regulación de flujos peatonales<br>
-        ⏱️ Sincronización de transbordos<br>
-        📋 Despacho en andenes<br>
-        🕒 <em>{horario_operativo}</em>
+        ⚙️ <strong>Transformación de estado:</strong> Regulación de flujos peatonales y sincronización de transbordos modales.<br>
+        🏢 <strong>Estructura (Compleja):</strong> Interrelación jerárquica y operativa entre andenes subterráneos y de superficie.<br>
+        🕒 <em>Franja activa: {horario_operativo}</em>
         </div>
         """, unsafe_allow_html=True)
 
@@ -227,17 +220,17 @@ with tab1:
         st.markdown("<br><br><div class='flow-arrow'>⬇️<br>🔄</div>", unsafe_allow_html=True)
 
     with c_out:
-        st.markdown('<div class="stage-badge badge-output">🟢 SEÑAL: SALIDAS / FLUJO FINAL</div>', unsafe_allow_html=True)
-        st.markdown("### 📤 3. Salidas")
+        st.markdown('<div class="stage-badge badge-output">🟢 4. SALIDAS O RESULTADOS</div>', unsafe_allow_html=True)
+        st.markdown("### 📤 Salidas")
         st.markdown(f"""
         <div class="system-box">
-        👥 <strong>{pasajeros_flota} Pasajeros transferidos</strong><br>
-        🌿 Reducción de emisiones<br>
-        🏙️ Ordenamiento urbano
+        👥 <strong>Elemento transformado:</strong> <strong>{pasajeros_flota} Pasajeros transferidos</strong> y ubicados en sus destinos finales.<br>
+        🌿 <strong>Resultado ambiental:</strong> Reducción de emisiones por uso masivo.<br>
+        🏙️ <strong>Resultado social:</strong> Ordenamiento urbano.
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("### 🔄 4. Retroalimentación (Feedback)")
+    st.markdown("### 🔄 Retroalimentación y Control Integral del Sistema")
     if pasajeros_flota > capacidad_oferta:
         st.warning(f"⚠️ **Alerta de saturación:** La demanda de {pasajeros_flota} pasajeros rebasa la capacidad de oferta de la flota ({capacidad_oferta} pasajeros). Se requiere incrementar frecuencias.")
     elif nivel_alerta:
@@ -245,20 +238,20 @@ with tab1:
     else:
         st.success(f"✅ **Retroalimentación óptima ({horario_operativo}):** Tránsito fluido y continuo en las líneas de correspondencia.")
 
-    # Integración de los 11 Componentes del Diseño de Sistemas (Van Gigch, 2006)
-    with st.expander("📋 Ver Desglose de los 11 Componentes del Sistema (Van Gigch, 2006) - CETRAM El Rosario"):
-        st.markdown("""
-        1. **Elementos:** Trenes de L6 y L7, unidades de superficie, usuarios, andenes y torniquetes.
-        2. **Proceso de conversión:** Regulación de flujos peatonales y sincronización de transbordos modales.
-        3. **Entradas y recursos:** {num_trenes} trenes, {num_buses} autobuses, {pasajeros_flota} pasajeros en demanda e infraestructura eléctrica/física.
-        4. **Salidas o resultados:** Pasajeros transferidos de manera segura hacia sus destinos finales.
-        5. **El medio:** Entorno urbano de alta densidad en la alcaldía Azcapotzalco / zona norte del Valle de México.
-        6. **Propósitos y función:** Concentrar, articular y agilizar la transferencia multimodal de pasajeros eficientemente.
-        7. **Atributos:** Capacidad de la flota ({capacidad_oferta} pas.), tiempos de espera y frecuencias de salida.
-        8. **Metas y objetivos:** Minimizar tiempos de transbordo y evitar saturación en andenes en {horario_operativo}.
-        9. **Componentes, programas y misiones:** Programas operativas de despacho, mantenimiento preventivo de vías y trenes.
-        10. **Administración, agentes y tomadores de decisiones:** Sistema de Transporte Colectivo (Metro), operadores de RTP/corredores viales y usuarios.
-        11. **Estructura:** Jerarquía organizacional y física que interconecta la superficie con el subterráneo.
+    # Desglose detallado de los 11 componentes teóricos aplicados al caso A
+    with st.expander("📋 Ver Marco Completo de los 11 Componentes (Van Gigch, 2006) en el CETRAM El Rosario"):
+        st.markdown(f"""
+        1. **Elementos:** Trenes de L6 y L7, autobuses de superficie, usuarios, andenes y torniquetes.
+        2. **Proceso de conversión:** Regulación de flujos peatonales y sincronización de transbordos entre modos de transporte.
+        3. **Entradas y recursos:** {num_trenes} trenes, {num_buses} unidades, {pasajeros_flota} pasajeros en demanda e infraestructura eléctrica.
+        4. **Salidas o resultados:** Pasajeros transferidos de manera segura hacia sus destinos finales en la red.
+        5. **El medio:** Entorno urbano de alta densidad en la zona norte del Valle de México (Alcaldía Azcapotzalco).
+        6. **Propósitos y función:** Concentrar, articular y agilizar la transferencia multimodal de pasajeros eficientemente de un punto a otro.
+        7. **Atributos:** Capacidad de la flota ({capacidad_oferta} pas.), tiempos de espera y frecuencias de salida (medibles cuantitativamente).
+        8. **Metas y objetivos:** Minimizar tiempos de transbordo y evitar saturación en andenes durante {horario_operativo}.
+        9. **Componentes, programas y misiones:** Programas operativos de despacho, mantenimiento preventivo de vías y trenes, con la misión de garantizar movilidad segura.
+        10. **Administración, agentes y tomadores de decisiones:** Sistema de Transporte Colectivo (Metro), operadores de corredores viales y autoridades de movilidad.
+        11. **Estructura (Compleja):** Jerarquía organizacional y física que interconecta la superficie con el sistema subterráneo.
         """)
 
     st.markdown("---")
@@ -275,7 +268,6 @@ with tab2:
     > **Descripción técnica:** Modelo logístico de alta capilaridad y frecuencia (Lunes a Viernes de 9:00 a.m. a 5:00 p.m. y Sábados de 9:00 a.m. a mediodía), priorizando seguridad y regularidad de ruteo.
     """)
 
-    # Banner animado visual para camiones y garrafones en movimiento
     st.markdown("""
         <div class="moving-banner" style="background: #e8f5e9; color: #1b5e20;">
             <span>Ruta Logística en Tránsito: </span>
@@ -302,7 +294,6 @@ with tab2:
     st.latex(r"\Delta_{\text{demanda}} = C_{\text{flota}} - \text{Pedidos Programados}")
     st.latex(r"\Delta_{\text{demanda}} = " + str(capacidad_total_flota) + " - " + str(pedidos_diarios) + " = " + str(balance_operativo) + r" \text{ margen}")
 
-    # Notificación estilizada para la Pestaña B
     if pedidos_diarios > capacidad_total_flota or "Calor" in demanda_estacional:
         st.markdown(f"""
         <div class="alert-card-warning">
@@ -319,19 +310,18 @@ with tab2:
         """, unsafe_allow_html=True)
 
     st.markdown("---")
-    st.subheader("🔄 Esquema Sistémico Dinámico de Carga")
+    st.subheader("🔄 Esquema Sistémico Dinámico de Carga (Integrando los 11 Componentes de Van Gigch)")
 
     b_in, b_arrow1, b_proc, b_arrow2, b_out = st.columns([2, 0.5, 2, 0.5, 2])
 
     with b_in:
-        st.markdown('<div class="stage-badge badge-input">🔵 SEÑAL: ENTRADAS DE CARGA</div>', unsafe_allow_html=True)
-        st.markdown("### 📥 1. Entradas")
+        st.markdown('<div class="stage-badge badge-input">🔵 3. ENTRADAS Y RECURSOS</div>', unsafe_allow_html=True)
+        st.markdown("### 📥 Entradas y Elementos")
         st.markdown(f"""
         <div class="system-box">
-        💧 Agua purificada en planta<br>
-        🔄 Envases vacíos recolectados<br>
-        🚚 {unidades_reparto} Unidades de redilas<br>
-        📋 <strong>{pedidos_diarios} Pedidos asignados</strong>
+        💧 <strong>Materia prima / Insumo:</strong> Agua purificada en planta y envases vacíos recolectados.<br>
+        🚚 <strong>Elementos físicos y recursos:</strong> {unidades_reparto} Unidades de redilas y combustible.<br>
+        📋 <strong>Demanda:</strong> <strong>{pedidos_diarios} Pedidos asignados</strong>
         </div>
         """, unsafe_allow_html=True)
 
@@ -339,13 +329,13 @@ with tab2:
         st.markdown("<br><br><div class='flow-arrow'>⬇️<br>📦</div>", unsafe_allow_html=True)
 
     with b_proc:
-        st.markdown('<div class="stage-badge badge-process">🟠 SEÑAL: PROCESO / CONVERSIÓN</div>', unsafe_allow_html=True)
-        st.markdown("### ⚙️ 2. Conversión")
+        st.markdown('<div class="stage-badge badge-process">🟠 2. PROCESO DE CONVERSIÓN</div>', unsafe_allow_html=True)
+        st.markdown("### ⚙️ Conversión y Estructura")
         st.markdown(f"""
         <div class="system-box">
-        🏭 Proceso de envasado y ruteo<br>
-        ⏰ Ventana: L-V / Sábados<br>
-        <em>Ruta activa ({demanda_estacional})</em>
+        🏭 <strong>Transformación:</strong> Proceso de envasado, carga y ruteo domiciliario.<br>
+        🏢 <strong>Estructura (Simple):</strong> Secuencia lineal de distribución de planta a domicilio.<br>
+        ⏰ <em>Ventana activa: L-V / Sábados ({demanda_estacional})</em>
         </div>
         """, unsafe_allow_html=True)
 
@@ -353,17 +343,17 @@ with tab2:
         st.markdown("<br><br><div class='flow-arrow'>⬇️<br>📦</div>", unsafe_allow_html=True)
 
     with b_out:
-        st.markdown('<div class="stage-badge badge-output">🟢 SEÑAL: SALIDAS / ENTREGAS</div>', unsafe_allow_html=True)
-        st.markdown("### 📤 3. Salidas")
+        st.markdown('<div class="stage-badge badge-output">🟢 4. SALIDAS O RESULTADOS</div>', unsafe_allow_html=True)
+        st.markdown("### 📤 Salidas")
         st.markdown(f"""
         <div class="system-box">
-        🏠 <strong>{pedidos_diarios} Garrafones entregados</strong><br>
-        🔄 Retorno de envases vacíos<br>
-        📄 Notas de venta controladas
+        🏠 <strong>Elemento transformado:</strong> <strong>{pedidos_diarios} Garrafones entregados</strong> en domicilios.<br>
+        🔄 Retorno de envases vacíos para el siguiente ciclo.<br>
+        📄 Notas de venta controladas.
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("### 🔄 4. Retroalimentación (Feedback)")
+    st.markdown("### 🔄 Retroalimentación y Control Logístico")
     if pedidos_diarios > capacidad_total_flota:
         st.warning(f"⚠️ **Alerta logística:** Los {pedidos_diarios} pedidos superan la capacidad de la flota actual ({capacidad_total_flota} unidades). Se requiere incorporar al menos { (pedidos_diarios - capacidad_total_flota) // 50 + 1 } vehículo(s) adicional(es).")
     elif "Calor" in demanda_estacional:
@@ -371,20 +361,20 @@ with tab2:
     else:
         st.success(f"✅ **Operación estable:** Las {unidades_reparto} unidades cubren perfectamente los {pedidos_diarios} pedidos dentro de la ventana horaria establecida.")
 
-    # Integración de los 11 Componentes del Diseño de Sistemas (Van Gigch, 2006)
-    with st.expander("📋 Ver Desglose de los 11 Componentes del Sistema (Van Gigch, 2006) - Distribución de Agua"):
-        st.markdown("""
+    # Desglose detallado de los 11 componentes teóricos aplicados al caso B
+    with st.expander("📋 Ver Marco Completo de los 11 Componentes (Van Gigch, 2006) en Distribución de Agua"):
+        st.markdown(f"""
         1. **Elementos:** Vehículos de redilas, garrafones, choferes repartidores, planta purificadora y clientes residenciales.
-        2. **Proceso de conversión:** Envasado, planeación de rutas de entrega domiciliaria y carga de unidades.
+        2. **Proceso de conversión:** Envasado, planeación de rutas de entrega domiciliaria y carga física de unidades.
         3. **Entradas y recursos:** Agua purificada, envases vacíos, {unidades_reparto} unidades vehiculares y {pedidos_diarios} pedidos diarios.
-        4. **Salidas o resultados:** Garrafones entregados con éxito en domicilios y recolección de envases vacíos.
+        4. **Salidas o resultados:** Garrafones entregados con éxito en los hogares y recolección de envases vacíos.
         5. **El medio:** Entorno vial urbano y suburbano de la Unidad Habitacional El Rosario.
         6. **Propósitos y función:** Abastecer de forma oportuna y segura agua purificada de consumo humano a nivel local.
-        7. **Atributos:** Capacidad de carga por unidad (50 garrafones), tiempos de entrega y ventanas horarias.
+        7. **Atributos:** Capacidad de carga por unidad (50 garrafones), tiempos de entrega y ventanas horarias de servicio.
         8. **Metas y objetivos:** Cumplir al 100% con los requerimientos diarios optimizando el consumo de combustible y tiempos de ruta.
-        9. **Componentes, programas y misiones:** Programas diarios de ruteo, control de inventarios y mantenimiento preventivo de flotilla.
-        10. **Administración, agentes y tomadores de decisiones:** Administrador de la distribuidora local, choferes y clientes.
-        11. **Estructura:** Relación operativa entre la planta de suministro, la flota de transporte y los puntos de entrega final.
+        9. **Componentes, programas y misiones:** Programas diarios de ruteo, control de inventarios y mantenimiento preventivo de flotilla con la misión de abastecer sin demoras.
+        10. **Administración, agentes y tomadores de decisiones:** Administrador de la distribuidora local, choferes repartidores y clientes.
+        11. **Estructura (Simple):** Relación operativa lineal y secuencial entre la planta de suministro, la flota de transporte y los puntos de entrega final.
         """)
 
     st.markdown("---")
