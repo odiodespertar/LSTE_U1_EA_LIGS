@@ -250,6 +250,7 @@ with st.expander("👉 Indicaciones de navegación", expanded=False):
     <div class="instrucciones-box">
         <p style="margin: 0 0 8px 0; font-weight: bold; color: #0369a1; font-size: 20px !important;">Instrucciones de Uso:</p>
         <ul style="margin: 0; padding-left: 20px; color: #0c4a6e;">
+            <li style="margin-bottom: 8px;"><strong>Pestañas A y B:</strong> Primero elije entre pasajeros (A) y garrafones (B) para interactuar con el modelo.</li>
             <li style="margin-bottom: 8px;"><strong>Controles interactivos:</strong> Modifica los sliders y franjas horarias; observa cómo el procesamiento y las alertas dinámicas superiores se actualizan de inmediato.</li>
             <li><strong>Avance secuencial teórico:</strong> Utiliza el botón de "Avanzar Secuencia" para recorrer paso a paso el modelo analítico (Oferta [T] ➔ Volumen [V] ➔ Salida [S] ➔ Equilibrio y Adaptación).</li>
         </ul>
