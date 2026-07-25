@@ -2,10 +2,6 @@ import streamlit as st
 import numpy as np
 import math
 
-import streamlit as st
-import numpy as np
-import math
-
 
 # ==========================================================
 # FUNCIONES DEL MODELO SISTÉMICO
@@ -25,7 +21,7 @@ def calcular_modelo_manheim(T, A, capacidad_total):
 
     V = A
 
-    if capacidad_total > 0:
+    if capacidad_total > 0 and V > 0:
         S = capacidad_total / V
     else:
         S = 0
@@ -317,80 +313,80 @@ with tab1:
         desc_franja = "Flujo regular / Valle (-15% demanda)"
 
     # ==========================================================
-# MODELO SISTÉMICO CETRAM - MANHEIM
-# ==========================================================
+    # MODELO SISTÉMICO CETRAM - MANHEIM
+    # ==========================================================
 
-# Sistema de Transporte (T)
-# Matriz: [Modo, unidades disponibles, capacidad por unidad]
+    # Sistema de Transporte (T)
+    # Matriz: [Modo, unidades disponibles, capacidad por unidad]
 
-matriz_capacidad = np.array([
-    ["Metro Línea 6", num_trenes, 110],
-    ["Metro Línea 7", num_trenes, 110],
-    ["Autobuses", num_buses, 80]
-], dtype=object)
-
-
-# Capacidad individual por modo
-
-capacidad_l6 = int(matriz_capacidad[0, 1]) * int(matriz_capacidad[0, 2])
-
-capacidad_l7 = int(matriz_capacidad[1, 1]) * int(matriz_capacidad[1, 2])
-
-capacidad_bus = int(matriz_capacidad[2, 1]) * int(matriz_capacidad[2, 2])
+    matriz_capacidad = np.array([
+        ["Metro Línea 6", num_trenes, 110],
+        ["Metro Línea 7", num_trenes, 110],
+        ["Autobuses", num_buses, 80]
+    ], dtype=object)
 
 
-# Capacidad total del sistema de transporte T
+    # Capacidad individual por modo
 
-capacidad_oferta = (
-    capacidad_l6 +
-    capacidad_l7 +
-    capacidad_bus
-)
+    capacidad_l6 = int(matriz_capacidad[0, 1]) * int(matriz_capacidad[0, 2])
 
+    capacidad_l7 = int(matriz_capacidad[1, 1]) * int(matriz_capacidad[1, 2])
 
-# Sistema de Actividades (A)
-demanda_ajustada = int(
-    pasajeros_flota * factor_franja
-)
+    capacidad_bus = int(matriz_capacidad[2, 1]) * int(matriz_capacidad[2, 2])
 
 
-# Modelo Manheim:
-# T = transporte disponible
-# A = actividades/demanda
-# V = flujo
-# S = nivel de servicio
+    # Capacidad total del sistema de transporte T
 
-modelo_pasajeros = calcular_modelo_manheim(
-    T=capacidad_oferta,
-    A=demanda_ajustada,
-    capacidad_total=capacidad_oferta
-)
+    capacidad_oferta = (
+        capacidad_l6 +
+        capacidad_l7 +
+        capacidad_bus
+    )
 
 
-# Saturación del sistema
-
-tasa_saturacion = modelo_pasajeros["Saturacion"]
-
-
-# Retroalimentación:
-# cálculo de déficit y unidades necesarias
-
-deficit_pasajeros = (
-    demanda_ajustada -
-    capacidad_oferta
-)
+    # Sistema de Actividades (A)
+    demanda_ajustada = int(
+        pasajeros_flota * factor_franja
+    )
 
 
-trenes_extra = recomendar_unidades(
-    deficit_pasajeros,
-    110
-)
+    # Modelo Manheim:
+    # T = transporte disponible
+    # A = actividades/demanda
+    # V = flujo
+    # S = nivel de servicio
+
+    modelo_pasajeros = calcular_modelo_manheim(
+        T=capacidad_oferta,
+        A=demanda_ajustada,
+        capacidad_total=capacidad_oferta
+    )
 
 
-autobuses_extra = recomendar_unidades(
-    deficit_pasajeros,
-    80
-)
+    # Saturación del sistema
+
+    tasa_saturacion = modelo_pasajeros["Saturacion"]
+
+
+    # Retroalimentación:
+    # cálculo de déficit y unidades necesarias
+
+    deficit_pasajeros = (
+        demanda_ajustada -
+        capacidad_oferta
+    )
+
+
+    trenes_extra = recomendar_unidades(
+        deficit_pasajeros,
+        110
+    )
+
+
+    autobuses_extra = recomendar_unidades(
+        deficit_pasajeros,
+        80
+    )
 
 
 
