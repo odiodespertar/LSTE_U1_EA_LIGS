@@ -73,6 +73,11 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+
+# Muestra el logo centrado o con un ancho controlado (ej. 250 píxeles)
+st.image("logo_unadm.png", width=250)
+
+
 # Título principal
 st.title("4. Modelos prácticos adaptados a la localidad")
 st.markdown("**Estudiante:** Liliana García Solís | **Matrícula:** ES251101336 | **Institución:** UNADM | **Asignatura:** Fundamentos del Sistema de Transporte")
