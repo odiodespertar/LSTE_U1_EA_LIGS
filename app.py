@@ -8,7 +8,6 @@ import math
 # ==========================================================
 
 def calcular_modelo_manheim(T, A, capacidad_total):
-
     """
     Modelo simplificado basado en Manheim (1979)
 
@@ -28,16 +27,12 @@ def calcular_modelo_manheim(T, A, capacidad_total):
 
     saturacion = (V / capacidad_total) * 100 if capacidad_total else 0
 
-
     if saturacion <= 85:
         estado = "🟢 Homeostasis óptima"
-
     elif saturacion <= 100:
         estado = "🟡 Cercano a saturación"
-
     else:
         estado = "🔴 Sistema saturado"
-
 
     F0 = {
         "Volumen": V,
@@ -46,36 +41,23 @@ def calcular_modelo_manheim(T, A, capacidad_total):
         "Estado": estado
     }
 
-
     return F0
 
 
-
 def recomendar_unidades(deficit, capacidad_unidad):
-
     """
     Calcula unidades adicionales necesarias
     """
-
     if deficit <= 0:
         return 0
 
     return math.ceil(deficit / capacidad_unidad)
 
 
-
 # ==========================================================
 # CONFIGURACIÓN DE STREAMLIT
 # ==========================================================
 
-st.set_page_config(
-    page_title="Modelos Prácticos - Enfoque Sistémico Interactivo",
-    page_icon="💧",
-    layout="wide",
-)
-
-
-# Configuración de la página
 st.set_page_config(
     page_title="Modelos Prácticos - Enfoque Sistémico Interactivo",
     page_icon="💧",
@@ -269,7 +251,7 @@ with st.expander("👉 Indicaciones de navegación", expanded=False):
         <p style="margin: 0 0 8px 0; font-weight: bold; color: #0369a1; font-size: 20px !important;">Instrucciones de Uso:</p>
         <ul style="margin: 0; padding-left: 20px; color: #0c4a6e;">
             <li style="margin-bottom: 8px;"><strong>Controles interactivos:</strong> Modifica los sliders (barras rojas), la franja horaria y la temporada; observa cómo el procesamiento y los cálculos se actualizan de inmediato en los modelos interactivos.</li>
-            <li><strong>Avance secuencial por clics:</strong> Utiliza el botón de "Avanzar secuencia ()" para recorrer la secuencia paso a paso de entradas, proceso, salida y retroalimentación.</li>
+            <li><strong>Avance secuencial por clics:</strong> Utiliza el botón de "Avanzar secuencia" para recorrer la secuencia paso a paso de entradas, proceso, salida y retroalimentación.</li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
@@ -315,46 +297,18 @@ with tab1:
     # ==========================================================
     # MODELO SISTÉMICO CETRAM - MANHEIM
     # ==========================================================
-
-    # Sistema de Transporte (T)
-    # Matriz: [Modo, unidades disponibles, capacidad por unidad]
-
     matriz_capacidad = np.array([
         ["Metro Línea 6", num_trenes, 110],
         ["Metro Línea 7", num_trenes, 110],
         ["Autobuses", num_buses, 80]
     ], dtype=object)
 
-
-    # Capacidad individual por modo
-
     capacidad_l6 = int(matriz_capacidad[0, 1]) * int(matriz_capacidad[0, 2])
-
     capacidad_l7 = int(matriz_capacidad[1, 1]) * int(matriz_capacidad[1, 2])
-
     capacidad_bus = int(matriz_capacidad[2, 1]) * int(matriz_capacidad[2, 2])
 
-
-    # Capacidad total del sistema de transporte T
-
-    capacidad_oferta = (
-        capacidad_l6 +
-        capacidad_l7 +
-        capacidad_bus
-    )
-
-
-    # Sistema de Actividades (A)
-    demanda_ajustada = int(
-        pasajeros_flota * factor_franja
-    )
-
-
-    # Modelo Manheim:
-    # T = transporte disponible
-    # A = actividades/demanda
-    # V = flujo
-    # S = nivel de servicio
+    capacidad_oferta = capacidad_l6 + capacidad_l7 + capacidad_bus
+    demanda_ajustada = int(pasajeros_flota * factor_franja)
 
     modelo_pasajeros = calcular_modelo_manheim(
         T=capacidad_oferta,
@@ -362,33 +316,11 @@ with tab1:
         capacidad_total=capacidad_oferta
     )
 
-
-    # Saturación del sistema
-
     tasa_saturacion = modelo_pasajeros["Saturacion"]
+    deficit_pasajeros = demanda_ajustada - capacidad_oferta
 
-
-    # Retroalimentación:
-    # cálculo de déficit y unidades necesarias
-
-    deficit_pasajeros = (
-        demanda_ajustada -
-        capacidad_oferta
-    )
-
-
-    trenes_extra = recomendar_unidades(
-        deficit_pasajeros,
-        110
-    )
-
-
-    autobuses_extra = recomendar_unidades(
-        deficit_pasajeros,
-        80
-    )
-
-
+    trenes_extra = recomendar_unidades(deficit_pasajeros, 110)
+    autobuses_extra = recomendar_unidades(deficit_pasajeros, 80)
 
     st.markdown("""
         <div class="static-banner">
@@ -396,7 +328,6 @@ with tab1:
         </div>
     """, unsafe_allow_html=True)
 
-    # Controles de avance secuencial interactivo
     col_btn_seq1, col_btn_seq2, col_btn_seq3 = st.columns([2, 2, 3])
     with col_btn_seq1:
         if st.button("▶️ Avanzar Secuencia (Siguiente Paso)", use_container_width=True, key="avanzar_a"):
@@ -407,7 +338,6 @@ with tab1:
     with col_btn_seq3:
         st.markdown(f"<p style='text-align: right; font-weight: bold; color: #ea580c; font-size: 17px; padding-top: 8px;'>Paso activo: {st.session_state.paso_seq_a} / 4</p>", unsafe_allow_html=True)
 
-    # Contenedor principal con sombra corregida en tonos naranjas (#f97316 en lugar del verde de la imagen)
     st.markdown("""
         <div class="sistema-compacto-box" style="border-color: #f97316; background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); border-radius: 20px; padding: 26px; margin: 16px 0; box-shadow: 0 10px 25px rgba(249, 115, 22, 0.15);">
             <div class="ambiente-titulo-naranja">🌐 AMBIENTE: Entorno Urbano / Zona Norte (Azcapotzalco)</div>
@@ -481,7 +411,6 @@ with tab1:
     with col_n4:
         if st.session_state.paso_seq_a == 4:
             if demanda_ajustada > capacidad_oferta:
-
                 txt_r = (
                     f"⚠️ Sistema saturado ({tasa_saturacion:.1f}%). "
                     f"Demanda superior a capacidad. "
@@ -490,16 +419,13 @@ with tab1:
                     f"o {autobuses_extra} autobús(es) adicionales "
                     f"para recuperar el nivel de servicio."
                 )
-
             else:
-
                 txt_r = (
                     f"✅ {modelo_pasajeros['Estado']} "
                     f"({tasa_saturacion:.1f}% de ocupación). "
                     f"El flujo se mantiene dentro de la capacidad operativa."
                 )
 
-            
             st.markdown(f"""
             <div class="card-paso card-activa-retro">
                 <h4 style="color: #ea580c; margin: 0 0 12px 0; font-size: 21px; font-weight: 900;">🔄 4. RETROALIMENTACIÓN</h4>
@@ -532,7 +458,6 @@ with tab2:
     with col_d3:
         demanda_estacional = st.selectbox("🌤️ Temporada:", ["Regular", "Calor (Alta)"], key="d_estacional_c")
 
-    # Lógica de afectación por Temporada
     if demanda_estacional == "Calor (Alta)":
         factor_temp = 1.30
         desc_temp = "Alta demanda por calor (+30%)"
@@ -540,86 +465,26 @@ with tab2:
         factor_temp = 1.00
         desc_temp = "Demanda normal / estándar"
 
-    # ==========================================================
-# MODELO SISTÉMICO DE DISTRIBUCIÓN DE GARRAFONES
-# MANHEIM - MERCANCÍAS
-# ==========================================================
+    matriz_logistica = np.array([
+        ["Camión de redilas", unidades_reparto, 50]
+    ], dtype=object)
 
-# Sistema de Transporte (T)
-# Matriz logística:
-# [Tipo de vehículo, cantidad, capacidad por unidad]
+    capacidad_total_flota = int(matriz_logistica[0, 1]) * int(matriz_logistica[0, 2])
+    pedidos_ajustados = int(pedidos_diarios * factor_temp)
 
-matriz_logistica = np.array([
-    ["Camión de redilas", unidades_reparto, 50]
-], dtype=object)
+    modelo_garrafones = calcular_modelo_manheim(
+        T=capacidad_total_flota,
+        A=pedidos_ajustados,
+        capacidad_total=capacidad_total_flota
+    )
 
+    eficiencia_flota = modelo_garrafones["Saturacion"]
+    deficit_garrafones = pedidos_ajustados - capacidad_total_flota
+    vehiculos_extra = recomendar_unidades(deficit_garrafones, 50)
 
-# Capacidad total de la flota
-
-capacidad_total_flota = (
-    int(matriz_logistica[0, 1]) *
-    int(matriz_logistica[0, 2])
-)
-
-
-# Sistema de Actividades (A)
-# Demanda de la población
-
-pedidos_ajustados = int(
-    pedidos_diarios * factor_temp
-)
-
-
-# Modelo Manheim aplicado a mercancías
-
-modelo_garrafones = calcular_modelo_manheim(
-    T=capacidad_total_flota,
-    A=pedidos_ajustados,
-    capacidad_total=capacidad_total_flota
-)
-
-
-# Nivel de utilización de la flota
-
-eficiencia_flota = (
-    modelo_garrafones["Saturacion"]
-)
-
-
-# Retroalimentación logística
-
-deficit_garrafones = (
-    pedidos_ajustados -
-    capacidad_total_flota
-)
-
-
-vehiculos_extra = recomendar_unidades(
-    deficit_garrafones,
-    50
-)
-
-
-# Simulación básica de rutas
-
-rutas = [
-    "Ruta Norte",
-    "Ruta Centro",
-    "Ruta Sur"
-]
-
-
-rutas_visitadas = set()
-
-
-for ruta in rutas:
-    rutas_visitadas.add(ruta)
-
-
-total_rutas_operadas = len(rutas_visitadas)
-
-
-
+    rutas = ["Ruta Norte", "Ruta Centro", "Ruta Sur"]
+    rutas_visitadas = set(rutas)
+    total_rutas_operadas = len(rutas_visitadas)
 
     st.markdown("""
         <div class="static-banner" style="background: linear-gradient(90deg, #dcfce7 0%, #fef3c7 50%, #e0f2fe 100%); color: #16a34a; border-color: #16a34a;">
@@ -639,7 +504,7 @@ total_rutas_operadas = len(rutas_visitadas)
 
     st.markdown("""
         <div class="sistema-compacto-box" style="border-color: #10b981; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-radius: 20px; padding: 26px; margin: 16px 0; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);">
-            <div class="ambiente-titulo-b">🌐 AMBIENTE: U.H. El Rosario (Zona Suburbana)</div>
+        <div class="ambiente-titulo-b">🌐 AMBIENTE: U.H. El Rosario (Zona Suburbana)</div>
     """, unsafe_allow_html=True)
 
     col_bn1, col_bn2, col_bn3, col_bn4 = st.columns(4)
@@ -717,19 +582,13 @@ total_rutas_operadas = len(rutas_visitadas)
                     f"{vehiculos_extra} vehículo(s) adicional(es) "
                     f"para mantener el nivel de servicio."
                 )
-        else:
-            txt_rb = (
-                f"✅ {modelo_garrafones['Estado']} "
-                f"({eficiencia_flota:.1f}% de utilización). "
-                f"La distribución mantiene equilibrio operativo."
-            )
+            else:
+                txt_rb = (
+                    f"✅ {modelo_garrafones['Estado']} "
+                    f"({eficiencia_flota:.1f}% de utilización). "
+                    f"La distribución mantiene equilibrio operativo."
+                )
 
-
-
-
-
-            
-            
             st.markdown(f"""
             <div class="card-paso card-activa-retro">
                 <h4 style="color: #ea580c; margin: 0 0 12px 0; font-size: 21px; font-weight: 900;">🔄 4. RETROALIMENTACIÓN</h4>
