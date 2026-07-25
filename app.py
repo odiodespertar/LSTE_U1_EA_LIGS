@@ -73,20 +73,24 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# Cabecera institucional con Logo y Título en columnas
+col_logo, col_txt = st.columns([1, 5])
+with col_logo:
+    try:
+        st.image("UnADM LOGO.png", width=140)
+    except Exception:
+        st.warning("⚠️ Coloca la imagen 'UnADM LOGO.png' en la carpeta.")
 
-# Muestra el logo centrado o con un ancho controlado (ej. 250 píxeles)
-st.image("logo_unadm.png", width=250)
+with col_txt:
+    st.title("4. Modelos prácticos adaptados a la localidad")
+    st.markdown("**Estudiante:** Liliana García Solís | **Matrícula:** ES251101336 | **Bloque:** 1 | **Asignatura:** Fundamentos del Sistema de Transporte")
 
-
-# Título principal
-st.title("4. Modelos prácticos adaptados a la localidad")
-st.markdown("**Estudiante:** Liliana García Solís | **Matrícula:** ES251101336 | **Institución:** UNADM | **Asignatura:** Fundamentos del Sistema de Transporte")
 st.markdown("---")
 
 # Pestañas principales
 tab1, tab2 = st.tabs([
     "A. Sistema Multimodal: CETRAM El Rosario (Pasajeros)",
-    "B. Distribución de Carga: Agua en Garrafón U.H. El Rosario (Mercancías)"
+    "B. Distribución de Carga: Agua en Garrafón en U.H. El Rosario (Mercancías)"
 ])
 
 # ==========================================
