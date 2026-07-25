@@ -526,7 +526,11 @@ with tab2:
         <div class="ambiente-titulo-b">🌐 AMBIENTE: U.H. El Rosario (Distribución de Carga-Garrafones)</div>
     """, unsafe_allow_html=True)
 
-    col_bn1, col_bn2, col_bn3, col_bn4 = st.columns(4)
+    # fila superior
+    izq, centro, der = st.columns([1,2,1])
+
+    # fila inferior
+    abajo = st.columns([1,2,1])
 
     with col_bn1:
         if st.session_state.paso_seq_b == 1:
