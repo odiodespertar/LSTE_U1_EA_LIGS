@@ -283,6 +283,39 @@ with tab1:
     with col_c4:
         horario_operativo = st.selectbox("🕒 Franja Horaria:", ["Pico Matutina", "Hora Valle", "Pico Nocturna"], key="h_pax_c")
 
+    st.markdown("""
+    ### 🔄 Componentes del Sistema
+
+    **📥 Entradas**
+    - 🚆 Trenes
+    - 🚍 Autobuses
+    - 👨‍✈️ Operadores
+    - ⛽ Energía eléctrica y combustible
+    - 👥 Demanda de pasajeros
+
+    **⚙️ Proceso**
+    - Planeación de frecuencias
+    - Asignación de unidades
+    - Control operativo
+    - Transporte de pasajeros
+
+    **📤 Salidas**
+    - Pasajeros transportados
+    - Nivel de servicio
+    - Flujo de pasajeros
+
+    **🔄 Retroalimentación**
+    - Saturación del sistema
+    - Ajuste de frecuencias
+    - Incorporación de unidades
+
+    **🌎 Ambiente**
+    - Hora pico
+    - Hora valle
+    - Tráfico
+    - Infraestructura del CETRAM
+    """)
+    
     if horario_operativo == "Pico Matutina":
         factor_franja = 1.35
     elif horario_operativo == "Pico Nocturna":
