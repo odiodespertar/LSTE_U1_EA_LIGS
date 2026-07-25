@@ -193,8 +193,8 @@ with st.expander("👉 Guía Interactiva, Fórmulas y Recorrido Secuencial", exp
     <div class="instrucciones-box">
         <p style="margin: 0 0 8px 0; font-weight: bold; color: #0369a1; font-size: 20px !important;">Instrucciones de Uso:</p>
         <ul style="margin: 0; padding-left: 20px; color: #0c4a6e;">
-            <li style="margin-bottom: 8px;"><strong>Controles interactivos:</strong> Modifica los sliders, la franja horaria y la temporada; observa cómo el procesamiento y los cálculos se actualizan de inmediato.</li>
-            <li><strong>Avance secuencial por clics:</strong> Utiliza el botón de avance para recorrer la secuencia paso a paso con iluminación dinámica.</li>
+            <li style="margin-bottom: 8px;"><strong>Controles interactivos:</strong> Modifica los sliders (barras rojas), la franja horaria y la temporada; observa cómo el procesamiento y los cálculos se actualizan de inmediato en los modelos interactivos.</li>
+            <li><strong>Avance secuencial por clics:</strong> Utiliza el botón de "Avanzar secuencia ()" para recorrer la secuencia paso a paso de entradas, proceso, salida y retroalimentación.</li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
