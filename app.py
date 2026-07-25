@@ -82,7 +82,7 @@ with col_logo:
         st.warning("⚠️ Coloca la imagen 'UnADM LOGO.png' en la carpeta.")
 
 with col_txt:
-    st.title("4. Modelos prácticos adaptados a la localidad")
+    st.title("4. Diseños o modelos de transporte aplicando teoría de sistemas")
     st.markdown("**Estudiante:** Liliana García Solís | **Matrícula:** ES251101336 | **Bloque:** 1 | **Asignatura:** Sistemas de Transporte")
 
 st.markdown("---")
