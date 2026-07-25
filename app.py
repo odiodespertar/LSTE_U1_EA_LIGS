@@ -10,24 +10,15 @@ st.set_page_config(
 # Estilos CSS avanzados con mayor contraste y visibilidad para las indicaciones
 st.markdown("""
     <style>
-    /* Banner de avisos e indicaciones de alta visibilidad */
-    .instruction-banner {
-        background-color: #fff8e1;
-        border: 2px solid #ffb300;
-        border-left: 8px solid #ff8f00;
-        border-radius: 10px;
-        padding: 18px 22px;
-        margin-bottom: 20px;
+    /* Estilos personalizados para el botón desplegable / expansor de alta visibilidad */
+    .streamlit-expanderHeader {
+        background-color: #fff8e1 !important;
+        border: 2px solid #ffb300 !important;
+        border-radius: 10px !important;
+        color: #e65100 !important;
+        font-weight: bold !important;
+        font-size: 16px !important;
         box-shadow: 0 4px 12px rgba(255, 179, 0, 0.2);
-    }
-    .instruction-banner h4 {
-        color: #e65100;
-        margin-top: 0;
-        font-size: 18px;
-    }
-    .instruction-banner p, .instruction-banner li {
-        color: #3e2723;
-        font-size: 15px;
     }
 
     .system-box {
@@ -131,19 +122,21 @@ with col_txt:
 st.markdown("---")
 
 # ==========================================
-# GUÍA VISUAL DE ALTA VISIBILIDAD PARA USUARIOS
+# BOTÓN DESPLEGABLE DE ALTA VISIBILIDAD PARA INDICACIONES
 # ==========================================
-st.markdown("""
-    <div class="instruction-banner">
-        <h4>📌 GUÍA DE NAVEGACIÓN Y USO INTERACTIVO</h4>
-        <p>Para aprovechar al máximo esta aplicación y evitar perderte ningún detalle, sigue estos pasos:</p>
+with st.expander("👉 ¡REVISA AQUÍ LAS INDICACIONES! (Guía de Navegación Interactiva)", expanded=True):
+    st.markdown("""
+    <div style="background-color: #fffde7; padding: 10px; border-radius: 6px;">
+        <p style="color: #3e2723; font-size: 15px; margin-bottom: 10px;">
+            Para aprovechar al máximo esta aplicación y evitar perderte ningún detalle, sigue estos pasos:
+        </p>
         <ul>
             <li><strong>1. Selecciona una pestaña abajo:</strong> Elige entre el caso de pasajeros (CETRAM) o el de mercancías (Agua en garrafón).</li>
             <li><strong>2. Utiliza los controles deslizantes (Sliders):</strong> Modifica los valores de flota y demanda para ver el comportamiento en tiempo real.</li>
             <li><strong>3. Analiza los resultados:</strong> Las ecuaciones matemáticas y los estados operativos se actualizarán de forma inmediata según tus ajustes.</li>
         </ul>
     </div>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
 st.markdown("")
 
