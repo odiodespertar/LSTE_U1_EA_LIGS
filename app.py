@@ -13,7 +13,7 @@ def calcular_modelo_manheim(T, A, capacidad_total):
     T = Sistema de Transporte (Oferta / Capacidad)
     A = Sistema de Actividades (Demanda)
     V = Volumen de flujo
-    S = Nivel de servicio
+    S = SALIDA
     F0 = Equilibrio operativo
     """
     V = A  # Volumen de flujo
@@ -364,7 +364,7 @@ with tab1:
         if st.session_state.paso_seq_a == 1:
             st.markdown(f"""
             <div class="card-paso card-activa-entrada">
-                <h4 style="color: #0284c7; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">📥 1. OFERTA Y DEMANDA</h4>
+                <h4 style="color: #0284c7; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">📥 1. ENTRADA</h4>
                 <p style="font-size: 14px; margin: 0; line-height: 1.4;">
                     <strong>Teoría:</strong> Infraestructura (T) + Actividad (A).<br>
                     <strong>Caso Local:</strong> {total_unidades_a} unidades activas en CETRAM determinan la oferta frente a una base de {pasajeros_flota:,} pasajeros.
@@ -374,7 +374,7 @@ with tab1:
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>📥 1. OFERTA Y DEMANDA</h4>
+                <h4>📥 1. ENTRADA</h4>
                 <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
@@ -383,7 +383,7 @@ with tab1:
         if st.session_state.paso_seq_a == 2:
             st.markdown(f"""
             <div class="card-paso card-activa-proceso">
-                <h4 style="color: #fbbf24; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">⚙️ 2. FLUJO Y VOLUMEN [V]</h4>
+                <h4 style="color: #fbbf24; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">⚙️ 2. PROCESO [V]</h4>
                 <p style="font-size: 14px; margin: 0; line-height: 1.4; color: #f8fafc;">
                     <strong>Teoría:</strong> Absorción de demanda sin colapsar.<br>
                     <strong>Caso Local:</strong> En horario <em>{horario_operativo}</em> el volumen asciende a <strong>{demanda_ajustada:,} pax</strong>, modificando la presión operativa.
@@ -393,7 +393,7 @@ with tab1:
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>⚙️ 2. FLUJO Y VOLUMEN [V]</h4>
+                <h4>⚙️ 2. PROCESO [V]</h4>
                 <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
@@ -402,7 +402,7 @@ with tab1:
         if st.session_state.paso_seq_a == 3:
             st.markdown(f"""
             <div class="card-paso card-activa-salida">
-                <h4 style="color: #16a34a; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">📤 3. NIVEL DE SERVICIO [S]</h4>
+                <h4 style="color: #16a34a; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">📤 3. SALIDA [S]</h4>
                 <p style="font-size: 14px; margin: 0; line-height: 1.4;">
                     <strong>Teoría:</strong> Intersección de flujos estables.<br>
                     <strong>Caso Local:</strong> Índice de servicio <strong>{nivel_servicio_s:.2f}</strong>. Los usuarios se transfieren a la red de transporte masivo.
@@ -412,7 +412,7 @@ with tab1:
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>📤 3. NIVEL DE SERVICIO [S]</h4>
+                <h4>📤 3. SALIDA [S]</h4>
                 <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
@@ -433,7 +433,7 @@ with tab1:
 
             st.markdown(f"""
             <div class="card-paso card-activa-retro">
-                <h4 style="color: #ea580c; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">🔄 4. ADAPTACIÓN Y HOMEOSTASIS</h4>
+                <h4 style="color: #ea580c; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">🔄 4. RETROALIMENTACIÓN</h4>
                 <p style="font-size: 13px; margin: 0; line-height: 1.4; color: #9a3412; font-weight: 700;">
                     {txt_r}
                 </p>
@@ -442,7 +442,7 @@ with tab1:
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>🔄 4. ADAPTACIÓN</h4>
+                <h4>🔄 4. RETROALIMENTACIÓN</h4>
                 <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
@@ -532,7 +532,7 @@ with tab2:
         if st.session_state.paso_seq_b == 1:
             st.markdown(f"""
             <div class="card-paso card-activa-entrada">
-                <h4 style="color: #0284c7; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">📥 1. OFERTA Y DEMANDA</h4>
+                <h4 style="color: #0284c7; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">📥 1. ENTRADA</h4>
                 <p style="font-size: 14px; margin: 0; line-height: 1.4;">
                     <strong>Teoría:</strong> Capacidad de flota (T) vs concentración vecinal (A).<br>
                     <strong>Caso Local:</strong> {unidades_reparto} vehículos de redilas abastecen la U.H. El Rosario frente a una base de {pedidos_diarios} pedidos.
@@ -542,7 +542,7 @@ with tab2:
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>📥 1. OFERTA Y DEMANDA</h4>
+                <h4>📥 1. ENTRADA</h4>
                 <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
@@ -551,7 +551,7 @@ with tab2:
         if st.session_state.paso_seq_b == 2:
             st.markdown(f"""
             <div class="card-paso card-activa-proceso">
-                <h4 style="color: #fbbf24; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">⚙️ 2. EQUILIBRIO OPERATIVO</h4>
+                <h4 style="color: #fbbf24; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">⚙️ 2. PROCESO</h4>
                 <p style="font-size: 14px; margin: 0; line-height: 1.4; color: #f0fdf4;">
                     <strong>Teoría:</strong> Intersección de servicio y demanda estacional.<br>
                     <strong>Caso Local:</strong> Por temporada <em>{demanda_estacional}</em>, el volumen de entrega se ajusta a <strong>{pedidos_ajustados:,} garrafones</strong> diarios.
@@ -561,7 +561,7 @@ with tab2:
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>⚙️ 2. EQUILIBRIO OPERATIVO</h4>
+                <h4>⚙️ 2. PROCESO</h4>
                 <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
@@ -570,7 +570,7 @@ with tab2:
         if st.session_state.paso_seq_b == 3:
             st.markdown(f"""
             <div class="card-paso card-activa-salida">
-                <h4 style="color: #16a34a; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">📤 3. NIVEL DE SERVICIO [S]</h4>
+                <h4 style="color: #16a34a; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">📤 3. SALIDA [S]</h4>
                 <p style="font-size: 14px; margin: 0; line-height: 1.4;">
                     <strong>Teoría:</strong> Cumplimiento de ventanas horarias.<br>
                     <strong>Caso Local:</strong> <span style="color: #16a34a; font-weight: bold;">{pedidos_ajustados:,} garrafones</span> distribuidos sin exceder la capacidad de la flota.
@@ -580,7 +580,7 @@ with tab2:
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>📤 3. NIVEL DE SERVICIO [S]</h4>
+                <h4>📤 3. SALIDA [S]</h4>
                 <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
@@ -601,7 +601,7 @@ with tab2:
 
             st.markdown(f"""
             <div class="card-paso card-activa-retro">
-                <h4 style="color: #ea580c; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">🔄 4. ADAPTACIÓN Y HOMEOSTASIS</h4>
+                <h4 style="color: #ea580c; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">🔄 4. RETROALIMENTACIÓN</h4>
                 <p style="font-size: 13px; margin: 0; line-height: 1.4; color: #9a3412; font-weight: 700;">
                     {txt_rb}
                 </p>
@@ -610,7 +610,7 @@ with tab2:
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>🔄 4. ADAPTACIÓN</h4>
+                <h4>🔄 4. RETROALIMENTACIÓN</h4>
                 <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
