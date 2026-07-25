@@ -180,7 +180,7 @@ with col_logo:
         pass
 
 with col_txt:
-    st.markdown("### 4. Modelo Sistémico Integral: Cálculos, Franjas y Avance Secuencial")
+    st.markdown("### 4. Diseño o modelo de transporte aplicando Teoría de Sistemas en mi localidad")
     st.markdown("<p style='font-size:16px; margin:0;'><strong>Estudiante:</strong> Liliana García Solís | <strong>Matrícula:</strong> ES251101336 | <strong>Asignatura:</strong> Sistemas de Transporte</p>", unsafe_allow_html=True)
 
 st.markdown("---")
@@ -188,7 +188,7 @@ st.markdown("---")
 # ==========================================
 # INDICACIONES EXPANDIBLE
 # ==========================================
-with st.expander("👉 Guía Interactiva, Fórmulas y Recorrido Secuencial", expanded=False):
+with st.expander("👉 Indicaciones de navegación", expanded=False):
     st.markdown("""
     <div class="instrucciones-box">
         <p style="margin: 0 0 8px 0; font-weight: bold; color: #0369a1; font-size: 20px !important;">Instrucciones de Uso:</p>
@@ -201,7 +201,7 @@ with st.expander("👉 Guía Interactiva, Fórmulas y Recorrido Secuencial", exp
 
 tab1, tab2 = st.tabs([
     "A. Sistema Multimodal: CETRAM El Rosario (Pasajeros)",
-    "B. Distribución de Carga: Agua en Garrafón (Mercancías)"
+    "B. Distribución de Carga: Agua en Garrafón U.H. El Rosario (Mercancías)"
 ])
 
 # Inicializar estados de secuencia si no existen
