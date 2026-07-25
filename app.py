@@ -8,15 +8,7 @@ import math
 # ==========================================================
 
 def calcular_modelo_manheim(T, A, capacidad_total):
-    """
-    Modelo simplificado basado en Manheim (1979)
-    T = Sistema de Transporte (Oferta / Capacidad)
-    A = Sistema de Actividades (Demanda)
-    V = Volumen de flujo
-    S = Nivel de servicio
-    """
-    V = A  # Volumen de flujo
-
+    V = A  
     if capacidad_total > 0 and V > 0:
         S = capacidad_total / V
     else:
@@ -31,20 +23,15 @@ def calcular_modelo_manheim(T, A, capacidad_total):
     else:
         estado = "🔴 Sistema saturado"
 
-    F0 = {
+    return {
         "Volumen": V,
         "Nivel_servicio": S,
         "Saturacion": saturacion,
         "Estado": estado
     }
 
-    return F0
-
 
 def recomendar_unidades(deficit, capacidad_unidad):
-    """
-    Calcula unidades adicionales necesarias
-    """
     if deficit <= 0:
         return 0
     return math.ceil(deficit / capacidad_unidad)
@@ -55,12 +42,12 @@ def recomendar_unidades(deficit, capacidad_unidad):
 # ==========================================================
 
 st.set_page_config(
-    page_title="Modelos Prácticos - Enfoque Sistémico y Cubo de Sussman",
+    page_title="Modelos Prácticos - Enfoque Sistémico y Cubo 3D de Sussman",
     page_icon="cube",
     layout="wide",
 )
 
-# Estilos CSS avanzados con efectos flotantes y diseño del Cubo de Sussman
+# Estilos CSS avanzados con efectos 3D para el Cubo de Sussman y las animaciones previas
 st.markdown("""
     <style>
     .streamlit-expanderHeader {
@@ -99,42 +86,56 @@ st.markdown("""
         line-height: 1.5;
     }
 
-    .cubo-sussman-container {
-        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    /* Estilos mejorados para el Cubo 3D Interactivo de Sussman */
+    .cubo-3d-wrapper {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
         border: 3px solid #38bdf8;
         border-radius: 20px;
-        padding: 22px;
+        padding: 20px;
         color: #f8fafc;
         margin-bottom: 25px;
-        box-shadow: 0 10px 25px rgba(56, 189, 248, 0.2);
+        box-shadow: 0 10px 30px rgba(56, 189, 248, 0.25);
     }
 
-    .cubo-header {
+    .cubo-3d-title {
         text-align: center;
-        font-size: 20px;
+        font-size: 19px;
         font-weight: 900;
         color: #38bdf8;
         margin-bottom: 15px;
         text-transform: uppercase;
+        letter-spacing: 1.5px;
+    }
+
+    .eje-cubo-card {
+        background: rgba(255, 255, 255, 0.07);
+        border: 2px solid rgba(56, 189, 248, 0.4);
+        border-radius: 14px;
+        padding: 14px;
+        text-align: center;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .eje-cubo-card:hover {
+        border-color: #38bdf8;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(56, 189, 248, 0.3);
+    }
+
+    .eje-titulo {
+        font-size: 13px;
+        font-weight: 800;
+        color: #38bdf8;
+        text-transform: uppercase;
+        margin-bottom: 6px;
         letter-spacing: 1px;
     }
 
-    .celda-cubo-activo {
-        background: rgba(56, 189, 248, 0.15);
-        border: 2px solid #38bdf8;
-        border-radius: 12px;
-        padding: 15px;
-        text-align: center;
-        box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
-    }
-
-    .celda-cubo-inactivo {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px dashed rgba(255, 255, 255, 0.2);
-        border-radius: 12px;
-        padding: 15px;
-        text-align: center;
-        opacity: 0.5;
+    .eje-valor {
+        font-size: 15px;
+        font-weight: 700;
+        color: #ffffff;
     }
 
     .ambiente-titulo-naranja {
@@ -229,7 +230,6 @@ st.markdown("""
         color: #0f172a;
         box-shadow: 0 12px 30px rgba(2, 132, 199, 0.35);
         transform: scale(1.04);
-        animation: pulseActive 1.5s infinite alternate;
     }
 
     .card-activa-proceso {
@@ -238,7 +238,6 @@ st.markdown("""
         color: #ffffff;
         box-shadow: 0 12px 30px rgba(245, 158, 11, 0.35);
         transform: scale(1.04);
-        animation: pulseActive 1.5s infinite alternate;
     }
 
     .card-activa-salida {
@@ -247,7 +246,6 @@ st.markdown("""
         color: #0f172a;
         box-shadow: 0 12px 30px rgba(22, 163, 74, 0.35);
         transform: scale(1.04);
-        animation: pulseActive 1.5s infinite alternate;
     }
 
     .card-activa-retro {
@@ -256,12 +254,6 @@ st.markdown("""
         color: #0f172a;
         box-shadow: 0 12px 30px rgba(234, 88, 12, 0.35);
         transform: scale(1.04);
-        animation: pulseActive 1.5s infinite alternate;
-    }
-
-    @keyframes pulseActive {
-        0% { transform: scale(1.02); }
-        100% { transform: scale(1.06); }
     }
 
     .dynamic-banner {
@@ -275,24 +267,12 @@ st.markdown("""
         font-size: 17px;
         text-align: center;
         box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
-        animation: floatBanner 3s ease-in-out infinite alternate;
-    }
-
-    @keyframes floatBanner {
-        0% { transform: translateY(0px); }
-        100% { transform: translateY(-4px); }
     }
     
     .floating-icon {
         display: inline-block;
         font-size: 26px;
         margin: 0 6px;
-        animation: floatIcon 2s ease-in-out infinite alternate;
-    }
-
-    @keyframes floatIcon {
-        0% { transform: translateY(0px); }
-        100% { transform: translateY(-6px); }
     }
     </style>
 """, unsafe_allow_html=True)
@@ -316,7 +296,7 @@ with st.expander("👉 Indicaciones de navegación y modelos teóricos", expande
     <div class="instrucciones-box">
         <p style="margin: 0 0 8px 0; font-weight: bold; color: #0369a1; font-size: 20px !important;">Instrucciones de Uso:</p>
         <ul style="margin: 0; padding-left: 20px; color: #0c4a6e;">
-            <li style="margin-bottom: 8px;"><strong>Integración de Modelos:</strong> Cada caso incluye tanto el <em>Cubo de Caracterización de Sussman (2000)</em> como el diagrama de límites sistémicos.</li>
+            <li style="margin-bottom: 8px;"><strong>Cubo 3D de Sussman (2000):</strong> Visualiza la intersección de las tres dimensiones del transporte de forma interactiva en cada caso.</li>
             <li style="margin-bottom: 8px;"><strong>Pestañas A y B:</strong> Explora el sistema multimodal de pasajeros y la distribución de carga en garrafones.</li>
             <li><strong>Avance secuencial:</strong> Utiliza el botón de "Avanzar Secuencia Teórica" para recorrer las dimensiones de Entrada, Proceso, Salida y Retroalimentación.</li>
         </ul>
@@ -337,34 +317,34 @@ if "paso_seq_b" not in st.session_state:
 # PESTAÑA A: CETRAM EL ROSARIO
 # ==========================================
 with tab1:
-    st.markdown("<p style='font-weight: bold; color: #ea580c; font-size: 18px; margin-bottom: 8px;'>A. Sistema Multimodal de Pasajeros - CETRAM El Rosario [Cubo de Sussman + Modelo Sistémico]</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-weight: bold; color: #ea580c; font-size: 18px; margin-bottom: 8px;'>A. Sistema Multimodal de Pasajeros - CETRAM El Rosario [Cubo 3D de Sussman + Modelo Sistémico]</p>", unsafe_allow_html=True)
 
-    # Bloque visual del Cubo de Sussman aplicado a Pasajeros
+    # Cubo 3D Interactivo Estilizado (Sussman, 2000)
     st.markdown("""
-        <div class="cubo-sussman-container">
-            <div class="cubo-header">🧊 Caracterización del Sistema de Transporte (Sussman, 2000) — Caso Pasajeros</div>
+        <div class="cubo-3d-wrapper">
+            <div class="cubo-3d-title">🧊 Cubo 3D de Caracterización del Sistema de Transporte — Sussman (2000)</div>
     """, unsafe_allow_html=True)
     
     ca1, ca2, ca3 = st.columns(3)
     with ca1:
         st.markdown("""
-            <div class="celda-cubo-activo">
-                <strong style="color: #38bdf8; font-size: 15px;">🌐 Alcance Geográfico</strong><br>
-                <span style="font-size: 14px; color: #f8fafc;">Urbano (CETRAM Metropolitano)</span>
+            <div class="eje-cubo-card">
+                <div class="eje-titulo">🌐 1. Alcance Geográfico</div>
+                <div class="eje-valor">Urbano (CETRAM Metropolitano)</div>
             </div>
         """, unsafe_allow_html=True)
     with ca2:
         st.markdown("""
-            <div class="celda-cubo-activo">
-                <strong style="color: #38bdf8; font-size: 15px;">👥 Naturaleza de Demanda</strong><br>
-                <span style="font-size: 14px; color: #f8fafc;">Pasajeros (Metro L6/L7 + Autobuses)</span>
+            <div class="eje-cubo-card">
+                <div class="eje-titulo">👥 2. Naturaleza de Demanda</div>
+                <div class="eje-valor">Pasajeros (Metro L6/L7 + Autobuses)</div>
             </div>
         """, unsafe_allow_html=True)
     with ca3:
         st.markdown("""
-            <div class="celda-cubo-activo">
-                <strong style="color: #38bdf8; font-size: 15px;">🏛️ Propiedad / Operación</strong><br>
-                <span style="font-size: 14px; color: #f8fafc;">Pública / Conjunta (Gobierno CDMX / Concesionados)</span>
+            <div class="eje-cubo-card">
+                <div class="eje-titulo">🏛️ 3. Propiedad / Operación</div>
+                <div class="eje-valor">Pública / Conjunta (Gobierno / Concesionados)</div>
             </div>
         """, unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
@@ -452,7 +432,7 @@ with tab1:
     st.markdown("""
         <div class="sistema-macro-container">
             <div class="supersistema-label">🌎 Ambiente Externo (Supersistema): Hora pico/valle, tráfico y entorno urbano</div>
-            <div class="ambiente-titulo-naranja" style="margin-bottom: 15px;">🔄 LÍMITE DEL SISTEMA: CETRAM El Rosario (Pasajeros)</div>
+            <div class="ambiente-titulo-naranja" style="margin-bottom: 15px;">🔄 LÍMITE DEL SISTEMA: CETRAM EL ROSARIO (PASAJEROS)</div>
     """, unsafe_allow_html=True)
 
     col_n1, col_n2, col_n3, col_n4 = st.columns(4)
@@ -566,34 +546,34 @@ with tab1:
 # PESTAÑA B: DISTRIBUCIÓN DE AGUA
 # ==========================================
 with tab2:
-    st.markdown("<p style='font-weight: bold; color: #16a34a; font-size: 18px; margin-bottom: 8px;'>B. Distribución de Carga (Garrafones) - U.H. El Rosario [Cubo de Sussman + Modelo Logístico]</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-weight: bold; color: #16a34a; font-size: 18px; margin-bottom: 8px;'>B. Distribución de Carga (Garrafones) - U.H. El Rosario [Cubo 3D de Sussman + Modelo Logístico]</p>", unsafe_allow_html=True)
 
-    # Bloque visual del Cubo de Sussman aplicado a Carga
+    # Cubo 3D Interactivo Estilizado para Carga (Sussman, 2000)
     st.markdown("""
-        <div class="cubo-sussman-container" style="border-color: #10b981; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);">
-            <div class="cubo-header" style="color: #34d399;">🧊 Caracterización del Sistema de Transporte (Sussman, 2000) — Caso Carga</div>
+        <div class="cubo-3d-wrapper" style="border-color: #10b981; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.25);">
+            <div class="cubo-3d-title" style="color: #34d399;">🧊 Cubo 3D de Caracterización del Sistema de Transporte — Sussman (2000)</div>
     """, unsafe_allow_html=True)
     
     cb1, cb2, cb3 = st.columns(3)
     with cb1:
         st.markdown("""
-            <div class="celda-cubo-activo" style="border-color: #34d399; background: rgba(52, 211, 153, 0.15);">
-                <strong style="color: #34d399; font-size: 15px;">🌐 Alcance Geográfico</strong><br>
-                <span style="font-size: 14px; color: #f8fafc;">Urbano (Reparto local U.H.)</span>
+            <div class="eje-cubo-card" style="border-color: rgba(52, 211, 153, 0.4);">
+                <div class="eje-titulo" style="color: #34d399;">🌐 1. Alcance Geográfico</div>
+                <div class="eje-valor">Urbano (Reparto local U.H.)</div>
             </div>
         """, unsafe_allow_html=True)
     with cb2:
         st.markdown("""
-            <div class="celda-cubo-activo" style="border-color: #34d399; background: rgba(52, 211, 153, 0.15);">
-                <strong style="color: #34d399; font-size: 15px;">💧 Naturaleza de Demanda</strong><br>
-                <span style="font-size: 14px; color: #f8fafc;">Carga / Mercancías (Garrafones de agua)</span>
+            <div class="eje-cubo-card" style="border-color: rgba(52, 211, 153, 0.4);">
+                <div class="eje-titulo" style="color: #34d399;">💧 2. Naturaleza de Demanda</div>
+                <div class="eje-valor">Carga / Mercancías (Garrafones)</div>
             </div>
         """, unsafe_allow_html=True)
     with cb3:
         st.markdown("""
-            <div class="celda-cubo-activo" style="border-color: #34d399; background: rgba(52, 211, 153, 0.15);">
-                <strong style="color: #34d399; font-size: 15px;">🏛️ Propiedad / Operación</strong><br>
-                <span style="font-size: 14px; color: #f8fafc;">Privada (Flota de distribución comercial)</span>
+            <div class="eje-cubo-card" style="border-color: rgba(52, 211, 153, 0.4);">
+                <div class="eje-titulo" style="color: #34d399;">🏛️ 3. Propiedad / Operación</div>
+                <div class="eje-valor">Privada (Flota de distribución comercial)</div>
             </div>
         """, unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
@@ -669,7 +649,7 @@ with tab2:
     st.markdown("""
         <div class="sistema-macro-container" style="border-color: #10b981; background: linear-gradient(135deg, #f0fdf4 0%, #e6f4ea 100%);">
             <div class="supersistema-label">🌎 Ambiente Externo (Supersistema): Clima, tráfico y accesos a U.H. El Rosario</div>
-            <div class="ambiente-titulo-b" style="margin-bottom: 15px;">🔄 LÍMITE DEL SISTEMA: U.H. El Rosario (Distribución de Carga)</div>
+            <div class="ambiente-titulo-b" style="margin-bottom: 15px;">🔄 LÍMITE DEL SISTEMA: U.H. EL ROSARIO (DISTRIBUCIÓN DE CARGA)</div>
     """, unsafe_allow_html=True)
 
     col_bn1, col_bn2, col_bn3, col_bn4 = st.columns(4)
