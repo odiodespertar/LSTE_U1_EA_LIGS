@@ -454,7 +454,7 @@ with tab1:
 
     col_btn_seq1, col_btn_seq2, col_btn_seq3 = st.columns([2, 2, 3])
     with col_btn_seq1:
-        if st.button("▶️ Avanzar Secuencia Teórica", use_container_width=True, key="avanzar_a"):
+        if st.button("▶️ Avanzar al siguiente componente", use_container_width=True, key="avanzar_a"):
             st.session_state.paso_seq_a = (st.session_state.paso_seq_a % 4) + 1
             st.rerun()
     with col_btn_seq2:
@@ -673,7 +673,7 @@ with tab2:
 
     col_btn_seqb1, col_btn_seqb2, col_btn_seqb3 = st.columns([2, 2, 3])
     with col_btn_seqb1:
-        if st.button("▶️ Avanzar Secuencia Teórica (B)", use_container_width=True, key="avanzar_b"):
+        if st.button("▶️ Avanzar al siguiente componente", use_container_width=True, key="avanzar_b"):
             st.session_state.paso_seq_b = (st.session_state.paso_seq_b % 4) + 1
             st.rerun()
     with col_btn_seqb2:
