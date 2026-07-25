@@ -7,7 +7,7 @@ st.set_page_config(
     layout="wide",
 )
 
-# Estilos CSS para dar efecto visual de tarjetas y flujo animado
+# Estilos CSS para tarjetas y flujo animado
 st.markdown("""
     <style>
     .system-box {
@@ -23,12 +23,6 @@ st.markdown("""
         color: #0083B8;
         font-weight: bold;
         margin: 5px 0;
-    }
-    .metric-container {
-        background-color: #e3f2fd;
-        padding: 10px;
-        border-radius: 8px;
-        text-align: center;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -55,12 +49,28 @@ with tab1:
     *“La construcción de un Centro de Transferencia Modal (Cetram) es quizá uno de los proyectos más complejos que se han desarrollado en los últimos años en la ciudad. Su principal objetivo es concentrar y reorganizar los diferentes sistemas de transporte de la ciudad en un solo lugar. Con base en las estrategias de distribución y control de flujos y circulaciones, se busca mejorar la calidad de vida de quienes se trasladan de un lugar a otro de la ciudad”*.
     """)
 
-    # Panel de controles interactivos para simular el flujo dinámico
+    # Controles interactivos con desglose de horarios (Mañana, Tarde, Noche)
     col_c1, col_c2 = st.columns(2)
     with col_c1:
-        nivel_pax = st.slider("Simular Volumen de Demanda (Pasajeros/Hora)", 1000, 15000, 5000, step=500, key="slider_pax")
+        horario_operativo = st.selectbox(
+            "Seleccionar Franja Horaria de Operación:",
+            [
+                "Hora Pico Matutina (Mañana)", 
+                "Hora Valle / Intermedia (Tarde)", 
+                "Hora Pico Vespertina / Nocturna (Noche)"
+            ]
+        )
     with col_c2:
-        estado_operativo = "Saturación en andenes" if nivel_pax > 10000 else "Operación fluida y coordinada"
+        if "Matutina" in horario_operativo:
+            nivel_pax = 12500
+            estado_operativo = "Saturación alta por ingresos pendulares hacia zonas laborales y escolares."
+        elif "Valle" in horario_operativo:
+            nivel_pax = 4500
+            estado_operativo = "Operación fluida, estable y con tiempos de espera mínimos."
+        else:
+            nivel_pax = 11000
+            estado_operativo = "Saturación por retornos masivos de la tarde-noche."
+        
         st.markdown(f"**Estatus del Sistema:** {estado_operativo}")
 
     st.markdown("---")
@@ -73,7 +83,7 @@ with tab1:
         st.markdown("### 📥 1. Entradas")
         st.markdown("""
         <div class="system-box">
-        🚆 Trenes (L6 y L7)<br>
+        🚆 Trenes (Líneas 6 y 7)<br>
         🚍 Trolebús y Metrobús<br>
         🚐 Combis y microbuses<br>
         🚲 Infraestructura de ciclovías<br>
@@ -88,11 +98,10 @@ with tab1:
         st.markdown("### ⚙️ 2. Conversión")
         st.markdown(f"""
         <div class="system-box">
-        ⚙️ Regulación de flujos<br>
+        ⚙️ Regulación de flujos peatonales<br>
         ⏱️ Programación de correspondencias<br>
         📋 Control de despacho en andenes<br>
-        🔀 Gestión intermodal<br>
-        <em>Volumen actual: {nivel_pax} pas/h</em>
+        🕒 <em>Fase activa: {horario_operativo}</em>
         </div>
         """, unsafe_allow_html=True)
 
@@ -104,17 +113,17 @@ with tab1:
         st.markdown("""
         <div class="system-box">
         👥 Pasajeros transferidos eficientemente<br>
-        🌿 Reducción de emisiones<br>
+        🌿 Reducción de emisiones por viaje<br>
         🏙️ Ordenamiento del espacio público
         </div>
         """, unsafe_allow_html=True)
 
-    # Bloque de Retroalimentación Interactiva
+    # Bloque de Retroalimentación Interactiva con franjas horarias
     st.markdown("### 🔄 4. Retroalimentación (Feedback)")
-    if nivel_pax > 10000:
-        st.error("⚠️ **Alerta activa de retroalimentación:** Se detecta saturación en horas pico y tiempos de demora elevados en transbordos. Requiere ajuste inmediato en frecuencias de despacho.")
+    if "Valle" not in horario_operativo:
+        st.warning(f"⚠️ **Alerta activa de retroalimentación ({horario_operativo}):** Se detectan demoras en transbordos y alta acumulación de usuarios en andenes. Se requiere reforzar frecuencias de despacho.")
     else:
-        st.success("✅ **Retroalimentación óptima:** Flujo continuo reportado por usuarios sin congestionamientos críticos en andenes.")
+        st.success(f"✅ **Retroalimentación óptima ({horario_operativo}):** Flujo continuo reportado por los usuarios sin saturación crítica en la correspondencia.")
 
     st.markdown("---")
     st.markdown("📸 **Ilustrativo 1.** *Diagrama sistémico y evidencia fotográfica del sistema multimodal de transporte de personas en el CETRAM El Rosario (Sussman, 2000; UnADM, 2026).*")
@@ -130,7 +139,6 @@ with tab2:
     > **Descripción técnica:** Modelo logístico de alta capilaridad y frecuencia (Lunes a Viernes de 9:00 a.m. a 5:00 p.m. y Sábados de 9:00 a.m. a mediodía), priorizando seguridad, regularidad y flexibilidad de ruteo.
     """)
 
-    # Controles para simular la carga
     col_d1, col_d2 = st.columns(2)
     with col_d1:
         unidades_reparto = st.slider("Vehículos de redilas en ruta", 1, 8, 3, key="slider_camiones")
@@ -142,7 +150,6 @@ with tab2:
     st.markdown("---")
     st.subheader("🔄 Esquema Sistémico Dinámico de Carga")
 
-    # Esquema visual de carga
     b_in, b_arrow1, b_proc, b_arrow2, b_out = st.columns([2, 0.5, 2, 0.5, 2])
 
     with b_in:
@@ -163,9 +170,8 @@ with tab2:
         st.markdown("### ⚙️ 2. Conversión")
         st.markdown(f"""
         <div class="system-box">
-        🏭 Proceso de envasado<br>
-        🗺️ Ruteo operativo diario<br>
-        ⏰ Ventana: L-V 9:00-17:00 / S 9:00-12:00<br>
+        🏭 Proceso de envasado y ruteo<br>
+        ⏰ Ventana: L-V (9:00 a 17:00 h) / S (9:00 a 14:00 h)<br>
         <em>Reparto activo: {total_entregas} garrafones</em>
         </div>
         """, unsafe_allow_html=True)
@@ -183,7 +189,6 @@ with tab2:
         </div>
         """, unsafe_allow_html=True)
 
-    # Retroalimentación logística
     st.markdown("### 🔄 4. Retroalimentación (Feedback)")
     if "Calor" in demanda_estacional:
         st.warning("⚠️ **Alerta logística:** Incremento por demanda estacional de calor. Se registran tiempos muertos en ruta por mayor tiempo de descarga en puntos de venta.")
