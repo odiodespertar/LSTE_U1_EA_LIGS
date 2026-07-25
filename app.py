@@ -354,7 +354,10 @@ with tab1:
                 <p style="font-size: 17px; margin: 0; line-height: 1.6;">
                     <strong>Recursos:</strong> {num_trenes} trenes, {num_buses} buses.<br>
                     <strong>Demanda Base:</strong> <span style="color: #0284c7; font-weight: bold;">{pasajeros_flota} pax</span><br>
-                    <em>Oferta: ({num_trenes}+{num_buses})×110 = {capacidad_oferta} pax</em>
+                    <em>
+                    Oferta: L6({capacidad_l6}) + L7({capacidad_l7}) + Buses({capacidad_bus})
+                    = {capacidad_oferta} pax
+                    </em>
                 </p>
             </div>
             """, unsafe_allow_html=True)
