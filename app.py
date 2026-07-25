@@ -73,14 +73,16 @@ with tab1:
     *“La construcción de un Centro de Transferencia Modal (CETRAM) es quizá uno de los proyectos más complejos que se han desarrollado en los últimos años en la ciudad. Su principal objetivo es concentrar y reorganizar los diferentes sistemas de transporte de la ciudad en un solo lugar...”*
     """)
 
-    col_c1, col_c2, col_c3 = st.columns(3)
+    col_c1, col_c2, col_c3, col_c4 = st.columns(4)
     with col_c1:
         num_trenes = st.slider("Trenes activos (L6 y L7)", 10, 50, 25, key="t_pax")
     with col_c2:
-        num_buses = st.slider("Unidades (Metrobús / Trolebús / Combis)", 5, 40, 20, key="b_pax")
+        num_buses = st.slider("Unidades (Metrobús / Trolebús)", 5, 40, 20, key="b_pax")
     with col_c3:
+        pasajeros_flota = st.slider("Pasajeros a trasladar", 500, 5000, 2000, step=100, key="p_flota")
+    with col_c4:
         horario_operativo = st.selectbox(
-            "Franja Horaria de Operación:",
+            "Franja Horaria:",
             [
                 "Hora Pico Matutina (Mañana)", 
                 "Hora Valle / Intermedia (Tarde)", 
@@ -89,13 +91,16 @@ with tab1:
             key="h_pax"
         )
 
-    # Cálculo matemático de capacidad de oferta de pasajeros por hora
+    # Cálculo matemático de capacidad de oferta de pasajeros total
     capacidad_oferta = (num_trenes + num_buses) * 110
+    balance_pasajeros = capacidad_oferta - pasajeros_flota
 
-    # Bloque de apoyo visual con Fórmulas Matemáticas en LaTeX corregidas
-    st.markdown("📐 **Soporte Matemático y Modelo de Cálculo de Oferta:**")
-    st.latex(r"C_{\text{oferta}} = (\text{Trenes Activos} + \text{Unidades Superficie}) \times \text{Capacidad Promedio}")
-    st.latex(r"C_{\text{oferta}} = (" + str(num_trenes) + " + " + str(num_buses) + r") \times 110 = " + str(capacidad_oferta) + r" \text{ pas/h}")
+    # Bloque de apoyo visual con Fórmulas Matemáticas en LaTeX
+    st.markdown("📐 **Soporte Matemático y Modelo de Cálculo de Pasajeros:**")
+    st.latex(r"C_{\text{oferta}} = (\text{Trenes} + \text{Unidades}) \times \text{Capacidad Promedio}")
+    st.latex(r"C_{\text{oferta}} = (" + str(num_trenes) + " + " + str(num_buses) + r") \times 110 = " + str(capacidad_oferta) + r" \text{ pasajeros}")
+    st.latex(r"\Delta_{\text{pax}} = C_{\text{oferta}} - \text{Pasajeros a trasladar}")
+    st.latex(r"\Delta_{\text{pax}} = " + str(capacidad_oferta) + " - " + str(pasajeros_flota) + " = " + str(balance_pasajeros) + r" \text{ margen}")
 
     if "Valle" in horario_operativo:
         estado_operativo = "Operación fluida, estable y con tiempos de espera mínimos."
@@ -104,7 +109,7 @@ with tab1:
         estado_operativo = f"Saturación activa por alta demanda pendular ({horario_operativo})."
         nivel_alerta = True
 
-    st.markdown(f"**📊 Capacidad operativa calculada por la flota:** {capacidad_oferta} pas/h | **Estatus:** {estado_operativo}")
+    st.markdown(f"**📊 Capacidad operativa de la flota:** {capacidad_oferta} pasajeros | **Demanda:** {pasajeros_flota} pasajeros | **Estatus:** {estado_operativo}")
     st.markdown("---")
     st.subheader("🔄 Diagrama Sistémico Interactivo")
 
@@ -117,7 +122,7 @@ with tab1:
         <div class="system-box">
         🚆 {num_trenes} Trenes activos (L6 y L7)<br>
         🚍 {num_buses} Unidades de superficie<br>
-        🚲 Infraestructura ciclista<br>
+        👥 <strong>{pasajeros_flota} Pasajeros en demanda</strong><br>
         🎟️ Andenes y torniquetes
         </div>
         """, unsafe_allow_html=True)
@@ -143,17 +148,19 @@ with tab1:
     with c_out:
         st.markdown('<div class="stage-badge badge-output">🟢 SEÑAL: SALIDAS / FLUJO FINAL</div>', unsafe_allow_html=True)
         st.markdown("### 📤 3. Salidas")
-        st.markdown("""
+        st.markdown(f"""
         <div class="system-box">
-        👥 Pasajeros transferidos con éxito<br>
+        👥 <strong>{pasajeros_flota} Pasajeros transferidos</strong><br>
         🌿 Reducción de emisiones<br>
         🏙️ Ordenamiento urbano
         </div>
         """, unsafe_allow_html=True)
 
     st.markdown("### 🔄 4. Retroalimentación (Feedback)")
-    if nivel_alerta:
-        st.warning(f"⚠️ **Alerta activa de retroalimentación ({horario_operativo}):** Se detectan demoras en andenes por alta concentración de usuarios. Se requiere ajustar frecuencias de despacho.")
+    if pasajeros_flota > capacidad_oferta:
+        st.warning(f"⚠️ **Alerta de saturación:** La demanda de {pasajeros_flota} pasajeros rebasa la capacidad de oferta de la flota ({capacidad_oferta} pasajeros). Se requiere incrementar frecuencias.")
+    elif nivel_alerta:
+        st.warning(f"⚠️ **Alerta activa de retroalimentación ({horario_operativo}):** Demoras en andenes por alta concentración de usuarios.")
     else:
         st.success(f"✅ **Retroalimentación óptima ({horario_operativo}):** Tránsito fluido y continuo en las líneas de correspondencia.")
 
@@ -179,11 +186,9 @@ with tab2:
     with col_d3:
         demanda_estacional = st.selectbox("Variación de Demanda Estacional", ["Temporada Regular", "Temporada de Calor (Alta Demanda)"], key="d_estacional")
 
-    # Cálculos matemáticos de capacidad de flota y déficit/superávit
     capacidad_total_flota = unidades_reparto * 50
     balance_operativo = capacidad_total_flota - pedidos_diarios
 
-    # Bloque de apoyo visual con Fórmulas Matemáticas en LaTeX corregidas
     st.markdown("📐 **Soporte Matemático y Modelo de Ruteo de Carga:**")
     st.latex(r"C_{\text{flota}} = \text{Unidades Activas} \times \text{Capacidad Unitaria}")
     st.latex(r"C_{\text{flota}} = " + str(unidades_reparto) + r" \times 50 = " + str(capacidad_total_flota) + r" \text{ garrafones máx.}")
