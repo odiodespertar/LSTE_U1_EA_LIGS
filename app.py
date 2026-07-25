@@ -59,7 +59,7 @@ st.markdown("---")
 # Pestañas principales
 tab1, tab2 = st.tabs([
     "A. Sistema Multimodal: CETRAM El Rosario (Pasajeros)",
-    "B. Distribución de Carga: Agua en Garrafón (Mercancías)"
+    "B. Distribución de Carga: Agua en Garrafón en U.H. El Rosario (Mercancías)"
 ])
 
 # ==========================================
