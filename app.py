@@ -2,190 +2,128 @@ import streamlit as st
 
 # Configuración de la página
 st.set_page_config(
-    page_title="Modelos de Transporte - Teoría de Sistemas",
-    page_icon="🚍",
+    page_title="Simulador Logístico - Teoría de Sistemas",
+    page_icon="🎮",
     layout="wide",
 )
 
+# Estilo visual moderno con tarjetas
+st.markdown("""
+    <style>
+    .metric-card {
+        background-color: #f0f2f6;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # Título principal
-st.title("📦 Aplicación de la Teoría de Sistemas en el Transporte")
-st.markdown(
-    "**Estudiante:** Liliana García Solís | **Matrícula:** ES251101336 | **Semestre:** 3°"
-)
+st.title("🎮 Simulador Interactivo de Modelos de Transporte")
+st.markdown("**Estudiante:** Liliana García Solís | **Matrícula:** ES251101336 | **Asignatura:** Fundamentos del Sistema de Transporte")
 st.markdown("---")
 
-# Pestañas para separar los dos sistemas de estudio
-tab1, tab2 = st.tabs(
-    [
-        "🚍 1. Sistema Multimodal: CETRAM El Rosario (Pasajeros)",
-        "💧 2. Sistema de Carga: Distribución de Agua en Garrafón",
-    ]
-)
+# Menú principal de navegación en pestañas
+tab1, tab2 = st.tabs([
+    "🚍 Simulación 1: CETRAM El Rosario (Pasajeros)",
+    "💧 Simulación 2: Distribución de Agua en Garrafón (Carga)"
+])
 
 # ==========================================
-# PESTAÑA 1: CETRAM EL ROSARIO
+# PESTAÑA 1: CETRAM EL ROSARIO (INTERACTIVO)
 # ==========================================
 with tab1:
-  st.header("Modelo Sistémico: Transporte Multimodal de Pasajeros")
-  st.markdown(
-      "Nodo estratégico urbano que articula infraestructura masiva, concesionada"
-      " y no motorizada."
-  )
+    st.header("CETRAM El Rosario: Nodo Multimodal Interactivo")
+    st.markdown("Modifica los parámetros operativos de la estación para evaluar el comportamiento del sistema bajo la teoría de sistemas.")
 
-  # Columnas para estructurar el enfoque sistémico
-  col1, col2 = st.columns(2)
+    col_control1, col_viz1 = st.columns([1, 2])
 
-  with col1:
-    st.subheader("📥 1. Entradas (Inputs)")
-    st.markdown("""
-        * **Infraestructura:** Andenes, pasillos de correspondencia, carriles confinados, ciclovías.
-        * **Flota:** Trenes (Líneas 6 y 7), trolebuses, unidades de Metrobús, combis, microbuses y bicicletas.
-        * **Demanda / Humano:** Flujos masivos de usuarios pendulares y tarifas de acceso.
-        """)
+    with col_control1:
+        st.subheader("🎛️ Panel de Control (Inputs)")
+        num_trenes = st.slider("Trenes activos (Metro L6 y L7)", 10, 50, 25)
+        num_buses = st.slider("Unidades de Metrobús / Trolebús", 5, 30, 15)
+        demanda_usuarios = st.selectbox("Nivel de Demanda Actual", ["Hora Valle", "Hora Pico Matutina", "Hora Pico Vespertina"])
+        
+        # Cálculo simulado basado en los inputs
+        if demanda_usuarios == "Hora Pico Matutina":
+            eficiencia = "Baja (Saturación)"
+            tiempo_espera = f"{num_trenes * 1.5:.1f} min"
+        elif demanda_usuarios == "Hora Pico Vespertina":
+            eficiencia = "Media-Baja"
+            tiempo_espera = f"{num_trenes * 1.2:.1f} min"
+        else:
+            eficiencia = "Óptima / Fluida"
+            tiempo_espera = "3.5 min"
 
-    st.subheader("⚙️ 2. Proceso de Conversión")
-    st.markdown("""
-        * Regulación de flujos peatonales y vehiculares.
-        * Programación de correspondencias e intervalos de despacho.
-        * Operación de la intermodalidad y control de andenes en el CETRAM.
-        """)
+    with col_viz1:
+        st.subheader("📊 Panel de Resultados y Conversión")
+        m1, m2, m3 = st.columns(3)
+        m1.metric("Capacidad Operativa", f"{ (num_trenes + num_buses) * 120 } pas/h")
+        m2.metric("Tiempo Estimado de Transbordo", tiempo_espera)
+        m3.metric("Estado del Sistema", eficiencia)
 
-  with col2:
-    st.subheader("📤 3. Salidas (Outputs)")
-    st.markdown("""
-        * Pasajeros transferidos eficientemente a sus destinos urbanos.
-        * Reducción de tiempos de espera y ordenamiento del espacio público.
-        * Emisiones optimizadas por consolidación del transporte masivo.
-        """)
+        st.markdown("### 🔄 Análisis Dinámico bajo las Variables de Manheim (1979)")
+        
+        # Selección interactiva de Manheim
+        caso_manheim_pax = st.radio(
+            "Selecciona la dimensión analítica a evaluar en el CETRAM:",
+            ["Relación 1 (Flujos F en función de T y A)", "Relación 2 (Impacto en Actividades A)", "Relación 3 (Adaptación del Transporte T)"],
+            key="m_pax"
+        )
 
-    st.subheader("🔄 4. Retroalimentación (Feedback)")
-    st.markdown("""
-        * Saturación e índices de congestión en horas pico.
-        * Demoras reportadas en transbordos específicos.
-        * Quejas o sugerencias de los usuarios sobre fluidez operativa.
-        """)
-
-  st.markdown("---")
-  st.subheader(
-      "🔗 Dinámica Operativa bajo las Variables de Manheim (1979)"
-  )
-
-  selected_rel_1 = st.selectbox(
-      "Selecciona la relación analítica a consultar (CETRAM El Rosario):",
-      [
-          "Relación 1: Interacción de T y A sobre el Patrón de Flujos (F)",
-          "Relación 2: Transformación del Sistema de Actividades (A) con el"
-          " tiempo",
-          "Relación 3: Modificación adaptativa del Sistema de Transporte (T)",
-      ],
-      key="manheim_pax",
-  )
-
-  if "Relación 1" in selected_rel_1:
-    st.info(
-        "**Análisis F = f(T, A):** El patrón de flujos de usuarios que"
-        " convergen al CETRAM El Rosario está determinado por la oferta de"
-        " transporte ($T$: Líneas 6 y 7 del Metro, Metrobús, trolebús, combis,"
-        " microbuses y ciclovías) y la localización de zonas residenciales,"
-        " escolares y de trabajo ($A$). Si se reconfiguran las plataformas o se"
-        " integran nuevas rutas alimentadoras, los flujos peatonales se"
-        " reorganizan de inmediato."
-    )
-  elif "Relación 2" in selected_rel_1:
-    st.info(
-        "**Impacto en Actividades:** La alta eficiencia o saturación del flujo"
-        " de pasajeros en el nodo genera transformaciones en el sistema de"
-        " actividades ($A$), estimulando el comercio formal e informal en el"
-        " perímetro del CETRAM y alterando la dinámica de asentamientos"
-        " urbanos periféricos."
-    )
-  else:
-    st.info(
-        "**Adaptación del Transporte:** A largo plazo, el incremento"
-        " sostenido en el volumen de usuarios obliga a realizar modificaciones"
-        " estructurales en el propio sistema de transporte ($T$), como la"
-        " ampliación de estaciones, modernización de andenes o reordenamiento de"
-        " carriles confinados."
-    )
+        if "Relación 1" in caso_manheim_pax:
+            st.success(f"**Simulación activa:** Con {num_trenes} trenes y {num_buses} unidades de apoyo operando en {demanda_usuarios}, el Patrón de Flujos ($F$) reorganiza los andenes del CETRAM de forma inmediata para evitar congestionamientos masivos.")
+        elif "Relación 2" in caso_manheim_pax:
+            st.info("**Evolución del entorno:** El flujo constante de pasajeros en este nodo multimodal impulsa el comercio local y la adaptabilidad urbana de los asentamientos alrededor de El Rosario.")
+        else:
+            st.warning("**Respuesta a largo plazo:** Si la demanda en hora pico continúa saturando el sistema, la infraestructura ($T$) requerirá una ampliación de andenes o reordenamiento de carriles confinados.")
 
 # ==========================================
-# PESTAÑA 2: DISTRIBUCIÓN DE GARRAFONES
+# PESTAÑA 2: DISTRIBUCIÓN DE GARRAFONES (INTERACTIVO)
 # ==========================================
 with tab2:
-  st.header("Modelo Sistémico: Distribución Local de Agua en Garrafón")
-  st.markdown(
-      "Modelo logístico de alta capilaridad, baja capacidad unitaria y alta"
-      " frecuencia de reposición."
-  )
+    st.header("Distribución de Agua en Garrafón: Simulador de Ruta")
+    st.markdown("Configura los recursos logísticos de la flota de reparto para medir el rendimiento de entrega en la localidad.")
 
-  col3, col4 = st.columns(2)
+    col_control2, col_viz2 = st.columns([1, 2])
 
-  with col3:
-    st.subheader("📥 1. Entradas (Inputs)")
-    st.markdown("""
-        * **Materiales:** Agua purificada procesada, envases de policarbonato (garrafones vacíos).
-        * **Recursos:** Vehículos utilitarios de redilas de reparto local, personal operativo (chofer y ayudante/machetero).
-        * **Demanda:** Pedidos programados y de última milla de hogares y comercios.
-        """)
+    with col_control2:
+        st.subheader("🎛️ Panel de Control (Inputs)")
+        camiones_redilas = st.slider("Vehículos de redilas activos", 1, 10, 3)
+        garrafones_por_unidad = st.slider("Garrafones por viaje unitario", 20, 100, 50)
+        clima_estacion = st.selectbox("Condición Climática / Estacional", ["Templado (Normal)", "Calor Extremo (Alta Demanda)"])
 
-    st.subheader("⚙️ 2. Proceso de Conversión")
-    st.markdown("""
-        * Envasado y control de calidad en planta.
-        * Ruteo operativo diario y asignación de zonas de entrega.
-        * Ejecución de distribución bajo ventana horaria establecida (Lunes a Viernes 9:00 a 17:00 h, Sábados 9:00 a 14:00 h).
-        """)
+        # Cálculo logístico simulado
+        total_entregas = camiones_redilas * garrafones_por_unidad
+        if clima_estacion == "Calor Extremo (Alta Demanda)":
+            total_entregas = int(total_entregas * 1.3)
+            rendimiento_flota = "Máxima exigencia"
+        else:
+            rendimiento_flota = "Estable"
 
-  with col4:
-    st.subheader("📤 3. Salidas (Outputs)")
-    st.markdown("""
-        * Garrafones llenos entregados satisfactoriamente en puntos de consumo.
-        * Recolección y retorno de envases vacíos para el ciclo de lavado.
-        * Registro de notas de venta y control de inventarios ruteros.
-        """)
+    with col_viz2:
+        st.subheader("📊 Panel de Resultados y Conversión")
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Unidades en Ruta", f"{camiones_redilas} camiones")
+        c2.metric("Volumen Diario Suministrado", f"{total_entregas} garrafones")
+        c3.metric("Estado de la Flota", rendimiento_flota)
 
-    st.subheader("🔄 4. Retroalimentación (Feedback)")
-    st.markdown("""
-        * Devoluciones de producto por problemas de calidad o envase dañado.
-        * Tiempos muertos en ruta por congestión vehicular urbana.
-        * Variaciones estacionales en la demanda de agua (incremento en temporadas de calor).
-        """)
+        st.markdown("### 🔄 Análisis Dinámico bajo las Variables de Manheim (1979)")
+        
+        caso_manheim_carga = st.radio(
+            "Selecciona la dimensión analítica a evaluar en la distribución:",
+            ["Relación 1 (Flujos F en función de T y A)", "Relación 2 (Impacto en Actividades A)", "Relación 3 (Adaptación del Transporte T)"],
+            key="m_carga"
+        )
 
-  st.markdown("---")
-  st.subheader(
-      "🔗 Dinámica Operativa bajo las Variables de Manheim (1979)"
-  )
+        if "Relación 1" in caso_manheim_carga:
+            st.success(f"**Simulación activa:** Con una flota de {camiones_redilas} vehículos de redilas, el flujo de distribución ($F$) cubre dinámicamente los pedidos de los hogares y tienditas de la zona bajo la ventana horaria establecida.")
+        elif "Relación 2" in caso_manheim_carga:
+            st.info("**Evolución del entorno:** El suministro constante de agua potable asegura la continuidad operativa de los pequeños comercios locales que dependen directamente de este insumo.")
+        else:
+            st.warning("**Respuesta a largo plazo:** Ante el crecimiento de la mancha urbana y el aumento de pedidos por clima cálido, el sistema de transporte ($T$) se adaptará incorporando ruteo satelital y unidades de mayor capacidad.")
 
-  selected_rel_2 = st.selectbox(
-      "Selecciona la relación analítica a consultar (Garrafones):",
-      [
-          "Relación 1: Interacción de T y A sobre el Patrón de Flujos (F)",
-          "Relación 2: Transformación del Sistema de Actividades (A) con el"
-          " tiempo",
-          "Relación 3: Modificación adaptativa del Sistema de Transporte (T)",
-      ],
-      key="manheim_carga",
-  )
-
-  if "Relación 1" in selected_rel_2:
-    st.info(
-        "**Análisis F = f(T, A):** El flujo de distribución diaria ($F$) depende"
-        " directamente de la capacidad de la flota de vehículos de redilas ($T$)"
-        " y de la ubicación geográfica de los clientes minoristas y hogares"
-        " ($A$). Al optimizar una ruta de entrega matutina, los tiempos y flujos"
-        " de abastecimiento cambian al instante."
-    )
-  elif "Relación 2" in selected_rel_2:
-    st.info(
-        "**Impacto en Actividades:** El flujo constante de suministro de agua"
-        " genera hábitos de consumo estables y fomenta la operación continua de"
-        " pequeños negocios locales (tienditas de la esquina) que dependen de"
-        " este insumo comercial."
-    )
-  else:
-    st.info(
-        "**Adaptación del Transporte:** Ante el crecimiento de la mancha"
-        " urbana y la dispersión de la demanda, las empresas adaptan su sistema"
-        " de transporte ($T$) incorporando unidades con mejor rendimiento,"
-        " rediseñando esquemas de mantenimiento o integrando herramientas de"
-        " geolocalización."
-    )
+# Pie de página
+st.markdown("---")
+st.markdown("📌 *Aplicación desarrollada en Streamlit para la visualización de sistemas de transporte.*")
