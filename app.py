@@ -7,7 +7,7 @@ st.set_page_config(
     layout="wide",
 )
 
-# Estilos CSS avanzados con aumento masivo de tamaño de fuente en las zonas indicadas
+# Estilos CSS avanzados con unificación de contenedores y eliminación del doble recuadro en la pestaña A
 st.markdown("""
     <style>
     .streamlit-expanderHeader {
@@ -20,7 +20,7 @@ st.markdown("""
         box-shadow: 0 4px 15px rgba(2, 132, 199, 0.2);
     }
 
-    /* Caja de instrucciones expandida con letras enormemente grandes y legibles */
+    /* Caja de instrucciones expandida con letras grandes y legibles */
     .instrucciones-box {
         background-color: #f0f9ff;
         padding: 20px;
@@ -35,7 +35,7 @@ st.markdown("""
         line-height: 1.6 !important;
     }
 
-    /* Caja contenedora general con tono anaranjado coordinado para la pestaña A */
+    /* Caja contenedora general unificada en tono anaranjado (sin el doble recuadro interno) */
     .sistema-compacto-box-naranja {
         background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
         border: 3px solid #f97316;
@@ -45,14 +45,14 @@ st.markdown("""
         box-shadow: 0 10px 25px rgba(249, 115, 22, 0.15);
     }
 
-    /* Título de ambiente con tono anaranjado vibrante */
-    .ambiente-titulo {
+    /* Título de ambiente unificado en tonos anaranjados idénticos a la pestaña B */
+    .ambiente-titulo-naranja {
         text-align: center;
-        font-size: 26px;
+        font-size: 22px;
         font-weight: 900;
         color: #7c2d12;
         background: linear-gradient(90deg, #ffedd5 0%, #fed7aa 100%);
-        padding: 14px;
+        padding: 14px 20px;
         border-radius: 12px;
         border: 2px solid #f97316;
         margin-bottom: 22px;
@@ -63,11 +63,11 @@ st.markdown("""
 
     .ambiente-titulo-b {
         text-align: center;
-        font-size: 26px;
+        font-size: 22px;
         font-weight: 900;
         color: #064e3b;
         background: linear-gradient(90deg, #d1fae5 0%, #a7f3d0 100%);
-        padding: 14px;
+        padding: 14px 20px;
         border-radius: 12px;
         border: 2px solid #10b981;
         margin-bottom: 22px;
@@ -196,7 +196,7 @@ with col_txt:
 st.markdown("---")
 
 # ==========================================
-# INDICACIONES EXPANDIBLE (Con letras enormemente grandes)
+# INDICACIONES EXPANDIBLE
 # ==========================================
 with st.expander("👉 Guía Interactiva, Fórmulas y Recorrido Secuencial", expanded=False):
     st.markdown("""
@@ -268,10 +268,10 @@ with tab1:
     with col_btn_seq3:
         st.markdown(f"<p style='text-align: right; font-weight: bold; color: #ea580c; font-size: 17px; padding-top: 8px;'>Paso activo: {st.session_state.paso_seq_a} / 4</p>", unsafe_allow_html=True)
 
-    # Caja con tono anaranjado vistoso y tarjetas con tipografía masivamente aumentada
+    # Contenedor limpio y unificado en tonos anaranjados (sin doble cuadro interno)
     st.markdown("""
         <div class="sistema-compacto-box-naranja">
-            <div class="ambiente-titulo">🌐 AMBIENTE: Entorno Urbano / Zona Norte (Azcapotzalco)</div>
+            <div class="ambiente-titulo-naranja">🌐 AMBIENTE: Entorno Urbano / Zona Norte (Azcapotzalco)</div>
     """, unsafe_allow_html=True)
 
     col_n1, col_n2, col_n3, col_n4 = st.columns(4)
@@ -338,7 +338,7 @@ with tab1:
             </div>
             """, unsafe_allow_html=True)
 
-    # 4. RETROALIMENTACIÓN (Aumentada masivamente en tamaño tal como solicitaste)
+    # 4. RETROALIMENTACIÓN
     with col_n4:
         if st.session_state.paso_seq_a == 4:
             if demanda_ajustada > capacidad_oferta:
@@ -407,7 +407,7 @@ with tab2:
         st.markdown(f"<p style='text-align: right; font-weight: bold; color: #16a34a; font-size: 17px; padding-top: 8px;'>Paso activo: {st.session_state.paso_seq_b} / 4</p>", unsafe_allow_html=True)
 
     st.markdown("""
-        <div class="sistema-compacto-box" style="border-color: #10b981; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
+        <div class="sistema-compacto-box" style="border-color: #10b981; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-radius: 20px; padding: 26px; margin: 16px 0; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);">
             <div class="ambiente-titulo-b">🌐 AMBIENTE: U.H. El Rosario (Zona Suburbana)</div>
     """, unsafe_allow_html=True)
 
@@ -475,7 +475,7 @@ with tab2:
             </div>
             """, unsafe_allow_html=True)
 
-    # 4. RETROALIMENTACIÓN B (Aumentada masivamente en tamaño)
+    # 4. RETROALIMENTACIÓN B
     with col_bn4:
         if st.session_state.paso_seq_b == 4:
             if pedidos_ajustados > capacidad_total_flota:
