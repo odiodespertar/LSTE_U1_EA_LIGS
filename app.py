@@ -91,6 +91,17 @@ st.markdown("""
         line-height: 1.6 !important;
     }
 
+    .nota-calculo {
+        background-color: #fffbeb;
+        border-left: 4px solid #f59e0b;
+        padding: 10px 14px;
+        border-radius: 6px;
+        font-size: 14px;
+        color: #b45309;
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
+
     .ambiente-titulo-naranja {
         text-align: center;
         font-size: 22px;
@@ -296,6 +307,13 @@ with tab1:
     capacidad_oferta = capacidad_l6 + capacidad_l7 + capacidad_bus
     demanda_ajustada = int(pasajeros_flota * factor_franja)
 
+    # Nota explicativa sobre el cálculo de la franja horaria
+    st.markdown(f"""
+        <div class="nota-calculo">
+            💡 <strong>Nota del modelo sistémico:</strong> La demanda base seleccionada ({pasajeros_flota} pax) se multiplica por el factor de la franja horaria <strong>{horario_operativo} ({factor_franja}x)</strong>, resultando en una <strong>demanda real de procesamiento de {demanda_ajustada} pax</strong>.
+        </div>
+    """, unsafe_allow_html=True)
+
     modelo_pasajeros = calcular_modelo_manheim(
         T=capacidad_oferta,
         A=demanda_ajustada,
@@ -463,6 +481,13 @@ with tab2:
 
     capacidad_total_flota = int(matriz_logistica[0, 1]) * int(matriz_logistica[0, 2])
     pedidos_ajustados = int(pedidos_diarios * factor_temp)
+
+    # Nota explicativa sobre el cálculo estacional
+    st.markdown(f"""
+        <div class="nota-calculo">
+            💡 <strong>Nota del modelo logístico:</strong> Los pedidos base ({pedidos_diarios} garrafones) se multiplican por el factor de temporada <strong>{demanda_estacional} ({factor_temp}x)</strong>, resultando en una <strong>demanda real de distribución de {pedidos_ajustados} garrafones</strong>.
+        </div>
+    """, unsafe_allow_html=True)
 
     modelo_garrafones = calcular_modelo_manheim(
         T=capacidad_total_flota,
