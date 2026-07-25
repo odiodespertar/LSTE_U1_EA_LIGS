@@ -7,7 +7,7 @@ st.set_page_config(
     layout="wide",
 )
 
-# Estilos CSS avanzados para tarjetas y globos/insignias flotantes individuales
+# Estilos CSS avanzados para tarjetas, globos/insignias y notificaciones estilizadas
 st.markdown("""
     <style>
     .system-box {
@@ -43,6 +43,28 @@ st.markdown("""
     .badge-process { background-color: #f57c00; }
     .badge-output { background-color: #388e3c; }
     
+    /* Estilos para notificaciones estilizadas */
+    .alert-card-success {
+        background-color: #e8f5e9;
+        border-left: 6px solid #2e7d32;
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+        font-size: 15px;
+        color: #1b5e20;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .alert-card-warning {
+        background-color: #fff3e0;
+        border-left: 6px solid #ef6c00;
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+        font-size: 15px;
+        color: #e65100;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
     @keyframes pulseBadge {
         0% { transform: scale(1); }
         50% { transform: scale(1.05); }
@@ -59,7 +81,7 @@ st.markdown("---")
 # Pestañas principales
 tab1, tab2 = st.tabs([
     "A. Sistema Multimodal: CETRAM El Rosario (Pasajeros)",
-    "B. Distribución de Carga: Agua en Garrafón (Mercancías)"
+    "B. Distribución de Carga: Agua en Garrafón U.H. El Rosario (Mercancías)"
 ])
 
 # ==========================================
@@ -109,7 +131,22 @@ with tab1:
         estado_operativo = f"Saturación activa por alta demanda pendular ({horario_operativo})."
         nivel_alerta = True
 
-    st.markdown(f"**📊 Capacidad operativa de la flota:** {capacidad_oferta} pasajeros | **Demanda:** {pasajeros_flota} pasajeros | **Estatus:** {estado_operativo}")
+    # Notificación estilizada para la Pestaña A
+    if nivel_alerta or pasajeros_flota > capacidad_oferta:
+        st.markdown(f"""
+        <div class="alert-card-warning">
+            ⚠️ <strong>ESTATUS OPERATIVO (ALERTA):</strong> Capacidad de flota: <strong>{capacidad_oferta} pasajeros</strong> | Demanda actual: <strong>{pasajeros_flota} pasajeros</strong><br>
+            <em>Diagnóstico: {estado_operativo}</em>
+        </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.markdown(f"""
+        <div class="alert-card-success">
+            ✅ <strong>ESTATUS OPERATIVO (ÓPTIMO):</strong> Capacidad de flota: <strong>{capacidad_oferta} pasajeros</strong> | Demanda actual: <strong>{pasajeros_flota} pasajeros</strong><br>
+            <em>Diagnóstico: {estado_operativo}</em>
+        </div>
+        """, unsafe_allow_html=True)
+
     st.markdown("---")
     st.subheader("🔄 Diagrama Sistémico Interactivo")
 
@@ -195,7 +232,22 @@ with tab2:
     st.latex(r"\Delta_{\text{demanda}} = C_{\text{flota}} - \text{Pedidos Programados}")
     st.latex(r"\Delta_{\text{demanda}} = " + str(capacidad_total_flota) + " - " + str(pedidos_diarios) + " = " + str(balance_operativo) + r" \text{ margen}")
 
-    st.markdown(f"**📊 Capacidad de la flota ({unidades_reparto} camiones):** {capacidad_total_flota} garrafones máx. | **Demanda a cubrir:** {pedidos_diarios} garrafones")
+    # Notificación estilizada para la Pestaña B
+    if pedidos_diarios > capacidad_total_flota or "Calor" in demanda_estacional:
+        st.markdown(f"""
+        <div class="alert-card-warning">
+            ⚠️ <strong>ESTATUS LOGÍSTICO (ALERTA):</strong> Capacidad de flota: <strong>{capacidad_total_flota} garrafones</strong> | Demanda de pedidos: <strong>{pedidos_diarios} garrafones</strong><br>
+            <em>Diagnóstico: Operación bajo alta exigencia o déficit de cobertura por {demanda_estacional}.</em>
+        </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.markdown(f"""
+        <div class="alert-card-success">
+            ✅ <strong>ESTATUS LOGÍSTICO (ESTABLE):</strong> Capacidad de flota: <strong>{capacidad_total_flota} garrafones</strong> | Demanda de pedidos: <strong>{pedidos_diarios} garrafones</strong><br>
+            <em>Diagnóstico: Cobertura óptima dentro de los parámetros de ruta habituales.</em>
+        </div>
+        """, unsafe_allow_html=True)
+
     st.markdown("---")
     st.subheader("🔄 Esquema Sistémico Dinámico de Carga")
 
