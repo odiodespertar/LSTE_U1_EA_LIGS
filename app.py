@@ -7,7 +7,7 @@ st.set_page_config(
     layout="wide",
 )
 
-# Estilos CSS avanzados con animaciones fluidas, efectos hover y diseño compacto en un solo plano
+# Estilos CSS avanzados con tarjetas interactivas reales, iconos flotantes fijos sin marquesina deslizante
 st.markdown("""
     <style>
     .streamlit-expanderHeader {
@@ -39,14 +39,14 @@ st.markdown("""
         letter-spacing: 1px;
     }
 
-    /* Tarjetas interactivas con movimiento fluido y efecto hover */
+    /* Tarjetas interactivas con efecto hover y animación de aparición */
     .card-paso {
         border-radius: 16px;
         padding: 18px;
         text-align: center;
         color: #1e293b;
         box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-        animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        animation: fadeInScale 0.4s ease-in-out;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         min-height: 190px;
         display: flex;
@@ -56,8 +56,8 @@ st.markdown("""
     }
 
     .card-paso:hover {
-        transform: translateY(-6px) scale(1.02);
-        box-shadow: 0 14px 28px rgba(0,0,0,0.2);
+        transform: translateY(-4px) scale(1.01);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.18);
     }
 
     .card-entrada {
@@ -81,35 +81,23 @@ st.markdown("""
         border: 3px solid #f57c00;
     }
 
-    @keyframes bounceIn {
-        0% { opacity: 0; transform: scale(0.8) translateY(20px); }
-        60% { opacity: 1; transform: scale(1.03) translateY(-5px); }
-        100% { opacity: 1; transform: scale(1) translateY(0); }
+    @keyframes fadeInScale {
+        0% { opacity: 0; transform: scale(0.95); }
+        100% { opacity: 1; transform: scale(1); }
     }
 
-    /* Banner con marquesina en movimiento continuo */
-    .moving-banner {
-        overflow: hidden;
-        white-space: nowrap;
+    /* Banner estático con iconos flotantes que sí se mueven (flotan) pero sin desplazarse lateralmente */
+    .static-banner {
         background: linear-gradient(90deg, #e1f5fe 0%, #fff9c4 50%, #e8f5e9 100%);
-        padding: 10px 15px;
-        border-radius: 10px;
+        padding: 12px 18px;
+        border-radius: 12px;
         font-weight: 800;
         color: #d84315;
-        margin-bottom: 12px;
+        margin-bottom: 15px;
         border: 2px solid #ffb300;
         font-size: 14px;
+        text-align: center;
         box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
-    }
-
-    .marquee-text {
-        display: inline-block;
-        animation: marquee 12s linear infinite;
-    }
-
-    @keyframes marquee {
-        0% { transform: translateX(0%); }
-        100% { transform: translateX(-50%); }
     }
     
     .floating-icon {
@@ -121,7 +109,7 @@ st.markdown("""
 
     @keyframes floatIcon {
         0% { transform: translateY(0px); }
-        100% { transform: translateY(-5px); }
+        100% { transform: translateY(-6px); }
     }
     </style>
 """, unsafe_allow_html=True)
@@ -146,10 +134,10 @@ st.markdown("---")
 with st.expander("👉 Guía Interactiva y Parámetros del Sistema", expanded=False):
     st.markdown("""
     <div style="background-color: #fffde7; padding: 10px; border-radius: 6px; border: 1px solid #ffd54f; font-size: 13px;">
-        <p style="margin: 0 0 5px 0; font-weight: bold; color: #3e2723;">Controles Dinámicos:</p>
+        <p style="margin: 0 0 5px 0; font-weight: bold; color: #3e2723;">Instrucciones de Uso:</p>
         <ul style="margin: 0; padding-left: 18px; color: #4e342e;">
-            <li>Haz clic en los botones superiores de cada pestaña para alternar y animar la aparición de cada etapa en un solo plano horizontal.</li>
-            <li>Observa los elementos en movimiento y los efectos interactivos diseñados para una visualización fluida sin desplazamiento vertical excesivo.</li>
+            <li>Haz clic directamente sobre los botones de cada etapa para mostrar u ocultar la tarjeta correspondiente en el plano inferior.</li>
+            <li>Los iconos superiores cuentan con animación flotante suave sin desplazamiento lateral molesto.</li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
@@ -178,26 +166,23 @@ with tab1:
     capacidad_oferta = (num_trenes + num_buses) * 110
 
     st.markdown("""
-        <div class="moving-banner">
-            <div class="marquee-text">
-                🚀 FLUJO ACTIVO SISTÉMICO: <span class="floating-icon">🚆</span> Trenes y <span class="floating-icon">🚍</span> Autobuses sincronizados con <span class="floating-icon">👥</span> Homeostasis Dinámica en el Entorno Urbano &nbsp;&nbsp;&bull;&nbsp;&nbsp; 
-                🚀 FLUJO ACTIVO SISTÉMICO: <span class="floating-icon">🚆</span> Trenes y <span class="floating-icon">🚍</span> Autobuses sincronizados con <span class="floating-icon">👥</span> Homeostasis Dinámica en el Entorno Urbano
-            </div>
+        <div class="static-banner">
+            🚀 FLUJO ACTIVO SISTÉMICO: <span class="floating-icon">🚆</span> Trenes y <span class="floating-icon">🚍</span> Autobuses sincronizados con <span class="floating-icon">👥</span> Homeostasis Dinámica en el Entorno Urbano
         </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("<p style='font-size: 13px; font-weight: bold; text-align: center; color: #334155; margin-bottom: 8px;'>👆 Haz clic para activar o alternar cada etapa de manera interactiva:</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 13px; font-weight: bold; text-align: center; color: #334155; margin-bottom: 8px;'>👆 Haz clic en cada botón para revelar u ocultar su tarjeta correspondiente:</p>", unsafe_allow_html=True)
 
     b_col1, b_col2, b_col3, b_col4 = st.columns(4)
     
     if "ver_entrada_a" not in st.session_state:
-        st.session_state.ver_entrada_a = True
+        st.session_state.ver_entrada_a = False
     if "ver_proceso_a" not in st.session_state:
-        st.session_state.ver_proceso_a = True
+        st.session_state.ver_proceso_a = False
     if "ver_salida_a" not in st.session_state:
-        st.session_state.ver_salida_a = True
+        st.session_state.ver_salida_a = False
     if "ver_retro_a" not in st.session_state:
-        st.session_state.ver_retro_a = True
+        st.session_state.ver_retro_a = False
 
     with b_col1:
         if st.button("📥 1. ENTRADA", use_container_width=True, key="btn_e_a"):
@@ -231,7 +216,7 @@ with tab1:
             </div>
             """, unsafe_allow_html=True)
         else:
-            st.markdown("<div style='text-align: center; padding: 40px; color: #94a3b8; font-style: italic;'>[ Entrada Oculta ]</div>", unsafe_allow_html=True)
+            st.markdown("<div style='text-align: center; padding: 50px 10px; color: #94a3b8; font-style: italic; font-size: 12px;'>Haz clic arriba en '1. ENTRADA' para desplegar este elemento.</div>", unsafe_allow_html=True)
 
     with col_n2:
         if st.session_state.ver_proceso_a:
@@ -244,7 +229,7 @@ with tab1:
             </div>
             """, unsafe_allow_html=True)
         else:
-            st.markdown("<div style='text-align: center; padding: 40px; color: #94a3b8; font-style: italic;'>[ Proceso Oculto ]</div>", unsafe_allow_html=True)
+            st.markdown("<div style='text-align: center; padding: 50px 10px; color: #94a3b8; font-style: italic; font-size: 12px;'>Haz clic arriba en '2. PROCESO' para desplegar este elemento.</div>", unsafe_allow_html=True)
 
     with col_n3:
         if st.session_state.ver_salida_a:
@@ -257,7 +242,7 @@ with tab1:
             </div>
             """, unsafe_allow_html=True)
         else:
-            st.markdown("<div style='text-align: center; padding: 40px; color: #94a3b8; font-style: italic;'>[ Salida Oculta ]</div>", unsafe_allow_html=True)
+            st.markdown("<div style='text-align: center; padding: 50px 10px; color: #94a3b8; font-style: italic; font-size: 12px;'>Haz clic arriba en '3. SALIDA' para desplegar este elemento.</div>", unsafe_allow_html=True)
 
     with col_n4:
         if st.session_state.ver_retro_a:
@@ -274,7 +259,7 @@ with tab1:
             </div>
             """, unsafe_allow_html=True)
         else:
-            st.markdown("<div style='text-align: center; padding: 40px; color: #94a3b8; font-style: italic;'>[ Retro Oculta ]</div>", unsafe_allow_html=True)
+            st.markdown("<div style='text-align: center; padding: 50px 10px; color: #94a3b8; font-style: italic; font-size: 12px;'>Haz clic arriba en '4. RETRO' para desplegar este elemento.</div>", unsafe_allow_html=True)
 
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -295,26 +280,23 @@ with tab2:
     capacidad_total_flota = unidades_reparto * 50
 
     st.markdown("""
-        <div class="moving-banner" style="background: linear-gradient(90deg, #e8f5e9 0%, #c8e6c9 100%); color: #1b5e20; border-color: #66bb6a;">
-            <div class="marquee-text">
-                🚚 RUTA LOGÍSTICA ACTIVA: <span class="floating-icon">🚚</span> Flota de repartos y <span class="floating-icon">💧</span> garrafones sincronizados con <span class="floating-icon">📦</span> Adaptabilidad en U.H. El Rosario &nbsp;&nbsp;&bull;&nbsp;&nbsp;
-                🚚 RUTA LOGÍSTICA ACTIVA: <span class="floating-icon">🚚</span> Flota de repartos y <span class="floating-icon">💧</span> garrafones sincronizados con <span class="floating-icon">📦</span> Adaptabilidad en U.H. El Rosario
-            </div>
+        <div class="static-banner" style="background: linear-gradient(90deg, #e8f5e9 0%, #c8e6c9 100%); color: #1b5e20; border-color: #66bb6a;">
+            🚚 RUTA LOGÍSTICA ACTIVA: <span class="floating-icon">🚚</span> Flota de repartos y <span class="floating-icon">💧</span> garrafones sincronizados con <span class="floating-icon">📦</span> Adaptabilidad en U.H. El Rosario
         </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("<p style='font-size: 13px; font-weight: bold; text-align: center; color: #334155; margin-bottom: 8px;'>👆 Haz clic para activar o alternar cada etapa de manera interactiva:</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 13px; font-weight: bold; text-align: center; color: #334155; margin-bottom: 8px;'>👆 Haz clic en cada botón para revelar u ocultar su tarjeta correspondiente:</p>", unsafe_allow_html=True)
 
     bb_col1, bb_col2, bb_col3, bb_col4 = st.columns(4)
 
     if "ver_entrada_b" not in st.session_state:
-        st.session_state.ver_entrada_b = True
+        st.session_state.ver_entrada_b = False
     if "ver_proceso_b" not in st.session_state:
-        st.session_state.ver_proceso_b = True
+        st.session_state.ver_proceso_b = False
     if "ver_salida_b" not in st.session_state:
-        st.session_state.ver_salida_b = True
+        st.session_state.ver_salida_b = False
     if "ver_retro_b" not in st.session_state:
-        st.session_state.ver_retro_b = True
+        st.session_state.ver_retro_b = False
 
     with bb_col1:
         if st.button("📥 1. ENTRADA (B)", use_container_width=True, key="btn_e_b"):
@@ -348,7 +330,7 @@ with tab2:
             </div>
             """, unsafe_allow_html=True)
         else:
-            st.markdown("<div style='text-align: center; padding: 40px; color: #94a3b8; font-style: italic;'>[ Oculto ]</div>", unsafe_allow_html=True)
+            st.markdown("<div style='text-align: center; padding: 50px 10px; color: #94a3b8; font-style: italic; font-size: 12px;'>Haz clic arriba en '1. ENTRADA' para desplegar.</div>", unsafe_allow_html=True)
 
     with col_bn2:
         if st.session_state.ver_proceso_b:
@@ -361,7 +343,7 @@ with tab2:
             </div>
             """, unsafe_allow_html=True)
         else:
-            st.markdown("<div style='text-align: center; padding: 40px; color: #94a3b8; font-style: italic;'>[ Oculto ]</div>", unsafe_allow_html=True)
+            st.markdown("<div style='text-align: center; padding: 50px 10px; color: #94a3b8; font-style: italic; font-size: 12px;'>Haz clic arriba en '2. PROCESO' para desplegar.</div>", unsafe_allow_html=True)
 
     with col_bn3:
         if st.session_state.ver_salida_b:
@@ -374,7 +356,7 @@ with tab2:
             </div>
             """, unsafe_allow_html=True)
         else:
-            st.markdown("<div style='text-align: center; padding: 40px; color: #94a3b8; font-style: italic;'>[ Oculto ]</div>", unsafe_allow_html=True)
+            st.markdown("<div style='text-align: center; padding: 50px 10px; color: #94a3b8; font-style: italic; font-size: 12px;'>Haz clic arriba en '3. SALIDA' para desplegar.</div>", unsafe_allow_html=True)
 
     with col_bn4:
         if st.session_state.ver_retro_b:
@@ -391,6 +373,6 @@ with tab2:
             </div>
             """, unsafe_allow_html=True)
         else:
-            st.markdown("<div style='text-align: center; padding: 40px; color: #94a3b8; font-style: italic;'>[ Oculto ]</div>", unsafe_allow_html=True)
+            st.markdown("<div style='text-align: center; padding: 50px 10px; color: #94a3b8; font-style: italic; font-size: 12px;'>Haz clic arriba en '4. RETRO' para desplegar.</div>", unsafe_allow_html=True)
 
     st.markdown("</div>", unsafe_allow_html=True)
