@@ -91,6 +91,15 @@ st.markdown("""
         line-height: 1.6 !important;
     }
 
+    .marco-teorico-box {
+        background-color: #fafaf9;
+        padding: 22px;
+        border-radius: 12px;
+        border: 2px solid #d6d3d1;
+        font-size: 16px !important;
+        color: #1c1917;
+    }
+
     .nota-calculo {
         background-color: #fffbeb;
         border-left: 4px solid #f59e0b;
@@ -254,6 +263,34 @@ with st.expander("👉 Indicaciones de navegación", expanded=False):
         <ul style="margin: 0; padding-left: 20px; color: #0c4a6e;">
             <li style="margin-bottom: 8px;"><strong>Controles interactivos:</strong> Modifica los sliders, la franja horaria y la temporada; observa cómo el procesamiento y las alertas dinámicas superiores se actualizan de inmediato.</li>
             <li><strong>Avance secuencial por clics:</strong> Utiliza el botón de "Avanzar secuencia" para recorrer la secuencia paso a paso de entradas, proceso, salida y retroalimentación.</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+with st.expander("📖 Marco Teórico y Dimensiones del Sistema (Contexto Local)", expanded=False):
+    st.markdown("""
+    <div class="marco-teorico-box">
+        <p style="margin-top:0; font-weight:bold; color:#44403c; font-size: 17px;">Estructura teórica aplicada a los dos modelos operativos:</p>
+        
+        <p><strong>1. Funciones de servicio y demanda (Oferta, volumen y requerimiento inicial):</strong></p>
+        <ul>
+            <li><em>Marco analítico:</em> La infraestructura disponible (T) combinada con las actividades de la población (A) determina el nivel de servicio (S) y el volumen de flujo (V).</li>
+            <li><em>Pasajeros (CETRAM El Rosario):</em> La capacidad de la oferta está dada por la flota activa de trenes y autobuses (T), mientras que el sistema de actividades urbano (A) genera una demanda base. En horas pico el volumen aumenta, modificando el nivel de servicio.</li>
+            <li><em>Garrafones de agua (U. H. El Rosario):</em> La capacidad depende de los vehículos y triciclos en funcionamiento (T) frente a la concentración de departamentos (A). En épocas de calor extremo la demanda se incrementa dentro de las ventanas de reparto establecidas (lunes a viernes de 9:00 am a 5:00 pm y sábados hasta el mediodía).</li>
+        </ul>
+
+        <p><strong>2. El equilibrio operativo del sistema (Punto de saturación y flujos estables):</strong></p>
+        <ul>
+            <li><em>Marco analítico:</em> Representa el punto de intersección donde la capacidad del servicio absorbe la demanda sin colapsar el sistema.</li>
+            <li><em>Pasajeros (CETRAM El Rosario):</em> Busca el equilibrio entre frecuencias de despacho y pasajeros base. Si el volumen (V) supera la oferta, entra en desequilibrio, exigiendo un ajuste en las salidas.</li>
+            <li><em>Garrafones de agua (U. H. El Rosario):</em> Se alcanza cuando los vehículos abastecen el volumen diario acordado, evaluando la necesidad de nuevas rutas si la demanda estacional aumenta.</li>
+        </ul>
+
+        <p><strong>3. Modificación adaptativa y transformación estructural a largo plazo:</strong></p>
+        <ul>
+            <li><em>Marco analítico:</em> Ante el crecimiento de la mancha urbana, el sistema cambia componentes estructurales para restablecer su homeostasis (Bate, 2014).</li>
+            <li><em>Pasajeros (CETRAM El Rosario):</em> Obliga a realizar modificaciones estructurales (T), tales como ampliación de andenes, modernización del Metro o reestructuración de carriles confinados (Metrobús/Trolebús).</li>
+            <li><em>Garrafones de agua (U. H. El Rosario):</em> Se adapta agregando unidades de mayor capacidad, mejorando el mantenimiento preventivo o implementando herramientas de control digital para el ruteo.</li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
@@ -481,7 +518,7 @@ with tab2:
 
     st.markdown(f"""
         <div class="nota-calculo">
-            💡 <strong>Nota del modelo logístico:</strong> El código valida la capacidad máxima de la flota [T = {capacidad_total_flota} garrafones] frente a los pedidos diarios ajustados por temporada [A = {pedidos_ajustados} garrafones], evitando duplicidad en el conteo por ruta.
+            💡 <strong>Nota del modelo logístico:</strong> El código valida la capacidad máxima de la flota [T = {capacidad_total_flota} garrafones] frente al los pedidos diarios ajustados por temporada [A = {pedidos_ajustados} garrafones], evitando duplicidad en el conteo por ruta.
         </div>
     """, unsafe_allow_html=True)
 
