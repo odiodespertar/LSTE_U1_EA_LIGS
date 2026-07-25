@@ -75,7 +75,7 @@ st.markdown("""
 
 # Título principal
 st.title("4. Modelos prácticos adaptados a la localidad")
-st.markdown("**Estudiante:** Liliana García Solís | **Matrícula:** ES251101336 | **Asignatura:** Fundamentos del Sistema de Transporte")
+st.markdown("**Estudiante:** Liliana García Solís | **Matrícula:** ES251101336 | **Institución:** UNADM | **Asignatura:** Fundamentos del Sistema de Transporte")
 st.markdown("---")
 
 # Pestañas principales
