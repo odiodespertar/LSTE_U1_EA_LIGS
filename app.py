@@ -4,7 +4,7 @@ import math
 
 
 # ==========================================================
-# FUNCIONES DEL MODELO SISTÉMICO
+# FUNCIONES DEL MODELO SISTÉMICO Y SUSSMAN
 # ==========================================================
 
 def calcular_modelo_manheim(T, A, capacidad_total):
@@ -14,7 +14,6 @@ def calcular_modelo_manheim(T, A, capacidad_total):
     A = Sistema de Actividades (Demanda)
     V = Volumen de flujo
     S = Nivel de servicio
-    F0 = Equilibrio operativo
     """
     V = A  # Volumen de flujo
 
@@ -56,12 +55,12 @@ def recomendar_unidades(deficit, capacidad_unidad):
 # ==========================================================
 
 st.set_page_config(
-    page_title="Modelos Prácticos - Enfoque Sistémico Interactivo",
-    page_icon="💧",
+    page_title="Modelos Prácticos - Enfoque Sistémico y Cubo de Sussman",
+    page_icon="cube",
     layout="wide",
 )
 
-# Estilos CSS avanzados con efectos flotantes e interactivos y diagrama sistémico
+# Estilos CSS avanzados con efectos flotantes y diseño del Cubo de Sussman
 st.markdown("""
     <style>
     .streamlit-expanderHeader {
@@ -100,6 +99,44 @@ st.markdown("""
         line-height: 1.5;
     }
 
+    .cubo-sussman-container {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        border: 3px solid #38bdf8;
+        border-radius: 20px;
+        padding: 22px;
+        color: #f8fafc;
+        margin-bottom: 25px;
+        box-shadow: 0 10px 25px rgba(56, 189, 248, 0.2);
+    }
+
+    .cubo-header {
+        text-align: center;
+        font-size: 20px;
+        font-weight: 900;
+        color: #38bdf8;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .celda-cubo-activo {
+        background: rgba(56, 189, 248, 0.15);
+        border: 2px solid #38bdf8;
+        border-radius: 12px;
+        padding: 15px;
+        text-align: center;
+        box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+    }
+
+    .celda-cubo-inactivo {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px dashed rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 15px;
+        text-align: center;
+        opacity: 0.5;
+    }
+
     .ambiente-titulo-naranja {
         text-align: center;
         font-size: 22px;
@@ -130,7 +167,6 @@ st.markdown("""
         box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
     }
 
-    /* Estilo visual del esquema conceptual sistémico */
     .sistema-macro-container {
         border: 3px dashed #0284c7;
         background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
@@ -275,14 +311,14 @@ with col_txt:
 
 st.markdown("---")
 
-with st.expander("👉 Indicaciones de navegación", expanded=False):
+with st.expander("👉 Indicaciones de navegación y modelos teóricos", expanded=False):
     st.markdown("""
     <div class="instrucciones-box">
         <p style="margin: 0 0 8px 0; font-weight: bold; color: #0369a1; font-size: 20px !important;">Instrucciones de Uso:</p>
         <ul style="margin: 0; padding-left: 20px; color: #0c4a6e;">
-            <li style="margin-bottom: 8px;"><strong>Pestañas A y B:</strong> Elige entre pasajeros (A) y garrafones (B) para interactuar con el modelo sistémico basado en el esquema conceptual clásico.</li>
-            <li style="margin-bottom: 8px;"><strong>Controles interactivos:</strong> Modifica los sliders y franjas; observa cómo el procesamiento y las alertas dinámicas superiores se actualizan de inmediato.</li>
-            <li><strong>Avance secuencial teórico:</strong> Utiliza el botón de "Avanzar Secuencia Teórica" para recorrer paso a paso los componentes dentro del sistema delimitado.</li>
+            <li style="margin-bottom: 8px;"><strong>Integración de Modelos:</strong> Cada caso incluye tanto el <em>Cubo de Caracterización de Sussman (2000)</em> como el diagrama de límites sistémicos.</li>
+            <li style="margin-bottom: 8px;"><strong>Pestañas A y B:</strong> Explora el sistema multimodal de pasajeros y la distribución de carga en garrafones.</li>
+            <li><strong>Avance secuencial:</strong> Utiliza el botón de "Avanzar Secuencia Teórica" para recorrer las dimensiones de Entrada, Proceso, Salida y Retroalimentación.</li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
@@ -301,7 +337,37 @@ if "paso_seq_b" not in st.session_state:
 # PESTAÑA A: CETRAM EL ROSARIO
 # ==========================================
 with tab1:
-    st.markdown("<p style='font-weight: bold; color: #ea580c; font-size: 18px; margin-bottom: 8px;'>A. Sistema Multimodal de Pasajeros - CETRAM El Rosario [Modelo con variables T, A, V, S]</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-weight: bold; color: #ea580c; font-size: 18px; margin-bottom: 8px;'>A. Sistema Multimodal de Pasajeros - CETRAM El Rosario [Cubo de Sussman + Modelo Sistémico]</p>", unsafe_allow_html=True)
+
+    # Bloque visual del Cubo de Sussman aplicado a Pasajeros
+    st.markdown("""
+        <div class="cubo-sussman-container">
+            <div class="cubo-header">🧊 Caracterización del Sistema de Transporte (Sussman, 2000) — Caso Pasajeros</div>
+    """, unsafe_allow_html=True)
+    
+    ca1, ca2, ca3 = st.columns(3)
+    with ca1:
+        st.markdown("""
+            <div class="celda-cubo-activo">
+                <strong style="color: #38bdf8; font-size: 15px;">🌐 Alcance Geográfico</strong><br>
+                <span style="font-size: 14px; color: #f8fafc;">Urbano (CETRAM Metropolitano)</span>
+            </div>
+        """, unsafe_allow_html=True)
+    with ca2:
+        st.markdown("""
+            <div class="celda-cubo-activo">
+                <strong style="color: #38bdf8; font-size: 15px;">👥 Naturaleza de Demanda</strong><br>
+                <span style="font-size: 14px; color: #f8fafc;">Pasajeros (Metro L6/L7 + Autobuses)</span>
+            </div>
+        """, unsafe_allow_html=True)
+    with ca3:
+        st.markdown("""
+            <div class="celda-cubo-activo">
+                <strong style="color: #38bdf8; font-size: 15px;">🏛️ Propiedad / Operación</strong><br>
+                <span style="font-size: 14px; color: #f8fafc;">Pública / Conjunta (Gobierno CDMX / Concesionados)</span>
+            </div>
+        """, unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
 
     col_c1, col_c2, col_c3, col_c4 = st.columns(4)
     with col_c1:
@@ -383,7 +449,6 @@ with tab1:
     with col_btn_seq3:
         st.markdown(f"<p style='text-align: right; font-weight: bold; color: #ea580c; font-size: 17px; padding-top: 8px;'>Dimensión Activa: {st.session_state.paso_seq_a} / 4</p>", unsafe_allow_html=True)
 
-    # Contenedor inspirado en el esquema sistémico clásico
     st.markdown("""
         <div class="sistema-macro-container">
             <div class="supersistema-label">🌎 Ambiente Externo (Supersistema): Hora pico/valle, tráfico y entorno urbano</div>
@@ -501,7 +566,37 @@ with tab1:
 # PESTAÑA B: DISTRIBUCIÓN DE AGUA
 # ==========================================
 with tab2:
-    st.markdown("<p style='font-weight: bold; color: #16a34a; font-size: 18px; margin-bottom: 8px;'>B. Distribución de Carga (Garrafones) - U.H. El Rosario [Control de Flota y Rutas]</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-weight: bold; color: #16a34a; font-size: 18px; margin-bottom: 8px;'>B. Distribución de Carga (Garrafones) - U.H. El Rosario [Cubo de Sussman + Modelo Logístico]</p>", unsafe_allow_html=True)
+
+    # Bloque visual del Cubo de Sussman aplicado a Carga
+    st.markdown("""
+        <div class="cubo-sussman-container" style="border-color: #10b981; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);">
+            <div class="cubo-header" style="color: #34d399;">🧊 Caracterización del Sistema de Transporte (Sussman, 2000) — Caso Carga</div>
+    """, unsafe_allow_html=True)
+    
+    cb1, cb2, cb3 = st.columns(3)
+    with cb1:
+        st.markdown("""
+            <div class="celda-cubo-activo" style="border-color: #34d399; background: rgba(52, 211, 153, 0.15);">
+                <strong style="color: #34d399; font-size: 15px;">🌐 Alcance Geográfico</strong><br>
+                <span style="font-size: 14px; color: #f8fafc;">Urbano (Reparto local U.H.)</span>
+            </div>
+        """, unsafe_allow_html=True)
+    with cb2:
+        st.markdown("""
+            <div class="celda-cubo-activo" style="border-color: #34d399; background: rgba(52, 211, 153, 0.15);">
+                <strong style="color: #34d399; font-size: 15px;">💧 Naturaleza de Demanda</strong><br>
+                <span style="font-size: 14px; color: #f8fafc;">Carga / Mercancías (Garrafones de agua)</span>
+            </div>
+        """, unsafe_allow_html=True)
+    with cb3:
+        st.markdown("""
+            <div class="celda-cubo-activo" style="border-color: #34d399; background: rgba(52, 211, 153, 0.15);">
+                <strong style="color: #34d399; font-size: 15px;">🏛️ Propiedad / Operación</strong><br>
+                <span style="font-size: 14px; color: #f8fafc;">Privada (Flota de distribución comercial)</span>
+            </div>
+        """, unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
 
     col_d1, col_d2, col_d3 = st.columns(3)
     with col_d1:
