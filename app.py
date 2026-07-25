@@ -7,7 +7,7 @@ st.set_page_config(
     layout="wide",
 )
 
-# Estilos CSS avanzados con colores vibrantes, efectos visuales llamativos y animaciones dinámicas estilo croquis
+# Estilos CSS avanzados con colores vibrantes y efectos visuales integrados en cascada
 st.markdown("""
     <style>
     /* Estilos personalizados para el botón desplegable / expansor de alta visibilidad */
@@ -36,17 +36,16 @@ st.markdown("""
     /* Etiqueta superior del AMBIENTE */
     .ambiente-label {
         text-align: center;
-        font-size: 30px;
+        font-size: 26px;
         font-weight: 900;
         color: #c62828;
         letter-spacing: 2px;
         margin-bottom: 25px;
         text-transform: uppercase;
         text-shadow: 3px 3px 6px rgba(198, 40, 40, 0.2);
-        animation: bounceTitle 2s ease-in-out infinite;
     }
 
-    /* Tarjetas dinámicas hiper-coloridas y llamativas para Entrada, Proceso y Salida */
+    /* Tarjetas dinámicas hiper-coloridas y llamativas para Entrada, Proceso, Salida y Retroalimentación */
     .nodo-entrada {
         background: linear-gradient(135deg, #ffffff 0%, #e1f5fe 100%);
         border: 4px solid #0288d1;
@@ -54,11 +53,7 @@ st.markdown("""
         padding: 22px;
         text-align: center;
         box-shadow: 0 8px 20px rgba(2, 136, 209, 0.25);
-        transition: all 0.3s ease;
-    }
-    .nodo-entrada:hover {
-        transform: translateY(-6px) scale(1.02);
-        box-shadow: 0 14px 28px rgba(2, 136, 209, 0.35);
+        margin-bottom: 15px;
     }
 
     .nodo-proceso {
@@ -69,12 +64,7 @@ st.markdown("""
         padding: 25px;
         text-align: center;
         box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
-        animation: floatProcess 3s ease-in-out infinite;
-        transition: all 0.3s ease;
-    }
-    .nodo-proceso:hover {
-        transform: translateY(-6px) scale(1.02);
-        box-shadow: 0 16px 32px rgba(245, 158, 11, 0.45);
+        margin-bottom: 15px;
     }
 
     .nodo-salida {
@@ -84,74 +74,38 @@ st.markdown("""
         padding: 22px;
         text-align: center;
         box-shadow: 0 8px 20px rgba(46, 125, 50, 0.25);
-        transition: all 0.3s ease;
-    }
-    .nodo-salida:hover {
-        transform: translateY(-6px) scale(1.02);
-        box-shadow: 0 14px 28px rgba(46, 125, 50, 0.35);
+        margin-bottom: 15px;
     }
 
-    /* Flechas animadas de flujo horizontal llamativas */
-    .flecha-flujo {
+    .nodo-retro {
+        background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+        border: 4px solid #f57c00;
+        border-radius: 18px;
+        padding: 22px;
         text-align: center;
-        font-size: 36px;
+        box-shadow: 0 8px 20px rgba(245, 124, 0, 0.25);
+    }
+
+    /* Flechas verticales de flujo integradas y llamativas */
+    .flecha-vertical {
+        text-align: center;
+        font-size: 32px;
         font-weight: 900;
         color: #ff6f00;
-        align-self: center;
-        animation: moveArrow 1.5s ease-in-out infinite;
+        margin: 5px 0 15px 0;
+        animation: bounceArrowVertical 1.5s ease-in-out infinite;
         text-shadow: 2px 2px 4px rgba(255, 111, 0, 0.3);
     }
 
-    /* Bloque inferior de RETROALIMENTACIÓN con arco visual vibrante */
-    .retroalimentacion-container {
-        margin-top: 35px;
-        border-top: 4px dashed #ff8f00;
-        padding-top: 22px;
-        text-align: center;
-        position: relative;
-    }
-    
-    .retroalimentacion-badge {
-        display: inline-block;
-        background: linear-gradient(135deg, #ff8f00 0%, #e65100 100%);
-        color: white;
-        padding: 12px 30px;
-        border-radius: 35px;
-        font-weight: 900;
-        font-size: 16px;
-        box-shadow: 0 6px 18px rgba(230, 81, 0, 0.4);
-        animation: pulseRetro 2s infinite;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        border: 2px solid #fff;
-    }
-
-    /* Animaciones CSS personalizadas */
     @keyframes pulseEnvironment {
         0% { border-color: #0288d1; box-shadow: 0 12px 30px rgba(2, 136, 209, 0.2); }
         50% { border-color: #ff8f00; box-shadow: 0 18px 40px rgba(255, 143, 0, 0.3); }
         100% { border-color: #0288d1; box-shadow: 0 12px 30px rgba(2, 136, 209, 0.2); }
     }
 
-    @keyframes bounceTitle {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-5px); }
-    }
-
-    @keyframes floatProcess {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-8px); }
-    }
-
-    @keyframes moveArrow {
-        0%, 100% { transform: translateX(0); opacity: 0.7; }
-        50% { transform: translateX(8px); opacity: 1; }
-    }
-
-    @keyframes pulseRetro {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.04); }
-        100% { transform: scale(1); }
+    @keyframes bounceArrowVertical {
+        0%, 100% { transform: translateY(0); opacity: 0.7; }
+        50% { transform: translateY(6px); opacity: 1; }
     }
 
     .moving-banner {
@@ -192,16 +146,16 @@ st.markdown("---")
 # ==========================================
 # BOTÓN DESPLEGABLE DE ALTA VISIBILIDAD PARA INDICACIONES
 # ==========================================
-with st.expander("👉 ¡REVISA AQUÍ LAS INDICACIONES! (Guía Interactiva Paso a Paso)", expanded=True):
+with st.expander("👉 ¡REVISA AQUÍ LAS INDICACIONES! (Guía Interactiva)", expanded=True):
     st.markdown("""
     <div style="background-color: #fffde7; padding: 12px; border-radius: 8px; border: 1px solid #ffd54f;">
         <p style="color: #3e2723; font-size: 15px; margin-bottom: 10px; font-weight: bold;">
-            ¡Bienvenida! Para explorar el modelo interactivo con transición paso a paso y alto dinamismo visual:
+            ¡Bienvenida! Instrucciones de uso para el modelo sistémico integrado:
         </p>
         <ol style="color: #4e342e; margin: 0; padding-left: 20px;">
             <li><strong>Selecciona una pestaña abajo:</strong> Elige entre el caso de pasajeros (CETRAM) o el de mercancías (Agua en garrafón).</li>
-            <li><strong>Usa los controles deslizantes (Sliders):</strong> Modifica los valores de flota y demanda para ver el comportamiento en tiempo real.</li>
-            <li><strong>Activa el Modelo Paso a Paso con las flechas:</strong> Haz clic en el botón interactivo de abajo para revelar los componentes uno por uno (Entrada ➔ Proceso ➔ Salida ➔ Retroalimentación).</li>
+            <li><strong>Usa los controles deslizantes:</strong> Modifica los valores de flota y demanda para ver el comportamiento en tiempo real.</li>
+            <li><strong>Visualización Integrada en Cascada:</strong> Los componentes se despliegan automáticamente uno debajo de otro conectados por flechas verticales, revelando el ciclo completo (Entrada ➔ Proceso ➔ Salida ➔ Retroalimentación).</li>
         </ol>
     </div>
     """, unsafe_allow_html=True)
@@ -290,118 +244,71 @@ with tab1:
         """, unsafe_allow_html=True)
 
     st.markdown("---")
-    st.subheader("🔄 Modelo Sistémico Dinámico (Estilo Croquis Interactivo con Transición por Clic)")
+    st.subheader("🔄 Modelo Sistémico Dinámico Integrado en Cascada (CETRAM El Rosario)")
 
     # ==========================================
-    # CONTROL DE ESTADO INTERACTIVO TIPO CLIC EN FLECHAS / BOTONES (CASO A)
+    # CONTENEDOR INTEGRADO EN CASCADA VERTICAL (CASO A)
     # ==========================================
-    if "step_pax" not in st.session_state:
-        st.session_state.step_pax = 1
-
-    col_btn1, col_btn2, col_btn3, col_btn4 = st.columns(4)
-    with col_btn1:
-        if st.button("📥 1. Ver ENTRADA", use_container_width=True, key="btn_e_pax"):
-            st.session_state.step_pax = 1
-    with col_btn2:
-        if st.button("➡️ 2. Pasar a PROCESO", use_container_width=True, key="btn_p_pax"):
-            st.session_state.step_pax = 2
-    with col_btn3:
-        if st.button("➡️ 3. Pasar a SALIDA", use_container_width=True, key="btn_s_pax"):
-            st.session_state.step_pax = 3
-    with col_btn4:
-        if st.button("🔄 4. Ver RETROALIMENTACIÓN", use_container_width=True, key="btn_r_pax"):
-            st.session_state.step_pax = 4
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    # Contenedor principal con Ambiente
     st.markdown("""
         <div class="sistema-ambiente-box">
             <div class="ambiente-label">🌐 AMBIENTE: Entorno Urbano / Zona Norte del Valle de México (Azcapotzalco)</div>
     """, unsafe_allow_html=True)
 
-    # Visualización progresiva según el paso seleccionado
-    step_actual = st.session_state.step_pax
+    # 1. ENTRADA
+    st.markdown(f"""
+    <div class="nodo-entrada">
+        <h3 style="color: #0288d1; margin-bottom: 10px; font-weight: 900;">📥 1. ENTRADA</h3>
+        <p style="font-size: 14px; color: #1e293b; margin: 0; font-weight: 600;">
+            <strong>Recursos Iniciales:</strong> {num_trenes} trenes activos (L6/L7), {num_buses} unidades de superficie.<br>
+            <strong>Demanda Entrante:</strong> <span style="color: #d32f2f; font-weight: bold;">{pasajeros_flota} Pasajeros</span> ingresando al sistema multimodal.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
-    col_e, col_f1, col_p, col_f2, col_s = st.columns([2.2, 0.6, 2.6, 0.6, 2.2])
+    st.markdown('<div class="flecha-vertical">⬇️</div>', unsafe_allow_html=True)
 
-    with col_e:
-        if step_actual >= 1:
-            st.markdown(f"""
-            <div class="nodo-entrada">
-                <h4 style="color: #0288d1; margin-bottom: 8px; font-weight: 900;">📥 ENTRADA</h4>
-                <p style="font-size: 13px; color: #1e293b; margin: 0; font-weight: 600;">
-                    <strong>Recursos:</strong> {num_trenes} trenes (L6/L7), {num_buses} buses.<br><br>
-                    <strong>Demanda:</strong> <span style="color: #d32f2f; font-weight: bold;">{pasajeros_flota} Pasajeros</span> ingresando.
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
-        else:
-            st.markdown("<div style='text-align:center; color:#94a3b8; padding:20px;'>[Haz clic en el botón superior para revelar]</div>", unsafe_allow_html=True)
+    # 2. PROCESO
+    st.markdown(f"""
+    <div class="nodo-proceso">
+        <h3 style="color: #fbbf24; margin-bottom: 10px; font-weight: 900;">⚙️ 2. PROCESO DE TRANSFORMACIÓN</h3>
+        <p style="font-size: 14px; color: #f8fafc; margin: 0;">
+            Regulación de flujos peatonales, correspondencia multimodal y despacho sincronizado en andenes.<br>
+            <em>Condición operativa: {horario_operativo}</em>
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
-    with col_f1:
-        if step_actual >= 2:
-            st.markdown('<div class="flecha-flujo"><br>➔</div>', unsafe_allow_html=True)
-        else:
-            st.markdown('<div style="text-align:center; color:#cbd5e1; font-size:28px;"><br>⁝</div>', unsafe_allow_html=True)
+    st.markdown('<div class="flecha-vertical">⬇️</div>', unsafe_allow_html=True)
 
-    with col_p:
-        if step_actual >= 2:
-            st.markdown(f"""
-            <div class="nodo-proceso">
-                <h4 style="color: #fbbf24; margin-bottom: 8px; font-weight: 900;">⚙️ PROCESO</h4>
-                <p style="font-size: 13px; color: #f8fafc; margin: 0;">
-                    Regulación de flujos peatonales, correspondencia multimodal y despacho en andenes.<br><br>
-                    <em>({horario_operativo})</em>
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
-        else:
-            st.markdown("<div style='text-align:center; color:#94a3b8; padding:20px;'>[Pendiente]</div>", unsafe_allow_html=True)
+    # 3. SALIDA
+    st.markdown(f"""
+    <div class="nodo-salida">
+        <h3 style="color: #2e7d32; margin-bottom: 10px; font-weight: 900;">📤 3. SALIDA</h3>
+        <p style="font-size: 14px; color: #1e293b; margin: 0; font-weight: 600;">
+            <strong>Resultado del Sistema:</strong><br>
+            <span style="color: #2e7d32; font-weight: bold;">{pasajeros_flota} Pasajeros transferidos</span> de forma segura hacia sus destinos en la red de transporte.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
-    with col_f2:
-        if step_actual >= 3:
-            st.markdown('<div class="flecha-flujo"><br>➔</div>', unsafe_allow_html=True)
-        else:
-            st.markdown('<div style="text-align:center; color:#cbd5e1; font-size:28px;"><br>⁝</div>', unsafe_allow_html=True)
+    st.markdown('<div class="flecha-vertical">⬇️</div>', unsafe_allow_html=True)
 
-    with col_s:
-        if step_actual >= 3:
-            st.markdown(f"""
-            <div class="nodo-salida">
-                <h4 style="color: #2e7d32; margin-bottom: 8px; font-weight: 900;">📤 SALIDA</h4>
-                <p style="font-size: 13px; color: #1e293b; margin: 0; font-weight: 600;">
-                    <strong>Resultado:</strong><br><br>
-                    <span style="color: #2e7d32; font-weight: bold;">{pasajeros_flota} Pasajeros transferidos</span> con éxito a sus destinos.
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
-        else:
-            st.markdown("<div style='text-align:center; color:#94a3b8; padding:20px;'>[Pendiente]</div>", unsafe_allow_html=True)
-
-    # Bloque inferior de Retroalimentación
-    if step_actual >= 4:
-        if pasajeros_flota > capacidad_oferta:
-            texto_retro = f"⚠️ Retroalimentación de Alerta: Saturación detectada ({pasajeros_flota} pax > Capacidad {capacidad_oferta}). Ajustar frecuencias."
-        elif nivel_alerta:
-            texto_retro = f"🔄 Retroalimentación Operativa: Monitoreo activo por alta concentración en {horario_operativo}."
-        else:
-            texto_retro = "✅ Retroalimentación Estable: Flujo continuo y óptimo en transbordos modales."
-
-        st.markdown(f"""
-            <div class="retroalimentacion-container">
-                <div class="retroalimentacion-badge">🔄 Retroalimentación Activa</div>
-                <p style="margin-top: 12px; font-weight: bold; color: #0d47a1; font-size: 15px; background: rgba(255,255,255,0.8); padding: 8px; border-radius: 6px; display: inline-block;">
-                    {texto_retro}
-                </p>
-            </div>
-        """, unsafe_allow_html=True)
+    # 4. RETROALIMENTACIÓN
+    if pasajeros_flota > capacidad_oferta:
+        texto_retro = f"⚠️ Retroalimentación de Alerta: Saturación detectada ({pasajeros_flota} pax > Capacidad {capacidad_oferta}). Requiere ajuste de frecuencias."
+    elif nivel_alerta:
+        texto_retro = f"🔄 Retroalimentación Operativa: Monitoreo activo por alta concentración en {horario_operativo}."
     else:
-        st.markdown("""
-            <div class="retroalimentacion-container" style="border-top-style: dotted; opacity: 0.5;">
-                <div class="retroalimentacion-badge" style="background: #94a3b8;">🔄 Retroalimentación (Haz clic en el botón 4)</div>
-            </div>
-        """, unsafe_allow_html=True)
+        texto_retro = "✅ Retroalimentación Estable: Flujo continuo y óptimo en transbordos modales."
+
+    st.markdown(f"""
+    <div class="nodo-retro">
+        <h3 style="color: #e65100; margin-bottom: 10px; font-weight: 900;">🔄 4. RETROALIMENTACIÓN (FEEDBACK)</h3>
+        <p style="font-size: 14px; color: #bf360c; margin: 0; font-weight: 700;">
+            {texto_retro}
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown("</div>", unsafe_allow_html=True) # Cierre de ambiente box
 
@@ -421,7 +328,7 @@ with tab1:
         """)
 
     st.markdown("---")
-    st.markdown("📸 **Ilustrativo 1.** *Diagrama sistémico interactivo dinámico con transición paso a paso del sistema multimodal en CETRAM El Rosario*")
+    st.markdown("📸 **Ilustrativo 1.** *Diagrama sistémico integrado en cascada para el sistema multimodal en CETRAM El Rosario*")
 
 # ==========================================
 # PESTAÑA B: DISTRIBUCIÓN DE AGUA EN GARRAFÓN
@@ -482,117 +389,71 @@ with tab2:
         """, unsafe_allow_html=True)
 
     st.markdown("---")
-    st.subheader("🔄 Modelo Sistémico Dinámico de Carga (Estilo Croquis Interactivo con Transición por Clic)")
+    st.subheader("🔄 Modelo Sistémico Dinámico Integrado en Cascada (Distribución de Carga)")
 
     # ==========================================
-    # CONTROL DE ESTADO INTERACTIVO TIPO CLIC EN FLECHAS / BOTONES (CASO B)
+    # CONTENEDOR INTEGRADO EN CASCADA VERTICAL (CASO B)
     # ==========================================
-    if "step_merc" not in st.session_state:
-        st.session_state.step_merc = 1
-
-    col_bt1, col_bt2, col_bt3, col_bt4 = st.columns(4)
-    with col_bt1:
-        if st.button("📥 1. Ver ENTRADA", use_container_width=True, key="btn_e_merc"):
-            st.session_state.step_merc = 1
-    with col_bt2:
-        if st.button("➡️ 2. Pasar a PROCESO", use_container_width=True, key="btn_p_merc"):
-            st.session_state.step_merc = 2
-    with col_bt3:
-        if st.button("➡️ 3. Pasar a SALIDA", use_container_width=True, key="btn_s_merc"):
-            st.session_state.step_merc = 3
-    with col_bt4:
-        if st.button("🔄 4. Ver RETROALIMENTACIÓN", use_container_width=True, key="btn_r_merc"):
-            st.session_state.step_merc = 4
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    # Contenedor principal con Ambiente para Carga
     st.markdown("""
         <div class="sistema-ambiente-box" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-color: #16a34a; box-shadow: 0 12px 30px rgba(22, 163, 74, 0.2);">
             <div class="ambiente-label" style="color: #15803d;">🌐 AMBIENTE: Entorno Urbano / Suburbano de la U.H. El Rosario</div>
     """, unsafe_allow_html=True)
 
-    step_actual_merc = st.session_state.step_merc
+    # 1. ENTRADA
+    st.markdown(f"""
+    <div class="nodo-entrada" style="border-color: #16a34a; background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);">
+        <h3 style="color: #15803d; margin-bottom: 10px; font-weight: 900;">📥 1. ENTRADA</h3>
+        <p style="font-size: 14px; color: #1e293b; margin: 0; font-weight: 600;">
+            <strong>Recursos Iniciales:</strong> {unidades_reparto} vehículos de redilas en ruta.<br>
+            <strong>Insumos / Demanda:</strong> <span style="color: #15803d; font-weight: bold;">{pedidos_diarios} Pedidos</span> diarios de garrafones.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
-    col_e2, col_f3, col_p2, col_f4, col_s2 = st.columns([2.2, 0.6, 2.6, 0.6, 2.2])
+    st.markdown('<div class="flecha-vertical" style="color: #16a34a;">⬇️</div>', unsafe_allow_html=True)
 
-    with col_e2:
-        if step_actual_merc >= 1:
-            st.markdown(f"""
-            <div class="nodo-entrada" style="border-color: #16a34a; background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);">
-                <h4 style="color: #15803d; margin-bottom: 8px; font-weight: 900;">📥 ENTRADA</h4>
-                <p style="font-size: 13px; color: #1e293b; margin: 0; font-weight: 600;">
-                    <strong>Recursos:</strong> {unidades_reparto} vehículos de redilas.<br><br>
-                    <strong>Insumo/Demanda:</strong> <span style="color: #15803d; font-weight: bold;">{pedidos_diarios} Pedidos</span>
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
-        else:
-            st.markdown("<div style='text-align:center; color:#94a3b8; padding:20px;'>[Haz clic en el botón superior]</div>", unsafe_allow_html=True)
+    # 2. PROCESO
+    st.markdown(f"""
+    <div class="nodo-proceso" style="background: linear-gradient(135deg, #14532d 0%, #052e16 100%); border-color: #22c55e;">
+        <h3 style="color: #4ade80; margin-bottom: 10px; font-weight: 900;">⚙️ 2. PROCESO DE TRANSFORMACIÓN</h3>
+        <p style="font-size: 14px; color: #f0fdf4; margin: 0;">
+            Envasado, planeación de rutas de entrega domiciliaria y carga física de unidades vehiculares.<br>
+            <em>Condición estacional: {demanda_estacional}</em>
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
-    with col_f3:
-        if step_actual_merc >= 2:
-            st.markdown('<div class="flecha-flujo" style="color: #16a34a;"><br>➔</div>', unsafe_allow_html=True)
-        else:
-            st.markdown('<div style="text-align:center; color:#cbd5e1; font-size:28px;"><br>⁝</div>', unsafe_allow_html=True)
+    st.markdown('<div class="flecha-vertical" style="color: #16a34a;">⬇️</div>', unsafe_allow_html=True)
 
-    with col_p2:
-        if step_actual_merc >= 2:
-            st.markdown(f"""
-            <div class="nodo-proceso" style="background: linear-gradient(135deg, #14532d 0%, #052e16 100%); border-color: #22c55e;">
-                <h4 style="color: #4ade80; margin-bottom: 8px; font-weight: 900;">⚙️ PROCESO</h4>
-                <p style="font-size: 13px; color: #f0fdf4; margin: 0;">
-                    Envasado, planeación de rutas de entrega domiciliaria y carga física de unidades.<br><br>
-                    <em>({demanda_estacional})</em>
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
-        else:
-            st.markdown("<div style='text-align:center; color:#94a3b8; padding:20px;'>[Pendiente]</div>", unsafe_allow_html=True)
+    # 3. SALIDA
+    st.markdown(f"""
+    <div class="nodo-salida" style="border-color: #16a34a; background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);">
+        <h3 style="color: #15803d; margin-bottom: 10px; font-weight: 900;">📤 3. SALIDA</h3>
+        <p style="font-size: 14px; color: #1e293b; margin: 0; font-weight: 600;">
+            <strong>Resultado del Sistema:</strong><br>
+            <span style="color: #15803d; font-weight: bold;">{pedidos_diarios} Garrafones entregados</span> con éxito en hogares y recolección de envases vacíos.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
-    with col_f4:
-        if step_actual_merc >= 3:
-            st.markdown('<div class="flecha-flujo" style="color: #16a34a;"><br>➔</div>', unsafe_allow_html=True)
-        else:
-            st.markdown('<div style="text-align:center; color:#cbd5e1; font-size:28px;"><br>⁝</div>', unsafe_allow_html=True)
+    st.markdown('<div class="flecha-vertical" style="color: #16a34a;">⬇️</div>', unsafe_allow_html=True)
 
-    with col_s2:
-        if step_actual_merc >= 3:
-            st.markdown(f"""
-            <div class="nodo-salida" style="border-color: #16a34a; background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);">
-                <h4 style="color: #15803d; margin-bottom: 8px; font-weight: 900;">📤 SALIDA</h4>
-                <p style="font-size: 13px; color: #1e293b; margin: 0; font-weight: 600;">
-                    <strong>Resultado:</strong><br><br>
-                    <span style="color: #15803d; font-weight: bold;">{pedidos_diarios} Garrafones entregados</span> y envases vacíos.
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
-        else:
-            st.markdown("<div style='text-align:center; color:#94a3b8; padding:20px;'>[Pendiente]</div>", unsafe_allow_html=True)
-
-    # Bloque inferior de Retroalimentación para Carga
-    if step_actual_merc >= 4:
-        if pedidos_diarios > capacidad_total_flota:
-            texto_retro_b = f"⚠️ Retroalimentación de Alerta Logística: Demanda ({pedidos_diarios}) supera capacidad ({capacidad_total_flota}). Requiere refuerzo."
-        elif "Calor" in demanda_estacional:
-            texto_retro_b = f"🔄 Retroalimentación Estacional: Operación intensiva por alta demanda debido a {demanda_estacional}."
-        else:
-            texto_retro_b = "✅ Retroalimentación Estable: Flujo de distribución cumplido en tiempo y forma."
-
-        st.markdown(f"""
-            <div class="retroalimentacion-container" style="border-top-color: #16a34a;">
-                <div class="retroalimentacion-badge" style="background: linear-gradient(135deg, #16a34a 0%, #14532d 100%); box-shadow: 0 6px 18px rgba(22, 163, 74, 0.4);">🔄 Retroalimentación Activa</div>
-                <p style="margin-top: 12px; font-weight: bold; color: #064e3b; font-size: 15px; background: rgba(255,255,255,0.85); padding: 8px; border-radius: 6px; display: inline-block;">
-                    {texto_retro_b}
-                </p>
-            </div>
-        """, unsafe_allow_html=True)
+    # 4. RETROALIMENTACIÓN
+    if pedidos_diarios > capacidad_total_flota:
+        texto_retro_b = f"⚠️ Retroalimentación de Alerta Logística: Demanda ({pedidos_diarios}) supera capacidad ({capacidad_total_flota}). Requiere refuerzo de flota."
+    elif "Calor" in demanda_estacional:
+        texto_retro_b = f"🔄 Retroalimentación Estacional: Operación intensiva por alta demanda debido a {demanda_estacional}."
     else:
-        st.markdown("""
-            <div class="retroalimentacion-container" style="border-top-style: dotted; border-top-color: #16a34a; opacity: 0.5;">
-                <div class="retroalimentacion-badge" style="background: #94a3b8;">🔄 Retroalimentación (Haz clic en el botón 4)</div>
-            </div>
-        """, unsafe_allow_html=True)
+        texto_retro_b = "✅ Retroalimentación Estable: Flujo de distribución cumplido en tiempo y forma."
+
+    st.markdown(f"""
+    <div class="nodo-retro" style="border-color: #15803d; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
+        <h3 style="color: #15803d; margin-bottom: 10px; font-weight: 900;">🔄 4. RETROALIMENTACIÓN (FEEDBACK)</h3>
+        <p style="font-size: 14px; color: #064e3b; margin: 0; font-weight: 700;">
+            {texto_retro_b}
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown("</div>", unsafe_allow_html=True) # Cierre de ambiente box B
 
@@ -612,4 +473,4 @@ with tab2:
         """)
 
     st.markdown("---")
-    st.markdown("📸 **Ilustrativo 2.** *Diagrama sistémico interactivo dinámico con transición paso a paso para el sistema de distribución local de agua*")
+    st.markdown("📸 **Ilustrativo 2.** *Diagrama sistémico integrado en cascada para el sistema de distribución local de agua*")
