@@ -241,7 +241,7 @@ with col_logo:
 
 with col_txt:
     st.markdown("### 4. Diseño o modelo de transporte aplicando Teoría de Sistemas en mi localidad")
-    st.markdown("<p style='font-size:16px; margin:0;'><strong>Estudiante:</strong> Liliana García Solís | <strong>Matrícula:</strong> ES251101336 | <strong>Asignatura:</strong> Sistemas de Transporte</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size:16px; margin:0;'><strong>Estudiante:</strong> Liliana García Solís | <strong>Matrícula:</strong> ES251101336 | <strong>Actividad:</strong> Evidencia de Aprendizaje | <strong>Asignatura:</strong> Sistemas de Transporte</p>", unsafe_allow_html=True)
 
 st.markdown("---")
 
