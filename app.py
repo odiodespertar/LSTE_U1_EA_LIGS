@@ -103,12 +103,13 @@ st.markdown("""
     .nota-calculo {
         background-color: #fffbeb;
         border-left: 4px solid #f59e0b;
-        padding: 10px 14px;
+        padding: 12px 16px;
         border-radius: 6px;
-        font-size: 14px;
+        font-size: 15px;
         color: #b45309;
         margin-top: 10px;
         margin-bottom: 15px;
+        line-height: 1.5;
     }
 
     .ambiente-titulo-naranja {
@@ -315,9 +316,9 @@ with tab1:
     with col_c1:
         num_trenes = st.slider("🚆 Trenes (L6/L7)", 10, 50, 25, key="t_pax_c")
     with col_c2:
-        num_buses = st.slider("🚍 Unidades", 5, 40, 20, key="b_pax_c")
+        num_buses = st.slider("🚍 Autobuses", 5, 40, 20, key="b_pax_c")
     with col_c3:
-        pasajeros_flota = st.slider("👥 Demanda Base [A] (Pax)", 500, 5000, 2000, step=100, key="p_flota_c")
+        pasajeros_flota = st.slider("👥 Demanda Base [A] (Pax)", 500, 5000, 1800, step=100, key="p_flota_c")
     with col_c4:
         horario_operativo = st.selectbox("🕒 Franja Horaria:", ["Pico Matutina", "Hora Valle", "Pico Nocturna"], key="h_pax_c")
 
@@ -341,12 +342,16 @@ with tab1:
     capacidad_l7 = int(matriz_capacidad[1, 1]) * int(matriz_capacidad[1, 2])
     capacidad_bus = int(matriz_capacidad[2, 1]) * int(matriz_capacidad[2, 2])
 
-    capacidad_oferta = capacidad_l6 + capacidad_l7 + capacidad_bus  # Sistema de Transporte (T)
+    capacidad_oferta = capacidad_l6 + capacidad_l7 + capacidad_bus  # Sistema de Transporte (T en personas)
+    total_unidades_a = (num_trenes * 2) + num_buses                 # Total físico de vehículos
     demanda_ajustada = int(pasajeros_flota * factor_franja)          # Sistema de Actividades (A)
 
     st.markdown(f"""
         <div class="nota-calculo">
-            💡 <strong>Nota del modelo (Manheim):</strong> Oferta de transporte [T = {capacidad_oferta} pax] frente al Sistema de Actividades [A = {pasajeros_flota} pax]. Al aplicar la franja <strong>{horario_operativo} ({factor_franja}x)</strong>, el Volumen de flujo resultante es <strong>[V = {demanda_ajustada} pax]</strong>.
+            💡 <strong>Nota del modelo (Manheim):</strong> <br>
+            • <strong>Oferta de Transporte [T]:</strong> {total_unidades_a} unidades físicas ({num_trenes} trenes L6 + {num_trenes} trenes L7 + {num_buses} autobuses) ➔ <strong>{capacidad_oferta:,} pax</strong> de capacidad total acumulada.<br>
+            • <strong>Sistema de Actividades [A]:</strong> Demanda base de {pasajeros_flota:,} pax.<br>
+            • <strong>Volumen [V]:</strong> Con la franja <strong>{horario_operativo} ({factor_franja}x)</strong>, el volumen resulta en <strong>[V = {demanda_ajustada:,} pax]</strong>.
         </div>
     """, unsafe_allow_html=True)
 
@@ -374,7 +379,7 @@ with tab1:
 
     st.markdown(f"""
         <div class="dynamic-banner" style="color: {color_b_a}; border-color: {color_b_a};">
-            🚀 FLUJO ACTIVO [V]: <span class="floating-icon">🚆</span> {num_trenes} Trenes | <span class="floating-icon">🚍</span> {num_buses} Buses | <span class="floating-icon">👥</span> {demanda_ajustada} Pax<br>
+            🚀 FLUJO ACTIVO [V]: <span class="floating-icon">🚆</span> {num_trenes*2} Trenes | <span class="floating-icon">🚍</span> {num_buses} Buses | <span class="floating-icon">👥</span> {demanda_ajustada:,} Pax<br>
             <span style="font-size: 15px;">{alerta_banner_a}</span>
         </div>
     """, unsafe_allow_html=True)
@@ -401,10 +406,10 @@ with tab1:
             st.markdown(f"""
             <div class="card-paso card-activa-entrada">
                 <h4 style="color: #0284c7; margin: 0 0 12px 0; font-size: 21px; font-weight: 900;">📥 1. ENTRADA [T]</h4>
-                <p style="font-size: 17px; margin: 0; line-height: 1.6;">
-                    <strong>Oferta [T]:</strong> {num_trenes} trenes, {num_buses} buses.<br>
-                    <strong>Demanda Base [A]:</strong> <span style="color: #0284c7; font-weight: bold;">{pasajeros_flota} pax</span><br>
-                    <em>Capacidad total: {capacidad_oferta} pax</em>
+                <p style="font-size: 16px; margin: 0; line-height: 1.5;">
+                    <strong>Flota [T]:</strong> {total_unidades_a} unidades<br>({num_trenes*2} trenes, {num_buses} buses).<br>
+                    <strong>Capacidad Máx:</strong> <span style="color: #0284c7; font-weight: bold;">{capacidad_oferta:,} pax</span><br>
+                    <em>Demanda base [A]: {pasajeros_flota:,} pax</em>
                 </p>
             </div>
             """, unsafe_allow_html=True)
@@ -421,9 +426,9 @@ with tab1:
             st.markdown(f"""
             <div class="card-paso card-activa-proceso">
                 <h4 style="color: #fbbf24; margin: 0 0 12px 0; font-size: 21px; font-weight: 900;">⚙️ 2. PROCESAMIENTO [V]</h4>
-                <p style="font-size: 17px; margin: 0; line-height: 1.6; color: #f8fafc;">
+                <p style="font-size: 16px; margin: 0; line-height: 1.5; color: #f8fafc;">
                     <strong>Franja:</strong> {horario_operativo}<br>
-                    <strong>Volumen [V]:</strong> <span style="color: #fbbf24; font-weight: bold;">{demanda_ajustada} pax</span><br>
+                    <strong>Volumen [V]:</strong> <span style="color: #fbbf24; font-weight: bold;">{demanda_ajustada:,} pax</span><br>
                     <em>Saturación: {tasa_saturacion:.1f}%</em>
                 </p>
             </div>
@@ -441,9 +446,9 @@ with tab1:
             st.markdown(f"""
             <div class="card-paso card-activa-salida">
                 <h4 style="color: #16a34a; margin: 0 0 12px 0; font-size: 21px; font-weight: 900;">📤 3. SALIDA [S]</h4>
-                <p style="font-size: 17px; margin: 0; line-height: 1.6;">
+                <p style="font-size: 16px; margin: 0; line-height: 1.5;">
                     <strong>Nivel de Serv. [S]:</strong> {nivel_servicio_s:.2f}<br>
-                    <span style="color: #16a34a; font-weight: bold;">{demanda_ajustada} pax</span> transferidos exitosamente a la red.
+                    <span style="color: #16a34a; font-weight: bold;">{demanda_ajustada:,} pax</span> transferidos exitosamente a la red.
                 </p>
             </div>
             """, unsafe_allow_html=True)
@@ -473,7 +478,7 @@ with tab1:
             st.markdown(f"""
             <div class="card-paso card-activa-retro">
                 <h4 style="color: #ea580c; margin: 0 0 12px 0; font-size: 21px; font-weight: 900;">🔄 4. RETROALIMENTACIÓN</h4>
-                <p style="font-size: 17px; margin: 0; line-height: 1.6; color: #9a3412; font-weight: 800;">
+                <p style="font-size: 16px; margin: 0; line-height: 1.5; color: #9a3412; font-weight: 800;">
                     {txt_r}
                 </p>
             </div>
@@ -518,7 +523,10 @@ with tab2:
 
     st.markdown(f"""
         <div class="nota-calculo">
-            💡 <strong>Nota del modelo logístico:</strong> El código valida la capacidad máxima de la flota [T = {capacidad_total_flota} garrafones] frente al los pedidos diarios ajustados por temporada [A = {pedidos_ajustados} garrafones], evitando duplicidad en el conteo por ruta.
+            💡 <strong>Nota del modelo logístico:</strong><br>
+            • <strong>Flota [T]:</strong> {unidades_reparto} vehículos ➔ <strong>{capacidad_total_flota:,} garrafones</strong> de capacidad máxima.<br>
+            • <strong>Pedidos ajustados por temporada [A]:</strong> {pedidos_ajustados:,} garrafones (Temporada {demanda_estacional}).<br>
+            • El control lógico valida la capacidad total para evitar sobrecarga física o duplicidad de entregas por ruta.
         </div>
     """, unsafe_allow_html=True)
 
@@ -544,7 +552,7 @@ with tab2:
 
     st.markdown(f"""
         <div class="dynamic-banner" style="background: linear-gradient(90deg, #dcfce7 0%, #fef3c7 50%, #e0f2fe 100%); color: {color_b_b}; border-color: {color_b_b};">
-            🚚 RUTA LOGÍSTICA [T]: <span class="floating-icon">🚚</span> {unidades_reparto} Unidades | <span class="floating-icon">💧</span> {pedidos_ajustados} Garrafones<br>
+            🚚 RUTA LOGÍSTICA [T]: <span class="floating-icon">🚚</span> {unidades_reparto} Unidades ({capacidad_total_flota:,} cap.) | <span class="floating-icon">💧</span> {pedidos_ajustados:,} Garrafones<br>
             <span style="font-size: 15px;">{alerta_banner_b}</span>
         </div>
     """, unsafe_allow_html=True)
@@ -571,10 +579,10 @@ with tab2:
             st.markdown(f"""
             <div class="card-paso card-activa-entrada">
                 <h4 style="color: #0284c7; margin: 0 0 12px 0; font-size: 21px; font-weight: 900;">📥 1. ENTRADA [T]</h4>
-                <p style="font-size: 17px; margin: 0; line-height: 1.6;">
+                <p style="font-size: 16px; margin: 0; line-height: 1.5;">
                     <strong>Flota [T]:</strong> {unidades_reparto} vehículos.<br>
-                    <strong>Demanda [A]:</strong> <span style="color: #0284c7; font-weight: bold;">{pedidos_diarios} garrafones</span><br>
-                    <em>Capacidad máxima: {capacidad_total_flota} un.</em>
+                    <strong>Capacidad Máx:</strong> <span style="color: #0284c7; font-weight: bold;">{capacidad_total_flota:,} garrafones</span><br>
+                    <em>Demanda base [A]: {pedidos_diarios:,} un.</em>
                 </p>
             </div>
             """, unsafe_allow_html=True)
@@ -591,9 +599,9 @@ with tab2:
             st.markdown(f"""
             <div class="card-paso card-activa-proceso">
                 <h4 style="color: #fbbf24; margin: 0 0 12px 0; font-size: 21px; font-weight: 900;">⚙️ 2. PROCESAMIENTO [V]</h4>
-                <p style="font-size: 17px; margin: 0; line-height: 1.6; color: #f0fdf4;">
+                <p style="font-size: 16px; margin: 0; line-height: 1.5; color: #f0fdf4;">
                     <strong>Temporada:</strong> {demanda_estacional}<br>
-                    <strong>Volumen [V]:</strong> <span style="color: #fbbf24; font-weight: bold;">{pedidos_ajustados} garrafones</span><br>
+                    <strong>Volumen [V]:</strong> <span style="color: #fbbf24; font-weight: bold;">{pedidos_ajustados:,} garrafones</span><br>
                     <em>Control lógico sin duplicidad en rutas.</em>
                 </p>
             </div>
@@ -611,9 +619,9 @@ with tab2:
             st.markdown(f"""
             <div class="card-paso card-activa-salida">
                 <h4 style="color: #16a34a; margin: 0 0 12px 0; font-size: 21px; font-weight: 900;">📤 3. SALIDA [S]</h4>
-                <p style="font-size: 17px; margin: 0; line-height: 1.6;">
+                <p style="font-size: 16px; margin: 0; line-height: 1.5;">
                     <strong>Distribución eficiente:</strong><br>
-                    <span style="color: #16a34a; font-weight: bold;">{pedidos_ajustados} garrafones</span> entregados sin exceder límites de carga.
+                    <span style="color: #16a34a; font-weight: bold;">{pedidos_ajustados:,} garrafones</span> entregados sin exceder límites de carga.
                 </p>
             </div>
             """, unsafe_allow_html=True)
@@ -643,7 +651,7 @@ with tab2:
             st.markdown(f"""
             <div class="card-paso card-activa-retro">
                 <h4 style="color: #ea580c; margin: 0 0 12px 0; font-size: 21px; font-weight: 900;">🔄 4. RETROALIMENTACIÓN</h4>
-                <p style="font-size: 17px; margin: 0; line-height: 1.6; color: #9a3412; font-weight: 800;">
+                <p style="font-size: 16px; margin: 0; line-height: 1.5; color: #9a3412; font-weight: 800;">
                     {txt_rb}
                 </p>
             </div>
