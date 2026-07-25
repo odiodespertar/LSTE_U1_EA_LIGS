@@ -123,7 +123,7 @@ with tab1:
         st.success(f"✅ **Retroalimentación óptima ({horario_operativo}):** Flujo continuo reportado por los usuarios sin saturación crítica en la correspondencia con la configuración actual.")
 
     st.markdown("---")
-    st.markdown("📸 **Ilustrativo 1.** *Diagrama sistémico del sistema multimodal de transporte de personas en el CETRAM El Rosario *")
+    st.markdown("📸 **Ilustrativo 1.** *Diagrama sistémico del sistema multimodal de transporte de personas en el CETRAM El Rosario*")
 
 # ==========================================
 # PESTAÑA B: DISTRIBUCIÓN DE AGUA EN GARRAFÓN
