@@ -443,7 +443,7 @@ with tab1:
         color_b_a = "#d97706"
     else:
         alerta_banner_a = f"✅ ESTABILIDAD OPERATIVA: {modelo_pasajeros['Estado']} con {tasa_saturacion:.1f}% de ocupación."
-        color_b_a = "#0369a1"
+        color_b_a = "#0369a1" 
 
     st.markdown(f"""
         <div class="dynamic-banner" style="color: {color_b_a}; border-color: {color_b_a};">
