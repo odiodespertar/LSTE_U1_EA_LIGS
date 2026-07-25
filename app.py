@@ -458,7 +458,7 @@ with tab1:
             st.session_state.paso_seq_a = (st.session_state.paso_seq_a % 4) + 1
             st.rerun()
     with col_btn_seq2:
-        if st.button("🔄 Reiniciar Ciclo", use_container_width=True, key="reiniciar_a"):
+        if st.button("🔄 Reiniciar Ciclo A", use_container_width=True, key="reiniciar_a"):
             st.session_state.paso_seq_a = 1
             st.rerun()
     with col_btn_seq3:
