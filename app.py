@@ -358,96 +358,196 @@ with tab1:
             <div class="ambiente-titulo-naranja">🌐 AMBIENTE: CETRAM El Rosario (Pasajeros)</div>
     """, unsafe_allow_html=True)
 
-    col_n1, col_n2, col_n3, col_n4 = st.columns(4)
 
-    with col_n1:
-        if st.session_state.paso_seq_a == 1:
-            st.markdown(f"""
-            <div class="card-paso card-activa-entrada">
-                <h4 style="color: #0284c7; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">📥 1. ENTRADA</h4>
-                <p style="font-size: 14px; margin: 0; line-height: 1.4;">
-                    <strong>Teoría:</strong> Infraestructura (T) + Actividad (A).<br>
-                    <strong>Caso Local:</strong> {total_unidades_a} unidades activas en CETRAM determinan la oferta frente a una base de {pasajeros_flota:,} pasajeros.
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
-        else:
-            st.markdown("""
-            <div class="card-paso card-inactiva">
-                <h4>📥 1. ENTRADA</h4>
-                <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
-            </div>
-            """, unsafe_allow_html=True)
+    # ================================
+    # MODELO SISTÉMICO VISUAL A
+    # ================================
 
-    with col_n2:
-        if st.session_state.paso_seq_a == 2:
-            st.markdown(f"""
-            <div class="card-paso card-activa-proceso">
-                <h4 style="color: #fbbf24; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">⚙️ 2. PROCESO [V]</h4>
-                <p style="font-size: 14px; margin: 0; line-height: 1.4; color: #f8fafc;">
-                    <strong>Teoría:</strong> Absorción de demanda sin colapsar.<br>
-                    <strong>Caso Local:</strong> En horario <em>{horario_operativo}</em> el volumen asciende a <strong>{demanda_ajustada:,} pax</strong>, modificando la presión operativa.
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
-        else:
-            st.markdown("""
-            <div class="card-paso card-inactiva">
-                <h4>⚙️ 2. PROCESO [V]</h4>
-                <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
-            </div>
-            """, unsafe_allow_html=True)
+    st.markdown(f"""
+    <style>
 
-    with col_n3:
-        if st.session_state.paso_seq_a == 3:
-            st.markdown(f"""
-            <div class="card-paso card-activa-salida">
-                <h4 style="color: #16a34a; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">📤 3. SALIDA [S]</h4>
-                <p style="font-size: 14px; margin: 0; line-height: 1.4;">
-                    <strong>Teoría:</strong> Intersección de flujos estables.<br>
-                    <strong>Caso Local:</strong> Índice de servicio <strong>{nivel_servicio_s:.2f}</strong>. Los usuarios se transfieren a la red de transporte masivo.
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
-        else:
-            st.markdown("""
-            <div class="card-paso card-inactiva">
-                <h4>📤 3. SALIDA [S]</h4>
-                <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
-            </div>
-            """, unsafe_allow_html=True)
+    .modelo-sistema {{
+        position: relative;
+        border: 5px solid #f97316;
+        border-radius: 50%;
+        padding: 35px;
+        min-height: 420px;
+        background: linear-gradient(135deg,#fff7ed,#ffedd5);
+        margin-top:25px;
+    }}
 
-    with col_n4:
-        if st.session_state.paso_seq_a == 4:
-            if demanda_ajustada > capacidad_oferta:
-                txt_r = (
-                    f"⚠️ <strong>Homeostasis alterada ({tasa_saturacion:.1f}%):</strong> "
-                    f"A largo plazo, el sistema exige transformación estructural (ampliación de andenes o reestructuración de carriles). "
-                    f"Sugerencia operativa: {trenes_extra} tren(es) o {autobuses_extra} autobús(es) extra."
-                )
-            else:
-                txt_r = (
-                    f"✅ <strong>Homeostasis estable ({tasa_saturacion:.1f}%):</strong> "
-                    f"El equilibrio operativo absorbe la demanda actual sin requerir modificaciones estructurales inmediatas."
-                )
 
-            st.markdown(f"""
-            <div class="card-paso card-activa-retro">
-                <h4 style="color: #ea580c; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">🔄 4. RETROALIMENTACIÓN</h4>
-                <p style="font-size: 13px; margin: 0; line-height: 1.4; color: #9a3412; font-weight: 700;">
-                    {txt_r}
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
-        else:
-            st.markdown("""
-            <div class="card-paso card-inactiva">
-                <h4>🔄 4. RETROALIMENTACIÓN</h4>
-                <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
-            </div>
-            """, unsafe_allow_html=True)
+    .titulo-ambiente {{
+        text-align:center;
+        font-size:28px;
+        font-weight:900;
+        color:#c2410c;
+        margin-bottom:20px;
+    }}
 
-    st.markdown("</div>", unsafe_allow_html=True)
+
+    .entrada {{
+        position:absolute;
+        left:20px;
+        top:180px;
+        background:#dbeafe;
+        border:3px solid #0284c7;
+        padding:15px;
+        border-radius:15px;
+        width:180px;
+        text-align:center;
+        font-weight:bold;
+    }}
+
+
+    .proceso {{
+        position:absolute;
+        left:38%;
+        top:140px;
+        background:#1e293b;
+        color:white;
+        border:4px solid #f59e0b;
+        padding:25px;
+        border-radius:12px;
+        width:260px;
+        text-align:center;
+    }}
+
+
+    .salida {{
+        position:absolute;
+        right:20px;
+        top:180px;
+        background:#dcfce7;
+        border:3px solid #16a34a;
+        padding:15px;
+        border-radius:15px;
+        width:180px;
+        text-align:center;
+        font-weight:bold;
+    }}
+
+
+    .retro {{
+        position:absolute;
+        bottom:35px;
+        left:25%;
+        width:50%;
+        background:#ffedd5;
+        border:3px solid #ea580c;
+        border-radius:20px;
+        padding:15px;
+        text-align:center;
+        font-weight:bold;
+    }}
+
+
+    .flecha {{
+        font-size:40px;
+        font-weight:bold;
+    }}
+
+    </style>
+
+
+    <div class="modelo-sistema">
+
+    <div class="titulo-ambiente">
+    🌐 AMBIENTE: CETRAM EL ROSARIO
+    </div>
+
+
+    <div class="entrada">
+
+    📥 ENTRADA
+
+    <br><br>
+
+    <strong>Oferta [T]</strong><br>
+
+    🚆 {num_trenes*2} trenes<br>
+
+    🚍 {num_buses} autobuses
+
+    <br><br>
+
+    Capacidad:
+    {capacidad_oferta:,} pasajeros
+
+    </div>
+
+
+
+    <div class="proceso">
+
+    ⚙️ PROCESO
+
+    <br><br>
+
+    <strong>Flujo [V]</strong>
+
+    <br><br>
+
+    Demanda ajustada:
+
+    <h2>{demanda_ajustada:,}</h2>
+
+    pasajeros
+
+    <br>
+
+    Horario:
+    {horario_operativo}
+
+    </div>
+
+
+
+    <div class="salida">
+
+    📤 SALIDA
+
+    <br><br>
+
+    <strong>Servicio [S]</strong>
+
+    <br><br>
+
+    Nivel:
+
+    {nivel_servicio_s:.2f}
+
+    <br><br>
+
+    Saturación:
+
+    {tasa_saturacion:.1f}%
+
+    </div>
+
+
+
+    <div class="retro">
+
+    🔄 RETROALIMENTACIÓN
+
+    <br><br>
+
+    {modelo_pasajeros["Estado"]}
+
+    <br>
+
+    El sistema ajusta frecuencias,
+    capacidad y operación según la demanda.
+
+    </div>
+
+
+    </div>
+
+    """, unsafe_allow_html=True)
+
+
 
 # ==========================================
 # PESTAÑA B: DISTRIBUCIÓN DE AGUA
