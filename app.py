@@ -59,7 +59,7 @@ st.markdown("---")
 # Pestañas principales
 tab1, tab2 = st.tabs([
     "A. Sistema Multimodal: CETRAM El Rosario (Pasajeros)",
-    "B. Distribución de Carga: Agua en Garrafón en U.H. El Rosario (Mercancías)"
+    "B. Distribución de Carga: Agua en Garrafón (Mercancías)"
 ])
 
 # ==========================================
@@ -75,14 +75,14 @@ with tab1:
 
     col_c1, col_c2, col_c3, col_c4 = st.columns(4)
     with col_c1:
-        num_trenes = st.slider("Trenes activos (L6 y L7)", 10, 50, 25, key="t_pax")
+        num_trenes = st.slider("🚆 Trenes activos (L6 y L7)", 10, 50, 25, key="t_pax")
     with col_c2:
-        num_buses = st.slider("Unidades (Metrobús / Trolebús)", 5, 40, 20, key="b_pax")
+        num_buses = st.slider("🚍 Unidades de superficie", 5, 40, 20, key="b_pax")
     with col_c3:
-        pasajeros_flota = st.slider("Pasajeros a trasladar", 500, 5000, 2000, step=100, key="p_flota")
+        pasajeros_flota = st.slider("👥 Pasajeros a trasladar", 500, 5000, 2000, step=100, key="p_flota")
     with col_c4:
         horario_operativo = st.selectbox(
-            "Franja Horaria:",
+            "🕒 Franja Horaria:",
             [
                 "Hora Pico Matutina (Mañana)", 
                 "Hora Valle / Intermedia (Tarde)", 
@@ -180,11 +180,11 @@ with tab2:
 
     col_d1, col_d2, col_d3 = st.columns(3)
     with col_d1:
-        unidades_reparto = st.slider("Vehículos de redilas en ruta", 1, 10, 3, key="slider_camiones")
+        unidades_reparto = st.slider("🚚 Vehículos de redilas en ruta", 1, 10, 3, key="slider_camiones")
     with col_d2:
-        pedidos_diarios = st.slider("Número de Pedidos (Garrafones)", 50, 400, 150, step=10, key="slider_pedidos")
+        pedidos_diarios = st.slider("💧 Número de Pedidos (Garrafones)", 50, 400, 150, step=10, key="slider_pedidos")
     with col_d3:
-        demanda_estacional = st.selectbox("Variación de Demanda Estacional", ["Temporada Regular", "Temporada de Calor (Alta Demanda)"], key="d_estacional")
+        demanda_estacional = st.selectbox("🌤️ Variación de Demanda Estacional", ["Temporada Regular", "Temporada de Calor (Alta Demanda)"], key="d_estacional")
 
     capacidad_total_flota = unidades_reparto * 50
     balance_operativo = capacidad_total_flota - pedidos_diarios
