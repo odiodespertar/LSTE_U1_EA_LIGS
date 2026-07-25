@@ -331,7 +331,7 @@ with st.expander("👉 Indicaciones de navegación y modelos teóricos", expande
         <ul style="margin: 0; padding-left: 20px; color: #0c4a6e;">
             <li style="margin-bottom: 10px;"><strong>Diagrama de Manheim (T - A - F):</strong> Visualiza la interacción sistémica entre el Sistema de Transporte, el Sistema de Actividades y los Flujos.</li>
             <li style="margin-bottom: 10px;"><strong>Pestañas A y B:</strong> Explora el sistema multimodal de pasajeros y la distribución de carga en garrafones.</li>
-            <li><strong>Avance secuencial:</strong> Utiliza el botón de "Avanzar Secuencia Teórica" para recorrer las dimensiones de Entrada, Proceso, Salida y Retroalimentación.</li>
+            <li><strong>Avance secuencial:</strong> Utiliza el botón de "Avanzar al siguiente componente" para recorrer las dimensiones de Entrada, Proceso, Salida y Retroalimentación.</li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
