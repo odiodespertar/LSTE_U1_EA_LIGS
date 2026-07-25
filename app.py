@@ -4,11 +4,11 @@ import math
 
 
 # ==========================================================
-# FUNCIONES DEL MODELO SISTÉMICO Y SUSSMAN
+# FUNCIONES DEL MODELO DE MANHEIM (T - A - F)
 # ==========================================================
 
-def calcular_modelo_manheim(T, A, capacidad_total):
-    V = A  
+def calcular_modelo_manheim(T_oferta, A_demanda, capacidad_total):
+    V = A_demanda  # Volumen de flujo generado por las actividades
     if capacidad_total > 0 and V > 0:
         S = capacidad_total / V
     else:
@@ -17,14 +17,14 @@ def calcular_modelo_manheim(T, A, capacidad_total):
     saturacion = (V / capacidad_total) * 100 if capacidad_total else 0
 
     if saturacion <= 85:
-        estado = "🟢 Homeostasis óptima"
+        estado = "🟢 Homeostasis óptima (Equilibrio T-A-F)"
     elif saturacion <= 100:
         estado = "🟡 Cercano a saturación"
     else:
-        estado = "🔴 Sistema saturado"
+        estado = "🔴 Sistema saturado (Desequilibrio)"
 
     return {
-        "Volumen": V,
+        "Flujo": V,
         "Nivel_servicio": S,
         "Saturacion": saturacion,
         "Estado": estado
@@ -42,12 +42,12 @@ def recomendar_unidades(deficit, capacidad_unidad):
 # ==========================================================
 
 st.set_page_config(
-    page_title="Modelos Prácticos - Enfoque Sistémico y Cubo 3D de Sussman",
-    page_icon="cube",
+    page_title="Modelo de Interacción Manheim (T - A - F)",
+    page_icon="🔄",
     layout="wide",
 )
 
-# Estilos CSS avanzados con efectos 3D para el Cubo de Sussman y las animaciones previas
+# Estilos CSS para el diagrama interactivo de Manheim (T, A, F)
 st.markdown("""
     <style>
     .streamlit-expanderHeader {
@@ -86,56 +86,56 @@ st.markdown("""
         line-height: 1.5;
     }
 
-    /* Estilos mejorados para el Cubo 3D Interactivo de Sussman */
-    .cubo-3d-wrapper {
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        border: 3px solid #38bdf8;
-        border-radius: 20px;
-        padding: 20px;
-        color: #f8fafc;
+    /* Contenedor del Diagrama de Manheim */
+    .manheim-container {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border: 3px solid #0284c7;
+        border-radius: 22px;
+        padding: 25px;
         margin-bottom: 25px;
-        box-shadow: 0 10px 30px rgba(56, 189, 248, 0.25);
+        box-shadow: 0 10px 25px rgba(2, 132, 199, 0.15);
     }
 
-    .cubo-3d-title {
+    .manheim-title {
         text-align: center;
-        font-size: 19px;
+        font-size: 20px;
         font-weight: 900;
-        color: #38bdf8;
-        margin-bottom: 15px;
+        color: #0369a1;
+        margin-bottom: 20px;
         text-transform: uppercase;
-        letter-spacing: 1.5px;
-    }
-
-    .eje-cubo-card {
-        background: rgba(255, 255, 255, 0.07);
-        border: 2px solid rgba(56, 189, 248, 0.4);
-        border-radius: 14px;
-        padding: 14px;
-        text-align: center;
-        transition: all 0.3s ease;
-        height: 100%;
-    }
-
-    .eje-cubo-card:hover {
-        border-color: #38bdf8;
-        transform: translateY(-3px);
-        box-shadow: 0 6px 20px rgba(56, 189, 248, 0.3);
-    }
-
-    .eje-titulo {
-        font-size: 13px;
-        font-weight: 800;
-        color: #38bdf8;
-        text-transform: uppercase;
-        margin-bottom: 6px;
         letter-spacing: 1px;
     }
 
-    .eje-valor {
-        font-size: 15px;
-        font-weight: 700;
-        color: #ffffff;
+    .nodo-manheim {
+        background: #ffffff;
+        border: 3px solid #0284c7;
+        border-radius: 16px;
+        padding: 18px;
+        text-align: center;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+        height: 100%;
+        transition: all 0.3s ease;
+    }
+
+    .nodo-manheim:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(2, 132, 199, 0.25);
+    }
+
+    .nodo-t { border-color: #0284c7; background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%); }
+    .nodo-a { border-color: #f59e0b; background: linear-gradient(135deg, #ffffff 0%, #fef3c7 100%); }
+    .nodo-f { border-color: #16a34a; background: linear-gradient(135deg, #ffffff 0%, #dcfce7 100%); }
+
+    .conexion-badge {
+        background: #0f172a;
+        color: #38bdf8;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-weight: 800;
+        font-size: 14px;
+        display: inline-block;
+        margin: 10px 0;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
     .ambiente-titulo-naranja {
@@ -296,7 +296,7 @@ with st.expander("👉 Indicaciones de navegación y modelos teóricos", expande
     <div class="instrucciones-box">
         <p style="margin: 0 0 8px 0; font-weight: bold; color: #0369a1; font-size: 20px !important;">Instrucciones de Uso:</p>
         <ul style="margin: 0; padding-left: 20px; color: #0c4a6e;">
-            <li style="margin-bottom: 8px;"><strong>Cubo 3D de Sussman (2000):</strong> Visualiza la intersección de las tres dimensiones del transporte de forma interactiva en cada caso.</li>
+            <li style="margin-bottom: 8px;"><strong>Diagrama de Manheim (T - A - F):</strong> Visualiza la interacción sistémica entre el Sistema de Transporte, el Sistema de Actividades y los Flujos de transporte.</li>
             <li style="margin-bottom: 8px;"><strong>Pestañas A y B:</strong> Explora el sistema multimodal de pasajeros y la distribución de carga en garrafones.</li>
             <li><strong>Avance secuencial:</strong> Utiliza el botón de "Avanzar Secuencia Teórica" para recorrer las dimensiones de Entrada, Proceso, Salida y Retroalimentación.</li>
         </ul>
@@ -317,34 +317,37 @@ if "paso_seq_b" not in st.session_state:
 # PESTAÑA A: CETRAM EL ROSARIO
 # ==========================================
 with tab1:
-    st.markdown("<p style='font-weight: bold; color: #ea580c; font-size: 18px; margin-bottom: 8px;'>A. Sistema Multimodal de Pasajeros - CETRAM El Rosario [Cubo 3D de Sussman + Modelo Sistémico]</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-weight: bold; color: #ea580c; font-size: 18px; margin-bottom: 8px;'>A. Sistema Multimodal de Pasajeros - CETRAM El Rosario [Diagrama de Manheim T-A-F + Modelo Sistémico]</p>", unsafe_allow_html=True)
 
-    # Cubo 3D Interactivo Estilizado (Sussman, 2000)
+    # Diagrama de Interacción de Manheim (T - A - F) Estilizado
     st.markdown("""
-        <div class="cubo-3d-wrapper">
-            <div class="cubo-3d-title">🧊 Cubo 3D de Caracterización del Sistema de Transporte — Sussman (2000)</div>
+        <div class="manheim-container">
+            <div class="manheim-title">🔄 Modelo de Interacción del Sistema de Transporte (Manheim, 1979)</div>
     """, unsafe_allow_html=True)
     
-    ca1, ca2, ca3 = st.columns(3)
-    with ca1:
+    ma1, ma2, ma3 = st.columns(3)
+    with ma1:
         st.markdown("""
-            <div class="eje-cubo-card">
-                <div class="eje-titulo">🌐 1. Alcance Geográfico</div>
-                <div class="eje-valor">Urbano (CETRAM Metropolitano)</div>
+            <div class="nodo-manheim nodo-t">
+                <strong style="color: #0284c7; font-size: 16px;">Sistema de Transporte (T)</strong><br>
+                <span class="conexion-badge">Oferta / Capacidad</span><br>
+                <span style="font-size: 14px; color: #334155;">Infraestructura CETRAM + Metro L6/L7 + Buses</span>
             </div>
         """, unsafe_allow_html=True)
-    with ca2:
+    with ma2:
         st.markdown("""
-            <div class="eje-cubo-card">
-                <div class="eje-titulo">👥 2. Naturaleza de Demanda</div>
-                <div class="eje-valor">Pasajeros (Metro L6/L7 + Autobuses)</div>
+            <div class="nodo-manheim nodo-a">
+                <strong style="color: #d97706; font-size: 16px;">Sistema de Actividades (A)</strong><br>
+                <span class="conexion-badge" style="background: #f59e0b; color: #ffffff;">Demanda / Patrones</span><br>
+                <span style="font-size: 14px; color: #334155;">Dinámica urbana y movilidad poblacional local</span>
             </div>
         """, unsafe_allow_html=True)
-    with ca3:
+    with ma3:
         st.markdown("""
-            <div class="eje-cubo-card">
-                <div class="eje-titulo">🏛️ 3. Propiedad / Operación</div>
-                <div class="eje-valor">Pública / Conjunta (Gobierno / Concesionados)</div>
+            <div class="nodo-manheim nodo-f">
+                <strong style="color: #16a34a; font-size: 16px;">Flujos (F)</strong><br>
+                <span class="conexion-badge" style="background: #16a34a; color: #ffffff;">Interacción T ⇄ A</span><br>
+                <span style="font-size: 14px; color: #334155;">Volumen real de pasajeros transportados y servicio</span>
             </div>
         """, unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
@@ -384,13 +387,13 @@ with tab1:
         <div class="nota-calculo">
             💡 <strong>Marco Analítico (Manheim):</strong> <br>
             • <strong>Oferta [T]:</strong> {total_unidades_a} unidades físicas ({num_trenes} trenes L6 + {num_trenes} trenes L7 + {num_buses} autobuses) ➔ <strong>{capacidad_oferta:,} pax</strong> de capacidad total.<br>
-            • <strong>Volumen [V]:</strong> Condicionado por la actividad urbano-poblacional [A] en horario <strong>{horario_operativo}</strong> ➔ <strong>{demanda_ajustada:,} pax</strong>.
+            • <strong>Volumen [V / F]:</strong> Condicionado por la actividad urbano-poblacional [A] en horario <strong>{horario_operativo}</strong> ➔ <strong>{demanda_ajustada:,} pax</strong>.
         </div>
     """, unsafe_allow_html=True)
 
     modelo_pasajeros = calcular_modelo_manheim(
-        T=capacidad_oferta,
-        A=demanda_ajustada,
+        T_oferta=capacidad_oferta,
+        A_demanda=demanda_ajustada,
         capacidad_total=capacidad_oferta
     )
 
@@ -412,7 +415,7 @@ with tab1:
 
     st.markdown(f"""
         <div class="dynamic-banner" style="color: {color_b_a}; border-color: {color_b_a};">
-            🚀 FLUJO ACTIVO [V]: <span class="floating-icon">🚆</span> {num_trenes*2} Trenes | <span class="floating-icon">🚍</span> {num_buses} Buses | <span class="floating-icon">👥</span> {demanda_ajustada:,} Pax<br>
+            🚀 FLUJO ACTIVO [F]: <span class="floating-icon">🚆</span> {num_trenes*2} Trenes | <span class="floating-icon">🚍</span> {num_buses} Buses | <span class="floating-icon">👥</span> {demanda_ajustada:,} Pax<br>
             <span style="font-size: 15px;">{alerta_banner_a}</span>
         </div>
     """, unsafe_allow_html=True)
@@ -465,21 +468,21 @@ with tab1:
         if st.session_state.paso_seq_a == 2:
             st.markdown(f"""
             <div class="card-paso card-activa-proceso">
-                <h4 style="color: #fbbf24; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">⚙️ SUBSISTEMAS Y PROCESO [V]</h4>
+                <h4 style="color: #fbbf24; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">⚙️ SUBSISTEMAS Y PROCESO [F]</h4>
                 <p style="font-size: 13px; margin: 0; line-height: 1.4; color: #f8fafc;">
                     <strong>Componentes:</strong><br>
                     • Planeación de frecuencias<br>
                     • Asignación de unidades<br>
                     • Control operativo<br>
                     • Transporte de pasajeros<br>
-                    <strong>Volumen [V] ({horario_operativo}):</strong> <strong>{demanda_ajustada:,} pax</strong>.
+                    <strong>Volumen [F] ({horario_operativo}):</strong> <strong>{demanda_ajustada:,} pax</strong>.
                 </p>
             </div>
             """, unsafe_allow_html=True)
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>⚙️ PROCESO [V]</h4>
+                <h4>⚙️ PROCESO [F]</h4>
                 <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
@@ -546,34 +549,37 @@ with tab1:
 # PESTAÑA B: DISTRIBUCIÓN DE AGUA
 # ==========================================
 with tab2:
-    st.markdown("<p style='font-weight: bold; color: #16a34a; font-size: 18px; margin-bottom: 8px;'>B. Distribución de Carga (Garrafones) - U.H. El Rosario [Cubo 3D de Sussman + Modelo Logístico]</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-weight: bold; color: #16a34a; font-size: 18px; margin-bottom: 8px;'>B. Distribución de Carga (Garrafones) - U.H. El Rosario [Diagrama de Manheim T-A-F + Modelo Logístico]</p>", unsafe_allow_html=True)
 
-    # Cubo 3D Interactivo Estilizado para Carga (Sussman, 2000)
+    # Diagrama de Interacción de Manheim (T - A - F) para Carga Estilizado
     st.markdown("""
-        <div class="cubo-3d-wrapper" style="border-color: #10b981; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.25);">
-            <div class="cubo-3d-title" style="color: #34d399;">🧊 Cubo 3D de Caracterización del Sistema de Transporte — Sussman (2000)</div>
+        <div class="manheim-container" style="border-color: #10b981; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);">
+            <div class="manheim-title" style="color: #064e3b;">🔄 Modelo de Interacción del Sistema de Transporte (Manheim, 1979) — Carga</div>
     """, unsafe_allow_html=True)
     
-    cb1, cb2, cb3 = st.columns(3)
-    with cb1:
+    mb1, mb2, mb3 = st.columns(3)
+    with mb1:
         st.markdown("""
-            <div class="eje-cubo-card" style="border-color: rgba(52, 211, 153, 0.4);">
-                <div class="eje-titulo" style="color: #34d399;">🌐 1. Alcance Geográfico</div>
-                <div class="eje-valor">Urbano (Reparto local U.H.)</div>
+            <div class="nodo-manheim nodo-t" style="border-color: #10b981;">
+                <strong style="color: #10b981; font-size: 16px;">Sistema de Transporte (T)</strong><br>
+                <span class="conexion-badge" style="background: #10b981; color: #ffffff;">Flota / Capacidad</span><br>
+                <span style="font-size: 14px; color: #334155;">Vehículos de redilas y rutas de reparto local</span>
             </div>
         """, unsafe_allow_html=True)
-    with cb2:
+    with mb2:
         st.markdown("""
-            <div class="eje-cubo-card" style="border-color: rgba(52, 211, 153, 0.4);">
-                <div class="eje-titulo" style="color: #34d399;">💧 2. Naturaleza de Demanda</div>
-                <div class="eje-valor">Carga / Mercancías (Garrafones)</div>
+            <div class="nodo-manheim nodo-a" style="border-color: #f59e0b;">
+                <strong style="color: #d97706; font-size: 16px;">Sistema de Actividades (A)</strong><br>
+                <span class="conexion-badge" style="background: #f59e0b; color: #ffffff;">Demanda / Pedidos</span><br>
+                <span style="font-size: 14px; color: #334155;">Consumo diario de agua en U.H. El Rosario</span>
             </div>
         """, unsafe_allow_html=True)
-    with cb3:
+    with mb3:
         st.markdown("""
-            <div class="eje-cubo-card" style="border-color: rgba(52, 211, 153, 0.4);">
-                <div class="eje-titulo" style="color: #34d399;">🏛️ 3. Propiedad / Operación</div>
-                <div class="eje-valor">Privada (Flota de distribución comercial)</div>
+            <div class="nodo-manheim nodo-f" style="border-color: #16a34a;">
+                <strong style="color: #16a34a; font-size: 16px;">Flujos (F)</strong><br>
+                <span class="conexion-badge" style="background: #16a34a; color: #ffffff;">Interacción T ⇄ A</span><br>
+                <span style="font-size: 14px; color: #334155;">Volumen real de garrafones distribuidos y entregas</span>
             </div>
         """, unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
@@ -602,14 +608,14 @@ with tab2:
         <div class="nota-calculo">
             💡 <strong>Marco Analítico Logístico:</strong><br>
             • <strong>Flota [T]:</strong> {unidades_reparto} vehículos de redilas ➔ <strong>{capacidad_total_flota:,} garrafones</strong> de capacidad máxima.<br>
-            • <strong>Volumen por demanda estacional [A]:</strong> {pedidos_ajustados:,} garrafones (Temporada {demanda_estacional}).<br>
+            • <strong>Volumen por demanda estacional [F / A]:</strong> {pedidos_ajustados:,} garrafones (Temporada {demanda_estacional}).<br>
             • Ventanas de reparto controladas (Lun-Vie 9:00-17:00, Sáb hasta mediodía).
         </div>
     """, unsafe_allow_html=True)
 
     modelo_garrafones = calcular_modelo_manheim(
-        T=capacidad_total_flota,
-        A=pedidos_ajustados,
+        T_oferta=capacidad_total_flota,
+        A_demanda=pedidos_ajustados,
         capacidad_total=capacidad_total_flota
     )
 
@@ -629,7 +635,7 @@ with tab2:
 
     st.markdown(f"""
         <div class="dynamic-banner" style="background: linear-gradient(90deg, #dcfce7 0%, #fef3c7 50%, #e0f2fe 100%); color: {color_b_b}; border-color: {color_b_b};">
-            🚚 RUTA LOGÍSTICA [T]: <span class="floating-icon">🚚</span> {unidades_reparto} Unidades ({capacidad_total_flota:,} cap.) | <span class="floating-icon">💧</span> {pedidos_ajustados:,} Garrafones<br>
+            🚚 RUTA LOGÍSTICA [F]: <span class="floating-icon">🚚</span> {unidades_reparto} Unidades ({capacidad_total_flota:,} cap.) | <span class="floating-icon">💧</span> {pedidos_ajustados:,} Garrafones<br>
             <span style="font-size: 15px;">{alerta_banner_b}</span>
         </div>
     """, unsafe_allow_html=True)
@@ -681,21 +687,21 @@ with tab2:
         if st.session_state.paso_seq_b == 2:
             st.markdown(f"""
             <div class="card-paso card-activa-proceso">
-                <h4 style="color: #fbbf24; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">⚙️ SUBSISTEMAS Y PROCESO</h4>
+                <h4 style="color: #fbbf24; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">⚙️ SUBSISTEMAS Y PROCESO [F]</h4>
                 <p style="font-size: 13px; margin: 0; line-height: 1.4; color: #f0fdf4;">
                     <strong>Componentes:</strong><br>
                     • Planeación de rutas de entrega<br>
                     • Asignación de vehículos<br>
                     • Control operativo en U.H.<br>
                     • Distribución de carga<br>
-                    <strong>Volumen [V] ({demanda_estacional}):</strong> <strong>{pedidos_ajustados:,} garrafones</strong>.
+                    <strong>Volumen [F] ({demanda_estacional}):</strong> <strong>{pedidos_ajustados:,} garrafones</strong>.
                 </p>
             </div>
             """, unsafe_allow_html=True)
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>⚙️ PROCESO</h4>
+                <h4>⚙️ PROCESO [F]</h4>
                 <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
