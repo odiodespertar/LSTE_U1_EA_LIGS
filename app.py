@@ -29,7 +29,6 @@ st.markdown("""
         font-weight: bold;
         margin: 5px 0;
     }
-    /* Estilo para las burbujas o globos flotantes de señalamiento */
     .stage-badge {
         display: inline-block;
         padding: 4px 12px;
@@ -90,7 +89,14 @@ with tab1:
             key="h_pax"
         )
 
+    # Cálculo matemático de capacidad de oferta de pasajeros por hora
     capacidad_oferta = (num_trenes + num_buses) * 110
+
+    # Bloque de apoyo visual con Fórmulas Matemáticas en LaTeX
+    st.markdown("📐 **Soporte Matemático y Modelo de Cálculo de Oferta:**")
+    st.latex(r"C_{\text{oferta}} = (\text{Trenes Activos} + \text{Unidades Superficie}) \times \text{Capacidad Promedio por Unidad}")
+    st.latex(f"C_{\text{oferta}} = ({num_trenes} + {num_buses}) \\times 110 = {capacidad_oferta} \\text{ pasajeros/hora}")
+
     if "Valle" in horario_operativo:
         estado_operativo = "Operación fluida, estable y con tiempos de espera mínimos."
         nivel_alerta = False
@@ -173,7 +179,16 @@ with tab2:
     with col_d3:
         demanda_estacional = st.selectbox("Variación de Demanda Estacional", ["Temporada Regular", "Temporada de Calor (Alta Demanda)"], key="d_estacional")
 
+    # Cálculos matemáticos de capacidad de flota y déficit/superávit
     capacidad_total_flota = unidades_reparto * 50
+    balance_operativo = capacidad_total_flota - pedidos_diarios
+
+    # Bloque de apoyo visual con Fórmulas Matemáticas en LaTeX para mercancías
+    st.markdown("📐 **Soporte Matemático y Modelo de Ruteo de Carga:**")
+    st.latex(r"C_{\text{flota}} = \text{Unidades Activas} \times \text{Capacidad Unitaria de Carga}")
+    st.latex(f"C_{\text{{flota}}}} = {unidades_reparto} \\times 50 = {capacidad_total_flota} \\text{{ garrafones máx.}}")
+    st.latex(r"\Delta_{\text{demanda}} = C_{\text{flota}} - \text{Pedidos Programados}")
+    st.latex(f"\\Delta_{\text{{demanda}}}} = {capacidad_total_flota} - {pedidos_diarios} = {balance_operativo} \\text{{ unidades de margen de cobertura}}")
 
     st.markdown(f"**📊 Capacidad de la flota ({unidades_reparto} camiones):** {capacidad_total_flota} garrafones máx. | **Demanda a cubrir:** {pedidos_diarios} garrafones")
     st.markdown("---")
