@@ -61,7 +61,7 @@ st.set_page_config(
     layout="wide",
 )
 
-# Estilos CSS avanzados con efectos flotantes e interactivos
+# Estilos CSS avanzados con efectos flotantes e interactivos y diagrama sistémico
 st.markdown("""
     <style>
     .streamlit-expanderHeader {
@@ -128,6 +128,27 @@ st.markdown("""
         text-transform: uppercase;
         letter-spacing: 1px;
         box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    }
+
+    /* Estilo visual del esquema conceptual sistémico */
+    .sistema-macro-container {
+        border: 3px dashed #0284c7;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-radius: 25px;
+        padding: 25px;
+        margin-bottom: 25px;
+        position: relative;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+    .supersistema-label {
+        font-size: 13px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: #64748b;
+        text-align: center;
+        margin-bottom: 15px;
+        letter-spacing: 2px;
     }
 
     .card-paso {
@@ -259,9 +280,9 @@ with st.expander("👉 Indicaciones de navegación", expanded=False):
     <div class="instrucciones-box">
         <p style="margin: 0 0 8px 0; font-weight: bold; color: #0369a1; font-size: 20px !important;">Instrucciones de Uso:</p>
         <ul style="margin: 0; padding-left: 20px; color: #0c4a6e;">
-            <li style="margin-bottom: 8px;"><strong>Pestañas A y B:</strong> Primero elige entre pasajeros (A) y garrafones (B) para interactuar con el modelo sistémico.</li>
-            <li style="margin-bottom: 8px;"><strong>Controles interactivos:</strong> Modifica los sliders y franjas horarias; observa cómo el procesamiento y las alertas dinámicas superiores se actualizan de inmediato.</li>
-            <li><strong>Avance secuencial teórico:</strong> Utiliza el botón de "Avanzar Secuencia Teórica" para recorrer paso a paso los componentes y el modelo analítico integrado.</li>
+            <li style="margin-bottom: 8px;"><strong>Pestañas A y B:</strong> Elige entre pasajeros (A) y garrafones (B) para interactuar con el modelo sistémico basado en el esquema conceptual clásico.</li>
+            <li style="margin-bottom: 8px;"><strong>Controles interactivos:</strong> Modifica los sliders y franjas; observa cómo el procesamiento y las alertas dinámicas superiores se actualizan de inmediato.</li>
+            <li><strong>Avance secuencial teórico:</strong> Utiliza el botón de "Avanzar Secuencia Teórica" para recorrer paso a paso los componentes dentro del sistema delimitado.</li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
@@ -362,9 +383,11 @@ with tab1:
     with col_btn_seq3:
         st.markdown(f"<p style='text-align: right; font-weight: bold; color: #ea580c; font-size: 17px; padding-top: 8px;'>Dimensión Activa: {st.session_state.paso_seq_a} / 4</p>", unsafe_allow_html=True)
 
+    # Contenedor inspirado en el esquema sistémico clásico
     st.markdown("""
-        <div class="sistema-compacto-box" style="border-color: #f97316; background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); border-radius: 20px; padding: 26px; margin: 16px 0; box-shadow: 0 10px 25px rgba(249, 115, 22, 0.15);">
-            <div class="ambiente-titulo-naranja">🌐 AMBIENTE: CETRAM El Rosario (Pasajeros)</div>
+        <div class="sistema-macro-container">
+            <div class="supersistema-label">🌎 Ambiente Externo (Supersistema): Hora pico/valle, tráfico y entorno urbano</div>
+            <div class="ambiente-titulo-naranja" style="margin-bottom: 15px;">🔄 LÍMITE DEL SISTEMA: CETRAM El Rosario (Pasajeros)</div>
     """, unsafe_allow_html=True)
 
     col_n1, col_n2, col_n3, col_n4 = st.columns(4)
@@ -373,7 +396,7 @@ with tab1:
         if st.session_state.paso_seq_a == 1:
             st.markdown(f"""
             <div class="card-paso card-activa-entrada">
-                <h4 style="color: #0284c7; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">📥 1. ENTRADAS Y DEMANDA</h4>
+                <h4 style="color: #0284c7; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">📥 ENTRADA (Recursos/Energía)</h4>
                 <p style="font-size: 13px; margin: 0; line-height: 1.4;">
                     <strong>Elementos:</strong><br>
                     • 🚆 {num_trenes*2} Trenes activos<br>
@@ -388,7 +411,7 @@ with tab1:
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>📥 1. ENTRADAS</h4>
+                <h4>📥 ENTRADA</h4>
                 <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
@@ -397,9 +420,9 @@ with tab1:
         if st.session_state.paso_seq_a == 2:
             st.markdown(f"""
             <div class="card-paso card-activa-proceso">
-                <h4 style="color: #fbbf24; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">⚙️ 2. PROCESO Y FLUJO [V]</h4>
+                <h4 style="color: #fbbf24; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">⚙️ SUBSISTEMAS Y PROCESO [V]</h4>
                 <p style="font-size: 13px; margin: 0; line-height: 1.4; color: #f8fafc;">
-                    <strong>Elementos:</strong><br>
+                    <strong>Componentes:</strong><br>
                     • Planeación de frecuencias<br>
                     • Asignación de unidades<br>
                     • Control operativo<br>
@@ -411,7 +434,7 @@ with tab1:
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>⚙️ 2. PROCESO [V]</h4>
+                <h4>⚙️ PROCESO [V]</h4>
                 <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
@@ -420,7 +443,7 @@ with tab1:
         if st.session_state.paso_seq_a == 3:
             st.markdown(f"""
             <div class="card-paso card-activa-salida">
-                <h4 style="color: #16a34a; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">📤 3. SALIDAS Y SERVICIO [S]</h4>
+                <h4 style="color: #16a34a; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">📤 SALIDA (Información/Recursos)</h4>
                 <p style="font-size: 13px; margin: 0; line-height: 1.4;">
                     <strong>Elementos:</strong><br>
                     • Pasajeros transportados<br>
@@ -433,7 +456,7 @@ with tab1:
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>📤 3. SALIDAS [S]</h4>
+                <h4>📤 SALIDA</h4>
                 <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
@@ -454,13 +477,12 @@ with tab1:
 
             st.markdown(f"""
             <div class="card-paso card-activa-retro">
-                <h4 style="color: #ea580c; margin: 0 0 8px 0; font-size: 16px; font-weight: 900;">🔄 4. RETROALIMENTACIÓN Y AMBIENTE</h4>
+                <h4 style="color: #ea580c; margin: 0 0 8px 0; font-size: 16px; font-weight: 900;">🔄 RETROALIMENTACIÓN</h4>
                 <p style="font-size: 12px; margin: 0; line-height: 1.35; color: #9a3412; font-weight: 700;">
-                    <strong>Retroalimentación:</strong><br>
+                    <strong>Control del Sistema:</strong><br>
                     • Saturación del sistema<br>
                     • Ajuste de frecuencias<br>
-                    • Incorporación de unidades<br>
-                    <strong>Ambiente:</strong> Hora pico/valle, tráfico, infraestructura CETRAM.<br><br>
+                    • Incorporación de unidades<br><br>
                     {txt_r}
                 </p>
             </div>
@@ -468,7 +490,7 @@ with tab1:
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>🔄 4. RETROALIMENTACIÓN</h4>
+                <h4>🔄 RETROALIMENTACIÓN</h4>
                 <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
@@ -550,8 +572,9 @@ with tab2:
         st.markdown(f"<p style='text-align: right; font-weight: bold; color: #16a34a; font-size: 17px; padding-top: 8px;'>Dimensión Activa: {st.session_state.paso_seq_b} / 4</p>", unsafe_allow_html=True)
 
     st.markdown("""
-        <div class="sistema-compacto-box" style="border-color: #10b981; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-radius: 20px; padding: 26px; margin: 16px 0; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);">
-        <div class="ambiente-titulo-b">🌐 AMBIENTE: U.H. El Rosario (Distribución de Carga-Garrafones)</div>
+        <div class="sistema-macro-container" style="border-color: #10b981; background: linear-gradient(135deg, #f0fdf4 0%, #e6f4ea 100%);">
+            <div class="supersistema-label">🌎 Ambiente Externo (Supersistema): Clima, tráfico y accesos a U.H. El Rosario</div>
+            <div class="ambiente-titulo-b" style="margin-bottom: 15px;">🔄 LÍMITE DEL SISTEMA: U.H. El Rosario (Distribución de Carga)</div>
     """, unsafe_allow_html=True)
 
     col_bn1, col_bn2, col_bn3, col_bn4 = st.columns(4)
@@ -560,7 +583,7 @@ with tab2:
         if st.session_state.paso_seq_b == 1:
             st.markdown(f"""
             <div class="card-paso card-activa-entrada">
-                <h4 style="color: #0284c7; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">📥 1. ENTRADAS Y DEMANDA</h4>
+                <h4 style="color: #0284c7; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">📥 ENTRADA (Recursos/Energía)</h4>
                 <p style="font-size: 13px; margin: 0; line-height: 1.4;">
                     <strong>Elementos:</strong><br>
                     • 🚚 {unidades_reparto} Vehículos de redilas<br>
@@ -574,7 +597,7 @@ with tab2:
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>📥 1. ENTRADAS</h4>
+                <h4>📥 ENTRADA</h4>
                 <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
@@ -583,9 +606,9 @@ with tab2:
         if st.session_state.paso_seq_b == 2:
             st.markdown(f"""
             <div class="card-paso card-activa-proceso">
-                <h4 style="color: #fbbf24; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">⚙️ 2. PROCESO Y RUTA</h4>
+                <h4 style="color: #fbbf24; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">⚙️ SUBSISTEMAS Y PROCESO</h4>
                 <p style="font-size: 13px; margin: 0; line-height: 1.4; color: #f0fdf4;">
-                    <strong>Elementos:</strong><br>
+                    <strong>Componentes:</strong><br>
                     • Planeación de rutas de entrega<br>
                     • Asignación de vehículos<br>
                     • Control operativo en U.H.<br>
@@ -597,7 +620,7 @@ with tab2:
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>⚙️ 2. PROCESO</h4>
+                <h4>⚙️ PROCESO</h4>
                 <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
@@ -606,7 +629,7 @@ with tab2:
         if st.session_state.paso_seq_b == 3:
             st.markdown(f"""
             <div class="card-paso card-activa-salida">
-                <h4 style="color: #16a34a; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">📤 3. SALIDAS Y SERVICIO</h4>
+                <h4 style="color: #16a34a; margin: 0 0 8px 0; font-size: 17px; font-weight: 900;">📤 SALIDA (Recursos/Información)</h4>
                 <p style="font-size: 13px; margin: 0; line-height: 1.4;">
                     <strong>Elementos:</strong><br>
                     • Garrafones entregados<br>
@@ -619,7 +642,7 @@ with tab2:
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>📤 3. SALIDAS</h4>
+                <h4>📤 SALIDA</h4>
                 <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
@@ -640,13 +663,12 @@ with tab2:
 
             st.markdown(f"""
             <div class="card-paso card-activa-retro">
-                <h4 style="color: #ea580c; margin: 0 0 8px 0; font-size: 16px; font-weight: 900;">🔄 4. RETROALIMENTACIÓN Y AMBIENTE</h4>
+                <h4 style="color: #ea580c; margin: 0 0 8px 0; font-size: 16px; font-weight: 900;">🔄 RETROALIMENTACIÓN</h4>
                 <p style="font-size: 12px; margin: 0; line-height: 1.35; color: #9a3412; font-weight: 700;">
-                    <strong>Retroalimentación:</strong><br>
+                    <strong>Control del Sistema:</strong><br>
                     • Saturación de flota<br>
                     • Ajuste de frecuencias de reparto<br>
-                    • Incorporación de vehículos<br>
-                    <strong>Ambiente:</strong> Clima/temperatura (temporada de calor), tráfico local, accesos a U.H.<br><br>
+                    • Incorporación de vehículos<br><br>
                     {txt_rb}
                 </p>
             </div>
@@ -654,7 +676,7 @@ with tab2:
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>🔄 4. RETROALIMENTACIÓN</h4>
+                <h4>🔄 RETROALIMENTACIÓN</h4>
                 <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
