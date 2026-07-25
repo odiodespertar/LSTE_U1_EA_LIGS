@@ -252,6 +252,7 @@ with st.expander("👉 Indicaciones de navegación", expanded=False):
     <div class="instrucciones-box">
         <p style="margin: 0 0 8px 0; font-weight: bold; color: #0369a1; font-size: 20px !important;">Instrucciones de Uso:</p>
         <ul style="margin: 0; padding-left: 20px; color: #0c4a6e;">
+            <li style="margin-bottom: 8px;"><strong>Pestañas A y B:</strong> Ingresa en la pestaña A para ver el modelo del transporte de pasajeros y en la pestaña B para el modelo de transporte de garrafones.</li>
             <li style="margin-bottom: 8px;"><strong>Controles interactivos:</strong> Modifica los sliders, la franja horaria y la temporada; observa cómo el procesamiento y las alertas dinámicas superiores se actualizan de inmediato.</li>
             <li><strong>Avance secuencial por clics:</strong> Utiliza el botón de "Avanzar secuencia" para recorrer la secuencia paso a paso de entradas, proceso, salida y retroalimentación.</li>
         </ul>
