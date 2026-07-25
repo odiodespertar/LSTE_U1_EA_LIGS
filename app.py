@@ -476,7 +476,7 @@ with tab1:
         if st.session_state.paso_seq_a == 1:
             st.markdown(f"""
             <div class="card-paso card-activa-entrada">
-                <h4 style="color: #0284c7; margin: 0 0 10px 0; font-size: 20px; font-weight: 900;">📥 ENTRADA (Recursos/Energía)</h4>
+                <h4 style="color: #2473fb; margin: 0 0 10px 0; font-size: 20px; font-weight: 900;">📥 ENTRADA (Recursos/Energía)</h4>
                 <p style="font-size: 15px; margin: 0; line-height: 1.5;">
                     <strong>Elementos:</strong><br>
                     • 🚆 {num_trenes*2} Trenes activos<br>
@@ -514,7 +514,7 @@ with tab1:
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>⚙️ PROCESO [F]</h4>
+                <h4>⚙️ SUBSISTEMAS Y PROCESO [F]</h4>
                 <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
