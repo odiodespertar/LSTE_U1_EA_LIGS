@@ -113,9 +113,10 @@ with col_txt:
 st.markdown("---")
 
 # Pestañas principales
-tab1, tab2 = st.tabs([
-    "A. Sistema Multimodal: CETRAM El Rosario (Pasajeros)",
-    "B. Distribución de Carga: Agua en Garrafón en U.H. El Rosario (Mercancías)"
+tab1, tab2, tab3 = st.tabs([
+    "A. CETRAM El Rosario (Pasajeros)",
+    "B. Distribución de Agua en U.H. El Rosario (Mercancías)",
+    "📚 Marco Teórico (11 Componentes Van Gigch)"
 ])
 
 # ==========================================
@@ -129,7 +130,6 @@ with tab1:
     *“La construcción de un Centro de Transferencia Modal (CETRAM) es quizá uno de los proyectos más complejos que se han desarrollado en los últimos años en la ciudad. Su principal objetivo es concentrar y reorganizar los diferentes sistemas de transporte de la ciudad en un solo lugar...”*
     """)
 
-    # Banner animado visual para pasajeros, trenes y buses en movimiento
     st.markdown("""
         <div class="moving-banner">
             <span>Flujo Dinámico Activo: </span>
@@ -157,11 +157,9 @@ with tab1:
             key="h_pax"
         )
 
-    # Cálculo matemático de capacidad de oferta de pasajeros total
     capacidad_oferta = (num_trenes + num_buses) * 110
     balance_pasajeros = capacidad_oferta - pasajeros_flota
 
-    # Bloque de apoyo visual con Fórmulas Matemáticas en LaTeX
     st.markdown("📐 **Soporte Matemático y Modelo de Cálculo de Pasajeros:**")
     st.latex(r"C_{\text{oferta}} = (\text{Trenes} + \text{Unidades}) \times \text{Capacidad Promedio}")
     st.latex(r"C_{\text{oferta}} = (" + str(num_trenes) + " + " + str(num_buses) + r") \times 110 = " + str(capacidad_oferta) + r" \text{ pasajeros}")
@@ -175,7 +173,6 @@ with tab1:
         estado_operativo = f"Saturación activa por alta demanda pendular ({horario_operativo})."
         nivel_alerta = True
 
-    # Notificación estilizada para la Pestaña A
     if nivel_alerta or pasajeros_flota > capacidad_oferta:
         st.markdown(f"""
         <div class="alert-card-warning">
@@ -259,7 +256,6 @@ with tab2:
     > **Descripción técnica:** Modelo logístico de alta capilaridad y frecuencia (Lunes a Viernes de 9:00 a.m. a 5:00 p.m. y Sábados de 9:00 a.m. a mediodía), priorizando seguridad y regularidad de ruteo.
     """)
 
-    # Banner animado visual para camiones y garrafones en movimiento
     st.markdown("""
         <div class="moving-banner" style="background: #e8f5e9; color: #1b5e20;">
             <span>Ruta Logística en Tránsito: </span>
@@ -286,7 +282,6 @@ with tab2:
     st.latex(r"\Delta_{\text{demanda}} = C_{\text{flota}} - \text{Pedidos Programados}")
     st.latex(r"\Delta_{\text{demanda}} = " + str(capacidad_total_flota) + " - " + str(pedidos_diarios) + " = " + str(balance_operativo) + r" \text{ margen}")
 
-    # Notificación estilizada para la Pestaña B
     if pedidos_diarios > capacidad_total_flota or "Calor" in demanda_estacional:
         st.markdown(f"""
         <div class="alert-card-warning">
@@ -357,3 +352,35 @@ with tab2:
 
     st.markdown("---")
     st.markdown("📸 **Ilustrativo 2.** *Diagrama sistémico del sistema de transporte de mercancías y distribución local de agua en garrafón*")
+
+# ==========================================
+# PESTAÑA C: MARCO TEÓRICO (11 COMPONENTES)
+# ==========================================
+with tab3:
+    st.header("📚 Componentes del Diseño de Sistemas (Van Gigch, 2006)")
+    st.markdown("*Fundamentos del Sistema de Transporte - Unidad 1 (UnADM)*")
+    
+    st.markdown("""
+    De acuerdo con los lineamientos teóricos de la asignatura, todo modelo sistémico aplicado al transporte se compone de los siguientes **11 elementos estructurales**:
+    """)
+
+    col_t1, col_t2 = st.columns(2)
+    
+    with col_t1:
+        st.markdown("""
+        1. **Elementos:** Partes físicas o conceptuales que conforman la red (unidades, andenes, personal).
+        2. **Proceso de conversión:** Transformación de entradas en salidas (ruteo, transbordo, distribución).
+        3. **Entradas y recursos:** Insumos necesarios para que opere el sistema (flota, demanda de pasajeros/carga, combustible).
+        4. **Salidas o resultados:** El objetivo cumplido del sistema (pasajeros trasladados, mercancía entregada).
+        5. **El medio:** El entorno urbano, suburbano o vial donde interactúa el sistema.
+        6. **Propósitos y función:** La razón de ser del sistema de transporte (movilidad eficiente y abastecimiento).
+        """)
+        
+    with col_t2:
+        st.markdown("""
+        7. **Atributos:** Características cualitativas y cuantitativas (capacidad de los vehículos, tiempos de recorrido).
+        8. **Metas y objetivos:** Indicadores de desempeño (cobertura de ruta, puntualidad, satisfacción).
+        9. **Componentes, programas y misiones:** Subprogramas de operación, logística y mantenimiento preventivo.
+        10. **Administración, agentes y tomadores de decisiones:** Reguladores, operadores de flotas y coordinadores logísticos.
+        11. **Estructura:** La interrelación jerárquica y operativa entre todos los elementos anteriores.
+        """)
