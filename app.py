@@ -29,7 +29,7 @@ st.markdown("""
 
 # Título principal
 st.title("4. Modelos prácticos adaptados a la localidad")
-st.markdown("**Estudiante:** Liliana García Solís | **Matrícula:** ES251101336 | **Asignatura:** Sistema de Transporte")
+st.markdown("**Estudiante:** Liliana García Solís | **Matrícula:** ES251101336 | **Asignatura:** Fundamentos del Sistema de Transporte")
 st.markdown("---")
 
 # Pestañas principales
@@ -123,7 +123,7 @@ with tab1:
         st.success(f"✅ **Retroalimentación óptima ({horario_operativo}):** Flujo continuo reportado por los usuarios sin saturación crítica en la correspondencia con la configuración actual.")
 
     st.markdown("---")
-    st.markdown("📸 **Ilustrativo 1.** *Diagrama sistémico del sistema multimodal de transporte de personas en el CETRAM El Rosario*")
+    st.markdown("📸 **Ilustrativo 1.** *Diagrama sistémico del sistema multimodal de transporte de personas en el CETRAM El Rosario *")
 
 # ==========================================
 # PESTAÑA B: DISTRIBUCIÓN DE AGUA EN GARRAFÓN
@@ -136,17 +136,14 @@ with tab2:
     > **Descripción técnica:** Modelo logístico de alta capilaridad y frecuencia (Lunes a Viernes de 9:00 a.m. a 5:00 p.m. y Sábados de 9:00 a.m. a mediodía), priorizando seguridad, regularidad y flexibilidad de ruteo.
     """)
 
-    # Controles con barra de unidades, barra exacta de pedidos y clima informativo
     col_d1, col_d2, col_d3 = st.columns(3)
     with col_d1:
         unidades_reparto = st.slider("Vehículos de redilas en ruta", 1, 10, 3, key="slider_camiones")
     with col_d2:
-        # El valor de esta barra es exactamente el que se usará en todo el sistema sin alteraciones ocultas
         pedidos_diarios = st.slider("Número de Pedidos (Garrafones)", 50, 400, 150, step=10, key="slider_pedidos")
     with col_d3:
         demanda_estacional = st.selectbox("Variación de Demanda Estacional", ["Temporada Regular", "Temporada de Calor (Alta Demanda)"])
 
-    # Capacidad máxima estimada (asumiendo 50 garrafones por unidad en promedio)
     capacidad_total_flota = unidades_reparto * 50
 
     st.markdown(f"**📊 Capacidad de la flota ({unidades_reparto} camiones):** {capacidad_total_flota} garrafones máx. | **Demanda a cubrir:** {pedidos_diarios} garrafones")
@@ -193,10 +190,12 @@ with tab2:
         """, unsafe_allow_html=True)
 
     st.markdown("### 🔄 4. Retroalimentación (Feedback)")
-    # Evaluación de la retroalimentación basada estrictamente en los pedidos reales y la capacidad
     if pedidos_diarios > capacidad_total_flota:
         st.warning(f"⚠️ **Alerta logística:** Los {pedidos_diarios} pedidos superan la capacidad máxima de la flota actual ({capacidad_total_flota} unidades). Se generan tiempos muertos en ruta y retrasos; se requiere incorporar al menos { (pedidos_diarios - capacidad_total_flota) // 50 + 1 } vehículo(s) adicional(es).")
     elif "Calor" in demanda_estacional:
         st.warning(f"⚠️ **Alerta estacional ({demanda_estacional}):** La flota opera bajo alta exigencia para cumplir puntualmente con los {pedidos_diarios} garrafones solicitados dentro de la ventana horaria.")
     else:
         st.success(f"✅ **Operación estable:** Las {unidades_reparto} unidades cubren perfectamente los {pedidos_diarios} pedidos dentro de la ventana horaria establecida sin reportes extraordinarios.")
+
+    st.markdown("---")
+    st.markdown("📸 **Ilustrativo 2.** *Diagrama sistémico del sistema de transporte de mercancías y distribución local de agua en garrafón (UnADM, 2026).*")
