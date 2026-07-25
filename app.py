@@ -247,7 +247,7 @@ st.markdown("""
     }
 
     .card-activa-entrada {
-        background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+        background: linear-gradient(135deg, #cde8fa 0%, #9ad5fc 100%);
         border: 4px solid #0284c7;
         color: #0f172a;
         box-shadow: 0 8px 22px rgba(2, 132, 199, 0.25);
