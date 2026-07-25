@@ -353,7 +353,7 @@ with tab1:
 
     st.markdown("""
         <div class="sistema-compacto-box" style="border-color: #f97316; background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); border-radius: 20px; padding: 26px; margin: 16px 0; box-shadow: 0 10px 25px rgba(249, 115, 22, 0.15);">
-            <div class="ambiente-titulo-naranja">🌐 DIMENSIÓN 1 a 3: CETRAM El Rosario (Pasajeros)</div>
+            <div class="ambiente-titulo-naranja">🌐 ENTORNO: CETRAM El Rosario (Pasajeros)</div>
     """, unsafe_allow_html=True)
 
     col_n1, col_n2, col_n3, col_n4 = st.columns(4)
@@ -521,7 +521,7 @@ with tab2:
 
     st.markdown("""
         <div class="sistema-compacto-box" style="border-color: #10b981; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-radius: 20px; padding: 26px; margin: 16px 0; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);">
-        <div class="ambiente-titulo-b">🌐 DIMENSIÓN 1 a 3: U.H. El Rosario (Distribución de Carga)</div>
+        <div class="ambiente-titulo-b">🌐 ENTORNO: U.H. El Rosario (Distribución de Carga-Garrafones)</div>
     """, unsafe_allow_html=True)
 
     col_bn1, col_bn2, col_bn3, col_bn4 = st.columns(4)
