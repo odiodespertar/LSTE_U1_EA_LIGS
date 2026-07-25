@@ -92,10 +92,10 @@ with tab1:
     # Cálculo matemático de capacidad de oferta de pasajeros por hora
     capacidad_oferta = (num_trenes + num_buses) * 110
 
-    # Bloque de apoyo visual con Fórmulas Matemáticas en LaTeX
+    # Bloque de apoyo visual con Fórmulas Matemáticas en LaTeX corregidas
     st.markdown("📐 **Soporte Matemático y Modelo de Cálculo de Oferta:**")
-    st.latex(r"C_{\text{oferta}} = (\text{Trenes Activos} + \text{Unidades Superficie}) \times \text{Capacidad Promedio por Unidad}")
-    st.latex(f"C_{\text{oferta}} = ({num_trenes} + {num_buses}) \\times 110 = {capacidad_oferta} \\text{ pasajeros/hora}")
+    st.latex(r"C_{\text{oferta}} = (\text{Trenes Activos} + \text{Unidades Superficie}) \times \text{Capacidad Promedio}")
+    st.latex(r"C_{\text{oferta}} = (" + str(num_trenes) + " + " + str(num_buses) + r") \times 110 = " + str(capacidad_oferta) + r" \text{ pas/h}")
 
     if "Valle" in horario_operativo:
         estado_operativo = "Operación fluida, estable y con tiempos de espera mínimos."
@@ -183,12 +183,12 @@ with tab2:
     capacidad_total_flota = unidades_reparto * 50
     balance_operativo = capacidad_total_flota - pedidos_diarios
 
-    # Bloque de apoyo visual con Fórmulas Matemáticas en LaTeX para mercancías
+    # Bloque de apoyo visual con Fórmulas Matemáticas en LaTeX corregidas
     st.markdown("📐 **Soporte Matemático y Modelo de Ruteo de Carga:**")
-    st.latex(r"C_{\text{flota}} = \text{Unidades Activas} \times \text{Capacidad Unitaria de Carga}")
-    st.latex(f"C_{\text{{flota}}}} = {unidades_reparto} \\times 50 = {capacidad_total_flota} \\text{{ garrafones máx.}}")
+    st.latex(r"C_{\text{flota}} = \text{Unidades Activas} \times \text{Capacidad Unitaria}")
+    st.latex(r"C_{\text{flota}} = " + str(unidades_reparto) + r" \times 50 = " + str(capacidad_total_flota) + r" \text{ garrafones máx.}")
     st.latex(r"\Delta_{\text{demanda}} = C_{\text{flota}} - \text{Pedidos Programados}")
-    st.latex(f"\\Delta_{\text{{demanda}}}} = {capacidad_total_flota} - {pedidos_diarios} = {balance_operativo} \\text{{ unidades de margen de cobertura}}")
+    st.latex(r"\Delta_{\text{demanda}} = " + str(capacidad_total_flota) + " - " + str(pedidos_diarios) + " = " + str(balance_operativo) + r" \text{ margen}")
 
     st.markdown(f"**📊 Capacidad de la flota ({unidades_reparto} camiones):** {capacidad_total_flota} garrafones máx. | **Demanda a cubrir:** {pedidos_diarios} garrafones")
     st.markdown("---")
