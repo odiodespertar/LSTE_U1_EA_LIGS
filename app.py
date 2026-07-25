@@ -465,7 +465,7 @@ with tab1:
         st.markdown(f"<p style='text-align: right; font-weight: bold; color: #ea580c; font-size: 18px; padding-top: 8px;'>Dimensión Activa: {st.session_state.paso_seq_a} / 4</p>", unsafe_allow_html=True)
 
     st.markdown("""
-        <div class="sistema-macro-container">
+                <div class="sistema-macro-container" style="border-color: #ea580c; background: linear-gradient(135deg, #f7e4da 0%, #ffdac7 100%);">
             <div class="supersistema-label">🌎 Ambiente Externo (Supersistema): Hora pico/valle, tráfico y entorno urbano</div>
             <div class="ambiente-titulo-naranja" style="margin-bottom: 15px;">🔄 LÍMITE DEL SISTEMA: CETRAM EL ROSARIO (PASAJEROS)</div>
     """, unsafe_allow_html=True)
