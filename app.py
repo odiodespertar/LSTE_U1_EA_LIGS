@@ -10,14 +10,12 @@ import math
 def calcular_modelo_manheim(T, A, capacidad_total):
     """
     Modelo simplificado basado en Manheim (1979)
-
     T = Sistema de Transporte (Oferta / Capacidad)
     A = Sistema de Actividades (Demanda)
     V = Volumen de flujo
     S = Nivel de servicio
     F0 = Equilibrio operativo
     """
-
     V = A  # Volumen de flujo
 
     if capacidad_total > 0 and V > 0:
@@ -50,7 +48,6 @@ def recomendar_unidades(deficit, capacidad_unidad):
     """
     if deficit <= 0:
         return 0
-
     return math.ceil(deficit / capacidad_unidad)
 
 
@@ -89,15 +86,6 @@ st.markdown("""
     .instrucciones-box p, .instrucciones-box li {
         font-size: 19px !important;
         line-height: 1.6 !important;
-    }
-
-    .marco-teorico-box {
-        background-color: #fafaf9;
-        padding: 22px;
-        border-radius: 12px;
-        border: 2px solid #d6d3d1;
-        font-size: 16px !important;
-        color: #1c1917;
     }
 
     .nota-calculo {
@@ -144,9 +132,9 @@ st.markdown("""
 
     .card-paso {
         border-radius: 18px;
-        padding: 24px;
+        padding: 22px;
         text-align: center;
-        min-height: 300px;
+        min-height: 330px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -170,7 +158,7 @@ st.markdown("""
     }
 
     .card-inactiva p {
-        font-size: 16px !important;
+        font-size: 15px !important;
         color: #475569 !important;
         font-weight: 600 !important;
     }
@@ -262,36 +250,8 @@ with st.expander("👉 Indicaciones de navegación", expanded=False):
     <div class="instrucciones-box">
         <p style="margin: 0 0 8px 0; font-weight: bold; color: #0369a1; font-size: 20px !important;">Instrucciones de Uso:</p>
         <ul style="margin: 0; padding-left: 20px; color: #0c4a6e;">
-            <li style="margin-bottom: 8px;"><strong>Controles interactivos:</strong> Modifica los sliders, la franja horaria y la temporada; observa cómo el procesamiento y las alertas dinámicas superiores se actualizan de inmediato.</li>
-            <li><strong>Avance secuencial por clics:</strong> Utiliza el botón de "Avanzar secuencia" para recorrer la secuencia paso a paso de entradas, proceso, salida y retroalimentación.</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-
-with st.expander("📖 Marco Teórico y Dimensiones del Sistema (Contexto Local)", expanded=False):
-    st.markdown("""
-    <div class="marco-teorico-box">
-        <p style="margin-top:0; font-weight:bold; color:#44403c; font-size: 17px;">Estructura teórica aplicada a los dos modelos operativos:</p>
-        
-        <p><strong>1. Funciones de servicio y demanda (Oferta, volumen y requerimiento inicial):</strong></p>
-        <ul>
-            <li><em>Marco analítico:</em> La infraestructura disponible (T) combinada con las actividades de la población (A) determina el nivel de servicio (S) y el volumen de flujo (V).</li>
-            <li><em>Pasajeros (CETRAM El Rosario):</em> La capacidad de la oferta está dada por la flota activa de trenes y autobuses (T), mientras que el sistema de actividades urbano (A) genera una demanda base. En horas pico el volumen aumenta, modificando el nivel de servicio.</li>
-            <li><em>Garrafones de agua (U. H. El Rosario):</em> La capacidad depende de los vehículos y triciclos en funcionamiento (T) frente a la concentración de departamentos (A). En épocas de calor extremo la demanda se incrementa dentro de las ventanas de reparto establecidas (lunes a viernes de 9:00 am a 5:00 pm y sábados hasta el mediodía).</li>
-        </ul>
-
-        <p><strong>2. El equilibrio operativo del sistema (Punto de saturación y flujos estables):</strong></p>
-        <ul>
-            <li><em>Marco analítico:</em> Representa el punto de intersección donde la capacidad del servicio absorbe la demanda sin colapsar el sistema.</li>
-            <li><em>Pasajeros (CETRAM El Rosario):</em> Busca el equilibrio entre frecuencias de despacho y pasajeros base. Si el volumen (V) supera la oferta, entra en desequilibrio, exigiendo un ajuste en las salidas.</li>
-            <li><em>Garrafones de agua (U. H. El Rosario):</em> Se alcanza cuando los vehículos abastecen el volumen diario acordado, evaluando la necesidad de nuevas rutas si la demanda estacional aumenta.</li>
-        </ul>
-
-        <p><strong>3. Modificación adaptativa y transformación estructural a largo plazo:</strong></p>
-        <ul>
-            <li><em>Marco analítico:</em> Ante el crecimiento de la mancha urbana, el sistema cambia componentes estructurales para restablecer su homeostasis (Bate, 2014).</li>
-            <li><em>Pasajeros (CETRAM El Rosario):</em> Obliga a realizar modificaciones estructurales (T), tales como ampliación de andenes, modernización del Metro o reestructuración de carriles confinados (Metrobús/Trolebús).</li>
-            <li><em>Garrafones de agua (U. H. El Rosario):</em> Se adapta agregando unidades de mayor capacidad, mejorando el mantenimiento preventivo o implementando herramientas de control digital para el ruteo.</li>
+            <li style="margin-bottom: 8px;"><strong>Controles interactivos:</strong> Modifica los sliders y franjas horarias; observa cómo el procesamiento y las alertas dinámicas superiores se actualizan de inmediato.</li>
+            <li><strong>Avance secuencial teórico:</strong> Utiliza el botón de "Avanzar Secuencia" para recorrer paso a paso el modelo analítico (Oferta [T] ➔ Volumen [V] ➔ Salida [S] ➔ Equilibrio y Adaptación).</li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
@@ -324,13 +284,10 @@ with tab1:
 
     if horario_operativo == "Pico Matutina":
         factor_franja = 1.35
-        desc_franja = "Alta congestión (+35% demanda)"
     elif horario_operativo == "Pico Nocturna":
         factor_franja = 1.20
-        desc_franja = "Demanda moderada (+20% demanda)"
     else:
         factor_franja = 0.85
-        desc_franja = "Flujo regular / Valle (-15% demanda)"
 
     matriz_capacidad = np.array([
         ["Metro Línea 6", num_trenes, 110],
@@ -342,16 +299,15 @@ with tab1:
     capacidad_l7 = int(matriz_capacidad[1, 1]) * int(matriz_capacidad[1, 2])
     capacidad_bus = int(matriz_capacidad[2, 1]) * int(matriz_capacidad[2, 2])
 
-    capacidad_oferta = capacidad_l6 + capacidad_l7 + capacidad_bus  # Sistema de Transporte (T en personas)
-    total_unidades_a = (num_trenes * 2) + num_buses                 # Total físico de vehículos
-    demanda_ajustada = int(pasajeros_flota * factor_franja)          # Sistema de Actividades (A)
+    capacidad_oferta = capacidad_l6 + capacidad_l7 + capacidad_bus
+    total_unidades_a = (num_trenes * 2) + num_buses
+    demanda_ajustada = int(pasajeros_flota * factor_franja)
 
     st.markdown(f"""
         <div class="nota-calculo">
-            💡 <strong>Nota del modelo (Manheim):</strong> <br>
-            • <strong>Oferta de Transporte [T]:</strong> {total_unidades_a} unidades físicas ({num_trenes} trenes L6 + {num_trenes} trenes L7 + {num_buses} autobuses) ➔ <strong>{capacidad_oferta:,} pax</strong> de capacidad total acumulada.<br>
-            • <strong>Sistema de Actividades [A]:</strong> Demanda base de {pasajeros_flota:,} pax.<br>
-            • <strong>Volumen [V]:</strong> Con la franja <strong>{horario_operativo} ({factor_franja}x)</strong>, el volumen resulta en <strong>[V = {demanda_ajustada:,} pax]</strong>.
+            💡 <strong>Marco Analítico (Manheim):</strong> <br>
+            • <strong>Oferta [T]:</strong> {total_unidades_a} unidades físicas ({num_trenes} trenes L6 + {num_trenes} trenes L7 + {num_buses} autobuses) ➔ <strong>{capacidad_oferta:,} pax</strong> de capacidad total.<br>
+            • <strong>Volumen [V]:</strong> Condicionado por la actividad urbano-poblacional [A] en horario <strong>{horario_operativo}</strong> ➔ <strong>{demanda_ajustada:,} pax</strong>.
         </div>
     """, unsafe_allow_html=True)
 
@@ -368,10 +324,10 @@ with tab1:
     autobuses_extra = recomendar_unidades(deficit_pasajeros, 80)
 
     if tasa_saturacion > 100:
-        alerta_banner_a = f"⚠️ ALERTA SISTÉMICA: Sobresaturación ({tasa_saturacion:.1f}%). Se requiere ajustar frecuencias de salida. Sugeridos: {trenes_extra} tren(es) o {autobuses_extra} autobús(es) extra."
+        alerta_banner_a = f"⚠️ ALERTA SISTÉMICA (Desequilibrio): Sobresaturación ({tasa_saturacion:.1f}%). Se requiere ajuste estructural o de frecuencias."
         color_b_a = "#dc2626"
     elif tasa_saturacion > 85:
-        alerta_banner_a = f"⚠️ ADVERTENCIA: Sistema cerca del límite ({tasa_saturacion:.1f}% de saturación)."
+        alerta_banner_a = f"⚠️ ADVERTENCIA: Sistema cerca del límite operativo ({tasa_saturacion:.1f}%)."
         color_b_a = "#d97706"
     else:
         alerta_banner_a = f"✅ ESTABILIDAD OPERATIVA: {modelo_pasajeros['Estado']} con {tasa_saturacion:.1f}% de ocupación."
@@ -386,17 +342,17 @@ with tab1:
 
     col_btn_seq1, col_btn_seq2, col_btn_seq3 = st.columns([2, 2, 3])
     with col_btn_seq1:
-        if st.button("▶️ Avanzar Secuencia (Siguiente Paso)", use_container_width=True, key="avanzar_a"):
+        if st.button("▶️ Avanzar Secuencia Teórica", use_container_width=True, key="avanzar_a"):
             st.session_state.paso_seq_a = (st.session_state.paso_seq_a % 4) + 1
     with col_btn_seq2:
         if st.button("🔄 Reiniciar Ciclo", use_container_width=True, key="reiniciar_a"):
             st.session_state.paso_seq_a = 1
     with col_btn_seq3:
-        st.markdown(f"<p style='text-align: right; font-weight: bold; color: #ea580c; font-size: 17px; padding-top: 8px;'>Paso activo: {st.session_state.paso_seq_a} / 4</p>", unsafe_allow_html=True)
+        st.markdown(f"<p style='text-align: right; font-weight: bold; color: #ea580c; font-size: 17px; padding-top: 8px;'>Dimensión Activa: {st.session_state.paso_seq_a} / 4</p>", unsafe_allow_html=True)
 
     st.markdown("""
         <div class="sistema-compacto-box" style="border-color: #f97316; background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); border-radius: 20px; padding: 26px; margin: 16px 0; box-shadow: 0 10px 25px rgba(249, 115, 22, 0.15);">
-            <div class="ambiente-titulo-naranja">🌐 AMBIENTE: Entorno Urbano / Zona Norte (Azcapotzalco)</div>
+            <div class="ambiente-titulo-naranja">🌐 DIMENSIÓN 1 a 3: CETRAM El Rosario (Pasajeros)</div>
     """, unsafe_allow_html=True)
 
     col_n1, col_n2, col_n3, col_n4 = st.columns(4)
@@ -405,19 +361,18 @@ with tab1:
         if st.session_state.paso_seq_a == 1:
             st.markdown(f"""
             <div class="card-paso card-activa-entrada">
-                <h4 style="color: #0284c7; margin: 0 0 12px 0; font-size: 21px; font-weight: 900;">📥 1. ENTRADA [T]</h4>
-                <p style="font-size: 16px; margin: 0; line-height: 1.5;">
-                    <strong>Flota [T]:</strong> {total_unidades_a} unidades<br>({num_trenes*2} trenes, {num_buses} buses).<br>
-                    <strong>Capacidad Máx:</strong> <span style="color: #0284c7; font-weight: bold;">{capacidad_oferta:,} pax</span><br>
-                    <em>Demanda base [A]: {pasajeros_flota:,} pax</em>
+                <h4 style="color: #0284c7; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">📥 1. OFERTA Y DEMANDA</h4>
+                <p style="font-size: 14px; margin: 0; line-height: 1.4;">
+                    <strong>Teoría:</strong> Infraestructura (T) + Actividad (A).<br>
+                    <strong>Caso Local:</strong> {total_unidades_a} unidades activas en CETRAM determinan la oferta frente a una base de {pasajeros_flota:,} pasajeros.
                 </p>
             </div>
             """, unsafe_allow_html=True)
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>📥 1. ENTRADA [T]</h4>
-                <p>En espera de secuencia...</p>
+                <h4>📥 1. OFERTA Y DEMANDA</h4>
+                <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
 
@@ -425,19 +380,18 @@ with tab1:
         if st.session_state.paso_seq_a == 2:
             st.markdown(f"""
             <div class="card-paso card-activa-proceso">
-                <h4 style="color: #fbbf24; margin: 0 0 12px 0; font-size: 21px; font-weight: 900;">⚙️ 2. PROCESAMIENTO [V]</h4>
-                <p style="font-size: 16px; margin: 0; line-height: 1.5; color: #f8fafc;">
-                    <strong>Franja:</strong> {horario_operativo}<br>
-                    <strong>Volumen [V]:</strong> <span style="color: #fbbf24; font-weight: bold;">{demanda_ajustada:,} pax</span><br>
-                    <em>Saturación: {tasa_saturacion:.1f}%</em>
+                <h4 style="color: #fbbf24; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">⚙️ 2. FLUJO Y VOLUMEN [V]</h4>
+                <p style="font-size: 14px; margin: 0; line-height: 1.4; color: #f8fafc;">
+                    <strong>Teoría:</strong> Absorción de demanda sin colapsar.<br>
+                    <strong>Caso Local:</strong> En horario <em>{horario_operativo}</em> el volumen asciende a <strong>{demanda_ajustada:,} pax</strong>, modificando la presión operativa.
                 </p>
             </div>
             """, unsafe_allow_html=True)
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>⚙️ 2. PROCESO [V]</h4>
-                <p>En espera de secuencia...</p>
+                <h4>⚙️ 2. FLUJO Y VOLUMEN [V]</h4>
+                <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
 
@@ -445,18 +399,18 @@ with tab1:
         if st.session_state.paso_seq_a == 3:
             st.markdown(f"""
             <div class="card-paso card-activa-salida">
-                <h4 style="color: #16a34a; margin: 0 0 12px 0; font-size: 21px; font-weight: 900;">📤 3. SALIDA [S]</h4>
-                <p style="font-size: 16px; margin: 0; line-height: 1.5;">
-                    <strong>Nivel de Serv. [S]:</strong> {nivel_servicio_s:.2f}<br>
-                    <span style="color: #16a34a; font-weight: bold;">{demanda_ajustada:,} pax</span> transferidos exitosamente a la red.
+                <h4 style="color: #16a34a; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">📤 3. NIVEL DE SERVICIO [S]</h4>
+                <p style="font-size: 14px; margin: 0; line-height: 1.4;">
+                    <strong>Teoría:</strong> Intersección de flujos estables.<br>
+                    <strong>Caso Local:</strong> Índice de servicio <strong>{nivel_servicio_s:.2f}</strong>. Los usuarios se transfieren a la red de transporte masivo.
                 </p>
             </div>
             """, unsafe_allow_html=True)
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>📤 3. SALIDA [S]</h4>
-                <p>En espera de secuencia...</p>
+                <h4>📤 3. NIVEL DE SERVICIO [S]</h4>
+                <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
 
@@ -464,21 +418,20 @@ with tab1:
         if st.session_state.paso_seq_a == 4:
             if demanda_ajustada > capacidad_oferta:
                 txt_r = (
-                    f"⚠️ Sistema saturado ({tasa_saturacion:.1f}%). "
-                    f"Se activó alerta para reajustar frecuencias de salida y recuperar el nivel de servicio [S]. "
-                    f"Sugerencia: {trenes_extra} tren(es) o {autobuses_extra} autobús(es) extra."
+                    f"⚠️ <strong>Homeostasis alterada ({tasa_saturacion:.1f}%):</strong> "
+                    f"A largo plazo, el sistema exige transformación estructural (ampliación de andenes o reestructuración de carriles). "
+                    f"Sugerencia operativa: {trenes_extra} tren(es) o {autobuses_extra} autobús(es) extra."
                 )
             else:
                 txt_r = (
-                    f"✅ {modelo_pasajeros['Estado']} "
-                    f"({tasa_saturacion:.1f}% de ocupación). "
-                    f"El flujo y el nivel de servicio se mantienen estables."
+                    f"✅ <strong>Homeostasis estable ({tasa_saturacion:.1f}%):</strong> "
+                    f"El equilibrio operativo absorbe la demanda actual sin requerir modificaciones estructurales inmediatas."
                 )
 
             st.markdown(f"""
             <div class="card-paso card-activa-retro">
-                <h4 style="color: #ea580c; margin: 0 0 12px 0; font-size: 21px; font-weight: 900;">🔄 4. RETROALIMENTACIÓN</h4>
-                <p style="font-size: 16px; margin: 0; line-height: 1.5; color: #9a3412; font-weight: 800;">
+                <h4 style="color: #ea580c; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">🔄 4. ADAPTACIÓN Y HOMEOSTASIS</h4>
+                <p style="font-size: 13px; margin: 0; line-height: 1.4; color: #9a3412; font-weight: 700;">
                     {txt_r}
                 </p>
             </div>
@@ -486,8 +439,8 @@ with tab1:
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>🔄 4. RETRO</h4>
-                <p>En espera de secuencia...</p>
+                <h4>🔄 4. ADAPTACIÓN</h4>
+                <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
 
@@ -509,24 +462,22 @@ with tab2:
 
     if demanda_estacional == "Calor (Alta)":
         factor_temp = 1.30
-        desc_temp = "Alta demanda por calor (+30%)"
     else:
         factor_temp = 1.00
-        desc_temp = "Demanda normal / estándar"
 
     matriz_logistica = np.array([
         ["Camión de redilas", unidades_reparto, 50]
     ], dtype=object)
 
-    capacidad_total_flota = int(matriz_logistica[0, 1]) * int(matriz_logistica[0, 2]) # Límite de carga [T]
-    pedidos_ajustados = int(pedidos_diarios * factor_temp)                          # Demanda real de entrega [A]
+    capacidad_total_flota = int(matriz_logistica[0, 1]) * int(matriz_logistica[0, 2])
+    pedidos_ajustados = int(pedidos_diarios * factor_temp)
 
     st.markdown(f"""
         <div class="nota-calculo">
-            💡 <strong>Nota del modelo logístico:</strong><br>
-            • <strong>Flota [T]:</strong> {unidades_reparto} vehículos ➔ <strong>{capacidad_total_flota:,} garrafones</strong> de capacidad máxima.<br>
-            • <strong>Pedidos ajustados por temporada [A]:</strong> {pedidos_ajustados:,} garrafones (Temporada {demanda_estacional}).<br>
-            • El control lógico valida la capacidad total para evitar sobrecarga física o duplicidad de entregas por ruta.
+            💡 <strong>Marco Analítico Logístico:</strong><br>
+            • <strong>Flota [T]:</strong> {unidades_reparto} vehículos de redilas ➔ <strong>{capacidad_total_flota:,} garrafones</strong> de capacidad máxima.<br>
+            • <strong>Volumen por demanda estacional [A]:</strong> {pedidos_ajustados:,} garrafones (Temporada {demanda_estacional}).<br>
+            • Ventanas de reparto controladas (Lun-Vie 9:00-17:00, Sáb hasta mediodía).
         </div>
     """, unsafe_allow_html=True)
 
@@ -541,13 +492,13 @@ with tab2:
     vehiculos_extra = recomendar_unidades(deficit_garrafones, 50)
 
     if eficiencia_flota > 100:
-        alerta_banner_b = f"⚠️ ALERTA LOGÍSTICA: Flota sobrepasada ({eficiencia_flota:.1f}%). Se sugieren {vehiculos_extra} vehículo(s) adicional(es) para evitar errores de cobertura."
+        alerta_banner_b = f"⚠️ ALERTA LOGÍSTICA (Desequilibrio): Flota sobrepasada ({eficiencia_flota:.1f}%). Se sugieren {vehiculos_extra} vehículo(s) adicional(es)."
         color_b_b = "#dc2626"
     elif eficiencia_flota > 85:
         alerta_banner_b = f"⚠️ ADVERTENCIA: Flota al límite de su capacidad máxima ({eficiencia_flota:.1f}%)."
         color_b_b = "#d97706"
     else:
-        alerta_banner_b = f"✅ ESTABILIDAD LOGÍSTICA: {modelo_garrafones['Estado']} con {eficiencia_flota:.1f}% de utilización de flota."
+        alerta_banner_b = f"✅ ESTABILIDAD LOGÍSTICA: {modelo_garrafones['Estado']} con {eficiencia_flota:.1f}% de utilización."
         color_b_b = "#16a34a"
 
     st.markdown(f"""
@@ -559,17 +510,17 @@ with tab2:
 
     col_btn_seqb1, col_btn_seqb2, col_btn_seqb3 = st.columns([2, 2, 3])
     with col_btn_seqb1:
-        if st.button("▶️ Avanzar Secuencia (B)", use_container_width=True, key="avanzar_b"):
+        if st.button("▶️ Avanzar Secuencia Teórica (B)", use_container_width=True, key="avanzar_b"):
             st.session_state.paso_seq_b = (st.session_state.paso_seq_b % 4) + 1
     with col_btn_seqb2:
         if st.button("🔄 Reiniciar Ciclo (B)", use_container_width=True, key="reiniciar_b"):
             st.session_state.paso_seq_b = 1
     with col_btn_seqb3:
-        st.markdown(f"<p style='text-align: right; font-weight: bold; color: #16a34a; font-size: 17px; padding-top: 8px;'>Paso activo: {st.session_state.paso_seq_b} / 4</p>", unsafe_allow_html=True)
+        st.markdown(f"<p style='text-align: right; font-weight: bold; color: #16a34a; font-size: 17px; padding-top: 8px;'>Dimensión Activa: {st.session_state.paso_seq_b} / 4</p>", unsafe_allow_html=True)
 
     st.markdown("""
         <div class="sistema-compacto-box" style="border-color: #10b981; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-radius: 20px; padding: 26px; margin: 16px 0; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);">
-        <div class="ambiente-titulo-b">🌐 AMBIENTE: U.H. El Rosario (Zona Suburbana)</div>
+        <div class="ambiente-titulo-b">🌐 DIMENSIÓN 1 a 3: U.H. El Rosario (Distribución de Carga)</div>
     """, unsafe_allow_html=True)
 
     col_bn1, col_bn2, col_bn3, col_bn4 = st.columns(4)
@@ -578,19 +529,18 @@ with tab2:
         if st.session_state.paso_seq_b == 1:
             st.markdown(f"""
             <div class="card-paso card-activa-entrada">
-                <h4 style="color: #0284c7; margin: 0 0 12px 0; font-size: 21px; font-weight: 900;">📥 1. ENTRADA [T]</h4>
-                <p style="font-size: 16px; margin: 0; line-height: 1.5;">
-                    <strong>Flota [T]:</strong> {unidades_reparto} vehículos.<br>
-                    <strong>Capacidad Máx:</strong> <span style="color: #0284c7; font-weight: bold;">{capacidad_total_flota:,} garrafones</span><br>
-                    <em>Demanda base [A]: {pedidos_diarios:,} un.</em>
+                <h4 style="color: #0284c7; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">📥 1. OFERTA Y DEMANDA</h4>
+                <p style="font-size: 14px; margin: 0; line-height: 1.4;">
+                    <strong>Teoría:</strong> Capacidad de flota (T) vs concentración vecinal (A).<br>
+                    <strong>Caso Local:</strong> {unidades_reparto} vehículos de redilas abastecen la U.H. El Rosario frente a una base de {pedidos_diarios} pedidos.
                 </p>
             </div>
             """, unsafe_allow_html=True)
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>📥 1. ENTRADA [T]</h4>
-                <p>En espera de secuencia...</p>
+                <h4>📥 1. OFERTA Y DEMANDA</h4>
+                <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
 
@@ -598,19 +548,18 @@ with tab2:
         if st.session_state.paso_seq_b == 2:
             st.markdown(f"""
             <div class="card-paso card-activa-proceso">
-                <h4 style="color: #fbbf24; margin: 0 0 12px 0; font-size: 21px; font-weight: 900;">⚙️ 2. PROCESAMIENTO [V]</h4>
-                <p style="font-size: 16px; margin: 0; line-height: 1.5; color: #f0fdf4;">
-                    <strong>Temporada:</strong> {demanda_estacional}<br>
-                    <strong>Volumen [V]:</strong> <span style="color: #fbbf24; font-weight: bold;">{pedidos_ajustados:,} garrafones</span><br>
-                    <em>Control lógico sin duplicidad en rutas.</em>
+                <h4 style="color: #fbbf24; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">⚙️ 2. EQUILIBRIO OPERATIVO</h4>
+                <p style="font-size: 14px; margin: 0; line-height: 1.4; color: #f0fdf4;">
+                    <strong>Teoría:</strong> Intersección de servicio y demanda estacional.<br>
+                    <strong>Caso Local:</strong> Por temporada <em>{demanda_estacional}</em>, el volumen de entrega se ajusta a <strong>{pedidos_ajustados:,} garrafones</strong> diarios.
                 </p>
             </div>
             """, unsafe_allow_html=True)
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>⚙️ 2. PROCESO [V]</h4>
-                <p>En espera de secuencia...</p>
+                <h4>⚙️ 2. EQUILIBRIO OPERATIVO</h4>
+                <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
 
@@ -618,18 +567,18 @@ with tab2:
         if st.session_state.paso_seq_b == 3:
             st.markdown(f"""
             <div class="card-paso card-activa-salida">
-                <h4 style="color: #16a34a; margin: 0 0 12px 0; font-size: 21px; font-weight: 900;">📤 3. SALIDA [S]</h4>
-                <p style="font-size: 16px; margin: 0; line-height: 1.5;">
-                    <strong>Distribución eficiente:</strong><br>
-                    <span style="color: #16a34a; font-weight: bold;">{pedidos_ajustados:,} garrafones</span> entregados sin exceder límites de carga.
+                <h4 style="color: #16a34a; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">📤 3. NIVEL DE SERVICIO [S]</h4>
+                <p style="font-size: 14px; margin: 0; line-height: 1.4;">
+                    <strong>Teoría:</strong> Cumplimiento de ventanas horarias.<br>
+                    <strong>Caso Local:</strong> <span style="color: #16a34a; font-weight: bold;">{pedidos_ajustados:,} garrafones</span> distribuidos sin exceder la capacidad de la flota.
                 </p>
             </div>
             """, unsafe_allow_html=True)
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>📤 3. SALIDA [S]</h4>
-                <p>En espera de secuencia...</p>
+                <h4>📤 3. NIVEL DE SERVICIO [S]</h4>
+                <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
 
@@ -637,21 +586,20 @@ with tab2:
         if st.session_state.paso_seq_b == 4:
             if pedidos_ajustados > capacidad_total_flota:
                 txt_rb = (
-                    f"⚠️ Límite de carga superado ({eficiencia_flota:.1f}%). "
-                    f"El control lógico advierte déficit de capacidad. "
-                    f"Se requieren aprox. {vehiculos_extra} vehículo(s) adicional(es)."
+                    f"⚠️ <strong>Adaptación requerida ({eficiencia_flota:.1f}%):</strong> "
+                    f"Ante el crecimiento poblacional de la unidad habitacional, el sistema exige incorporar unidades de mayor capacidad o rediseñar rutas. "
+                    f"Sugerencia: {vehiculos_extra} vehículo(s) extra."
                 )
             else:
                 txt_rb = (
-                    f"✅ {modelo_garrafones['Estado']} "
-                    f"({eficiencia_flota:.1f}% de utilización). "
-                    f"La distribución opera de forma eficiente y sin errores de conteo."
+                    f"✅ <strong>Homeostasis logística ({eficiencia_flota:.1f}%):</strong> "
+                    f"El suministro diario opera de forma estable dentro de los márgenes y horarios establecidos."
                 )
 
             st.markdown(f"""
             <div class="card-paso card-activa-retro">
-                <h4 style="color: #ea580c; margin: 0 0 12px 0; font-size: 21px; font-weight: 900;">🔄 4. RETROALIMENTACIÓN</h4>
-                <p style="font-size: 16px; margin: 0; line-height: 1.5; color: #9a3412; font-weight: 800;">
+                <h4 style="color: #ea580c; margin: 0 0 10px 0; font-size: 19px; font-weight: 900;">🔄 4. ADAPTACIÓN Y HOMEOSTASIS</h4>
+                <p style="font-size: 13px; margin: 0; line-height: 1.4; color: #9a3412; font-weight: 700;">
                     {txt_rb}
                 </p>
             </div>
@@ -659,8 +607,8 @@ with tab2:
         else:
             st.markdown("""
             <div class="card-paso card-inactiva">
-                <h4>🔄 4. RETRO</h4>
-                <p>En espera de secuencia...</p>
+                <h4>🔄 4. ADAPTACIÓN</h4>
+                <p>Haz clic en avanzar para revisar esta dimensión teórica.</p>
             </div>
             """, unsafe_allow_html=True)
 
