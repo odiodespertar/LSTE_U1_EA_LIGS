@@ -157,7 +157,7 @@ tab1, tab2 = st.tabs([
 # PESTAÑA A: CETRAM EL ROSARIO
 # ==========================================
 with tab1:
-    st.header("A. Sistema multimodal de transporte de pasajeros en la localidad (CETRAM El Rosario)")
+    st.header("A. Sistema multimodal de transporte de pasajeros en CETRAM El Rosario")
     
     st.info("""
     📖 **Contexto Teórico (Van Gigch, 2006):**  
@@ -302,7 +302,7 @@ with tab1:
 # PESTAÑA B: DISTRIBUCIÓN DE AGUA EN GARRAFÓN
 # ==========================================
 with tab2:
-    st.header("B. Distribución local de agua embotellada (Transporte de mercancías / Garrafón)")
+    st.header("B. Distribución local de agua embotellada en U.H. El Rosario (Transporte de mercancías / Garrafón)")
     
     st.markdown("""
     > **Identificación sistémica:** Ámbito urbano/suburbano, medio terrestre, modo vehículos de redilas de reparto local en U.H. El Rosario, especialización carga.  
