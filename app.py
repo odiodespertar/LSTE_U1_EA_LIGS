@@ -2,22 +2,22 @@ import streamlit as st
 
 # Configuración de la página
 st.set_page_config(
-    page_title="Modelos Prácticos - Enfoque Sistémico Interactivo",
+    page_title="Modelos Prácticos - Enfoque Sistémico Secuencial",
     page_icon="💧",
     layout="wide",
 )
 
-# Estilos CSS avanzados con tarjetas interactivas reales, iconos flotantes fijos sin marquesina deslizante
+# Estilos CSS avanzados con colores renovados, elegantes y una animación de avance secuencial fluida (foco dinámico)
 st.markdown("""
     <style>
     .streamlit-expanderHeader {
-        background: linear-gradient(135deg, #fff9c4 0%, #ffe082 100%) !important;
-        border: 2px solid #ff8f00 !important;
+        background: linear-gradient(135deg, #e0f2fe 100%, #bae6fd 0%) !important;
+        border: 2px solid #0284c7 !important;
         border-radius: 12px !important;
-        color: #d84315 !important;
+        color: #0369a1 !important;
         font-weight: 800 !important;
         font-size: 15px !important;
-        box-shadow: 0 4px 15px rgba(255, 143, 0, 0.3);
+        box-shadow: 0 4px 15px rgba(2, 132, 199, 0.2);
     }
 
     .sistema-compacto-box {
@@ -39,62 +39,80 @@ st.markdown("""
         letter-spacing: 1px;
     }
 
-    /* Tarjetas interactivas con efecto hover y animación de aparición */
+    /* Tarjetas base de la secuencia */
     .card-paso {
         border-radius: 16px;
         padding: 18px;
         text-align: center;
-        color: #1e293b;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-        animation: fadeInScale 0.4s ease-in-out;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        min-height: 190px;
+        min-height: 200px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        transition: all 0.5s ease-in-out;
     }
 
-    .card-paso:hover {
-        transform: translateY(-4px) scale(1.01);
-        box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+    /* Estilos inactivos / atenuados */
+    .card-inactiva {
+        background: #ffffff;
+        border: 2px dashed #cbd5e1;
+        color: #94a3b8;
+        opacity: 0.5;
+        transform: scale(0.97);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.03);
     }
 
-    .card-entrada {
-        background: linear-gradient(135deg, #ffffff 0%, #e1f5fe 100%);
-        border: 3px solid #0288d1;
+    /* Estilos activos (con la animación de avance / foco secuencial) */
+    .card-activa-entrada {
+        background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+        border: 4px solid #0284c7;
+        color: #0f172a;
+        box-shadow: 0 12px 30px rgba(2, 132, 199, 0.35);
+        transform: scale(1.04);
+        animation: pulseActive 1.5s infinite alternate;
     }
 
-    .card-proceso {
+    .card-activa-proceso {
         background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        border: 4px solid #f59e0b;
         color: #ffffff;
-        border: 3px solid #f59e0b;
+        box-shadow: 0 12px 30px rgba(245, 158, 11, 0.35);
+        transform: scale(1.04);
+        animation: pulseActive 1.5s infinite alternate;
     }
 
-    .card-salida {
-        background: linear-gradient(135deg, #ffffff 0%, #e8f5e9 100%);
-        border: 3px solid #2e7d32;
+    .card-activa-salida {
+        background: linear-gradient(135deg, #ffffff 0%, #dcfce7 100%);
+        border: 4px solid #16a34a;
+        color: #0f172a;
+        box-shadow: 0 12px 30px rgba(22, 163, 74, 0.35);
+        transform: scale(1.04);
+        animation: pulseActive 1.5s infinite alternate;
     }
 
-    .card-retro {
-        background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
-        border: 3px solid #f57c00;
+    .card-activa-retro {
+        background: linear-gradient(135deg, #ffffff 0%, #ffedd5 100%);
+        border: 4px solid #ea580c;
+        color: #0f172a;
+        box-shadow: 0 12px 30px rgba(234, 88, 12, 0.35);
+        transform: scale(1.04);
+        animation: pulseActive 1.5s infinite alternate;
     }
 
-    @keyframes fadeInScale {
-        0% { opacity: 0; transform: scale(0.95); }
-        100% { opacity: 1; transform: scale(1); }
+    @keyframes pulseActive {
+        0% { transform: scale(1.02); }
+        100% { transform: scale(1.06); }
     }
 
-    /* Banner estático con iconos flotantes que sí se mueven (flotan) pero sin desplazarse lateralmente */
+    /* Banner informativo estático superior con iconos flotantes suaves */
     .static-banner {
-        background: linear-gradient(90deg, #e1f5fe 0%, #fff9c4 50%, #e8f5e9 100%);
+        background: linear-gradient(90deg, #e0f2fe 0%, #fef3c7 50%, #dcfce7 100%);
         padding: 12px 18px;
         border-radius: 12px;
         font-weight: 800;
-        color: #d84315;
+        color: #0369a1;
         margin-bottom: 15px;
-        border: 2px solid #ffb300;
+        border: 2px solid #0284c7;
         font-size: 14px;
         text-align: center;
         box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
@@ -109,7 +127,7 @@ st.markdown("""
 
     @keyframes floatIcon {
         0% { transform: translateY(0px); }
-        100% { transform: translateY(-6px); }
+        100% { transform: translateY(-5px); }
     }
     </style>
 """, unsafe_allow_html=True)
@@ -123,7 +141,7 @@ with col_logo:
         pass
 
 with col_txt:
-    st.markdown("### 4. Diseño Dinámico e Interactivo bajo el Enfoque Sistémico")
+    st.markdown("### 4. Secuencia Dinámica de Enfoque Sistémico")
     st.markdown("<p style='font-size:13px; margin:0;'><strong>Estudiante:</strong> Liliana García Solís | <strong>Matrícula:</strong> ES251101336 | <strong>Asignatura:</strong> Sistemas de Transporte</p>", unsafe_allow_html=True)
 
 st.markdown("---")
@@ -131,13 +149,13 @@ st.markdown("---")
 # ==========================================
 # INDICACIONES EXPANDIBLE
 # ==========================================
-with st.expander("👉 Guía Interactiva y Parámetros del Sistema", expanded=False):
+with st.expander("👉 Guía del Recorrido Secuencial", expanded=False):
     st.markdown("""
-    <div style="background-color: #fffde7; padding: 10px; border-radius: 6px; border: 1px solid #ffd54f; font-size: 13px;">
-        <p style="margin: 0 0 5px 0; font-weight: bold; color: #3e2723;">Instrucciones de Uso:</p>
-        <ul style="margin: 0; padding-left: 18px; color: #4e342e;">
-            <li>Haz clic directamente sobre los botones de cada etapa para mostrar u ocultar la tarjeta correspondiente en el plano inferior.</li>
-            <li>Los iconos superiores cuentan con animación flotante suave sin desplazamiento lateral molesto.</li>
+    <div style="background-color: #f0f9ff; padding: 10px; border-radius: 6px; border: 1px solid #7dd3fc; font-size: 13px;">
+        <p style="margin: 0 0 5px 0; font-weight: bold; color: #0369a1;">Funcionamiento del Avance Secuencial:</p>
+        <ul style="margin: 0; padding-left: 18px; color: #0c4a6e;">
+            <li>Usa el botón de avance secuencial o los controles rápidos para recorrer el flujo paso a paso (Entrada -> Proceso -> Salida -> Retroalimentación).</li>
+            <li>La tarjeta activa se resaltará automáticamente indicando el avance del ciclo sistémico.</li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
@@ -147,11 +165,17 @@ tab1, tab2 = st.tabs([
     "B. Distribución de Carga: Agua en Garrafón (Mercancías)"
 ])
 
+# Inicializar estados de secuencia si no existen
+if "paso_seq_a" not in st.session_state:
+    st.session_state.paso_seq_a = 1
+if "paso_seq_b" not in st.session_state:
+    st.session_state.paso_seq_b = 1
+
 # ==========================================
 # PESTAÑA A: CETRAM EL ROSARIO
 # ==========================================
 with tab1:
-    st.markdown("<p style='font-weight: bold; color: #0288d1; margin-bottom: 5px;'>A. Sistema multimodal de pasajeros en CETRAM El Rosario (Sistema Abierto)</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-weight: bold; color: #0284c7; margin-bottom: 5px;'>A. Sistema multimodal de pasajeros en CETRAM El Rosario (Sistema Abierto)</p>", unsafe_allow_html=True)
 
     col_c1, col_c2, col_c3, col_c4 = st.columns(4)
     with col_c1:
@@ -167,35 +191,20 @@ with tab1:
 
     st.markdown("""
         <div class="static-banner">
-            🚀 FLUJO ACTIVO SISTÉMICO: <span class="floating-icon">🚆</span> Trenes y <span class="floating-icon">🚍</span> Autobuses sincronizados con <span class="floating-icon">👥</span> Homeostasis Dinámica en el Entorno Urbano
+            🚀 SECUENCIA ACTIVA SISTÉMICA: <span class="floating-icon">🚆</span> Flujo de Unidades y <span class="floating-icon">👥</span> Demanda en Avance Dinámico
         </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("<p style='font-size: 13px; font-weight: bold; text-align: center; color: #334155; margin-bottom: 8px;'>👆 Haz clic en cada botón para revelar u ocultar su tarjeta correspondiente:</p>", unsafe_allow_html=True)
-
-    b_col1, b_col2, b_col3, b_col4 = st.columns(4)
-    
-    if "ver_entrada_a" not in st.session_state:
-        st.session_state.ver_entrada_a = False
-    if "ver_proceso_a" not in st.session_state:
-        st.session_state.ver_proceso_a = False
-    if "ver_salida_a" not in st.session_state:
-        st.session_state.ver_salida_a = False
-    if "ver_retro_a" not in st.session_state:
-        st.session_state.ver_retro_a = False
-
-    with b_col1:
-        if st.button("📥 1. ENTRADA", use_container_width=True, key="btn_e_a"):
-            st.session_state.ver_entrada_a = not st.session_state.ver_entrada_a
-    with b_col2:
-        if st.button("⚙️ 2. PROCESO", use_container_width=True, key="btn_p_a"):
-            st.session_state.ver_proceso_a = not st.session_state.ver_proceso_a
-    with b_col3:
-        if st.button("📤 3. SALIDA", use_container_width=True, key="btn_s_a"):
-            st.session_state.ver_salida_a = not st.session_state.ver_salida_a
-    with b_col4:
-        if st.button("🔄 4. RETROALIMENTACIÓN", use_container_width=True, key="btn_r_a"):
-            st.session_state.ver_retro_a = not st.session_state.ver_retro_a
+    # Controles de avance secuencial interactivos
+    col_btn_seq1, col_btn_seq2, col_btn_seq3 = st.columns([2, 2, 3])
+    with col_btn_seq1:
+        if st.button("▶️ Avanzar Secuencia (Siguiente Paso)", use_container_width=True, key="avanzar_a"):
+            st.session_state.paso_seq_a = (st.session_state.paso_seq_a % 4) + 1
+    with col_btn_seq2:
+        if st.button("🔄 Reiniciar Ciclo", use_container_width=True, key="reiniciar_a"):
+            st.session_state.paso_seq_a = 1
+    with col_btn_seq3:
+        st.markdown(f"<p style='text-align: right; font-weight: bold; color: #0369a1; padding-top: 6px;'>Paso actual: {st.session_state.paso_seq_a} / 4</p>", unsafe_allow_html=True)
 
     st.markdown("""
         <div class="sistema-compacto-box">
@@ -204,62 +213,86 @@ with tab1:
 
     col_n1, col_n2, col_n3, col_n4 = st.columns(4)
 
+    # 1. ENTRADA
     with col_n1:
-        if st.session_state.ver_entrada_a:
+        if st.session_state.paso_seq_a == 1:
             st.markdown(f"""
-            <div class="card-paso card-entrada">
-                <h4 style="color: #0288d1; margin: 0 0 6px 0; font-size: 14px; font-weight: 900;">📥 1. ENTRADA (Insumos)</h4>
+            <div class="card-paso card-activa-entrada">
+                <h4 style="color: #0284c7; margin: 0 0 6px 0; font-size: 14px; font-weight: 900;">📥 1. ENTRADA (Insumos)</h4>
                 <p style="font-size: 11px; margin: 0; line-height: 1.3;">
-                    <strong>Energía/Materiales:</strong> {num_trenes} trenes, {num_buses} buses.<br>
-                    <strong>Información:</strong> <span style="color: #d32f2f; font-weight: bold;">{pasajeros_flota} pax</span> (Demanda entrante).
+                    <strong>Recursos:</strong> {num_trenes} trenes, {num_buses} buses.<br>
+                    <strong>Información:</strong> <span style="color: #0284c7; font-weight: bold;">{pasajeros_flota} pax</span> (Demanda entrante).
                 </p>
             </div>
             """, unsafe_allow_html=True)
         else:
-            st.markdown("<div style='text-align: center; padding: 50px 10px; color: #94a3b8; font-style: italic; font-size: 12px;'>Haz clic arriba en '1. ENTRADA' para desplegar este elemento.</div>", unsafe_allow_html=True)
+            st.markdown("""
+            <div class="card-paso card-inactiva">
+                <h4 style="margin: 0 0 6px 0; font-size: 13px; font-weight: 700;">📥 1. ENTRADA</h4>
+                <p style="font-size: 10px; margin: 0;">Esperando ciclo...</p>
+            </div>
+            """, unsafe_allow_html=True)
 
+    # 2. PROCESAMIENTO
     with col_n2:
-        if st.session_state.ver_proceso_a:
+        if st.session_state.paso_seq_a == 2:
             st.markdown(f"""
-            <div class="card-paso card-proceso">
+            <div class="card-paso card-activa-proceso">
                 <h4 style="color: #fbbf24; margin: 0 0 6px 0; font-size: 14px; font-weight: 900;">⚙️ 2. PROCESAMIENTO</h4>
                 <p style="font-size: 11px; margin: 0; line-height: 1.3; color: #f8fafc;">
-                    Conversión y regulación de flujos peatonales y transbordos.<br><em>{horario_operativo}</em>
+                    Regulación de flujos peatonales y transbordos.<br><em>{horario_operativo}</em>
                 </p>
             </div>
             """, unsafe_allow_html=True)
         else:
-            st.markdown("<div style='text-align: center; padding: 50px 10px; color: #94a3b8; font-style: italic; font-size: 12px;'>Haz clic arriba en '2. PROCESO' para desplegar este elemento.</div>", unsafe_allow_html=True)
+            st.markdown("""
+            <div class="card-paso card-inactiva">
+                <h4 style="margin: 0 0 6px 0; font-size: 13px; font-weight: 700;">⚙️ 2. PROCESO</h4>
+                <p style="font-size: 10px; margin: 0;">En espera...</p>
+            </div>
+            """, unsafe_allow_html=True)
 
+    # 3. SALIDA
     with col_n3:
-        if st.session_state.ver_salida_a:
+        if st.session_state.paso_seq_a == 3:
             st.markdown(f"""
-            <div class="card-paso card-salida">
-                <h4 style="color: #2e7d32; margin: 0 0 6px 0; font-size: 14px; font-weight: 900;">📤 3. SALIDA (Producto)</h4>
+            <div class="card-paso card-activa-salida">
+                <h4 style="color: #16a34a; margin: 0 0 6px 0; font-size: 14px; font-weight: 900;">📤 3. SALIDA (Producto)</h4>
                 <p style="font-size: 11px; margin: 0; line-height: 1.3;">
-                    <strong>Exportación al medio:</strong><br><span style="color: #2e7d32; font-weight: bold;">{pasajeros_flota} pax</span> transferidos con éxito a la red.
+                    <strong>Exportación al medio:</strong><br><span style="color: #16a34a; font-weight: bold;">{pasajeros_flota} pax</span> transferidos con éxito a la red.
                 </p>
             </div>
             """, unsafe_allow_html=True)
         else:
-            st.markdown("<div style='text-align: center; padding: 50px 10px; color: #94a3b8; font-style: italic; font-size: 12px;'>Haz clic arriba en '3. SALIDA' para desplegar este elemento.</div>", unsafe_allow_html=True)
+            st.markdown("""
+            <div class="card-paso card-inactiva">
+                <h4 style="margin: 0 0 6px 0; font-size: 13px; font-weight: 700;">📤 3. SALIDA</h4>
+                <p style="font-size: 10px; margin: 0;">En espera...</p>
+            </div>
+            """, unsafe_allow_html=True)
 
+    # 4. RETROALIMENTACIÓN
     with col_n4:
-        if st.session_state.ver_retro_a:
+        if st.session_state.paso_seq_a == 4:
             if pasajeros_flota > capacidad_oferta:
-                txt_r = "⚠️ Homeostasis alterada: Saturación en andenes. Requiere reajuste de frecuencias."
+                txt_r = "⚠️ Homeostasis alterada: Saturación en andenes. Ajuste de frecuencias."
             else:
                 txt_r = "✅ Homeostasis dinámica: Flujo estable y equilibrado."
             st.markdown(f"""
-            <div class="card-paso card-retro">
-                <h4 style="color: #e65100; margin: 0 0 6px 0; font-size: 13px; font-weight: 900;">🔄 4. RETROALIMENTACIÓN</h4>
-                <p style="font-size: 10px; margin: 0; line-height: 1.3; color: #bf360c; font-weight: 700;">
+            <div class="card-paso card-activa-retro">
+                <h4 style="color: #ea580c; margin: 0 0 6px 0; font-size: 13px; font-weight: 900;">🔄 4. RETROALIMENTACIÓN</h4>
+                <p style="font-size: 10px; margin: 0; line-height: 1.3; color: #9a3412; font-weight: 700;">
                     {txt_r}
                 </p>
             </div>
             """, unsafe_allow_html=True)
         else:
-            st.markdown("<div style='text-align: center; padding: 50px 10px; color: #94a3b8; font-style: italic; font-size: 12px;'>Haz clic arriba en '4. RETRO' para desplegar este elemento.</div>", unsafe_allow_html=True)
+            st.markdown("""
+            <div class="card-paso card-inactiva">
+                <h4 style="margin: 0 0 6px 0; font-size: 13px; font-weight: 700;">🔄 4. RETRO</h4>
+                <p style="font-size: 10px; margin: 0;">En espera...</p>
+            </div>
+            """, unsafe_allow_html=True)
 
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -267,7 +300,7 @@ with tab1:
 # PESTAÑA B: DISTRIBUCIÓN DE AGUA
 # ==========================================
 with tab2:
-    st.markdown("<p style='font-weight: bold; color: #15803d; margin-bottom: 5px;'>B. Distribución de agua en garrafón en U.H. El Rosario (Logística de Carga)</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-weight: bold; color: #16a34a; margin-bottom: 5px;'>B. Distribución de agua en garrafón en U.H. El Rosario (Logística de Carga)</p>", unsafe_allow_html=True)
 
     col_d1, col_d2, col_d3 = st.columns(3)
     with col_d1:
@@ -280,99 +313,107 @@ with tab2:
     capacidad_total_flota = unidades_reparto * 50
 
     st.markdown("""
-        <div class="static-banner" style="background: linear-gradient(90deg, #e8f5e9 0%, #c8e6c9 100%); color: #1b5e20; border-color: #66bb6a;">
-            🚚 RUTA LOGÍSTICA ACTIVA: <span class="floating-icon">🚚</span> Flota de repartos y <span class="floating-icon">💧</span> garrafones sincronizados con <span class="floating-icon">📦</span> Adaptabilidad en U.H. El Rosario
+        <div class="static-banner" style="background: linear-gradient(90deg, #dcfce7 0%, #fef3c7 50%, #e0f2fe 100%); color: #16a34a; border-color: #16a34a;">
+            🚚 RUTA LOGÍSTICA ACTIVA: <span class="floating-icon">🚚</span> Flota de Reparto y <span class="floating-icon">💧</span> Garrafones en Avance Dinámico
         </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("<p style='font-size: 13px; font-weight: bold; text-align: center; color: #334155; margin-bottom: 8px;'>👆 Haz clic en cada botón para revelar u ocultar su tarjeta correspondiente:</p>", unsafe_allow_html=True)
-
-    bb_col1, bb_col2, bb_col3, bb_col4 = st.columns(4)
-
-    if "ver_entrada_b" not in st.session_state:
-        st.session_state.ver_entrada_b = False
-    if "ver_proceso_b" not in st.session_state:
-        st.session_state.ver_proceso_b = False
-    if "ver_salida_b" not in st.session_state:
-        st.session_state.ver_salida_b = False
-    if "ver_retro_b" not in st.session_state:
-        st.session_state.ver_retro_b = False
-
-    with bb_col1:
-        if st.button("📥 1. ENTRADA (B)", use_container_width=True, key="btn_e_b"):
-            st.session_state.ver_entrada_b = not st.session_state.ver_entrada_b
-    with bb_col2:
-        if st.button("⚙️ 2. PROCESO (B)", use_container_width=True, key="btn_p_b"):
-            st.session_state.ver_proceso_b = not st.session_state.ver_proceso_b
-    with bb_col3:
-        if st.button("📤 3. SALIDA (B)", use_container_width=True, key="btn_s_b"):
-            st.session_state.ver_salida_b = not st.session_state.ver_salida_b
-    with bb_col4:
-        if st.button("🔄 4. RETRO (B)", use_container_width=True, key="btn_r_b"):
-            st.session_state.ver_retro_b = not st.session_state.ver_retro_b
+    col_btn_seqb1, col_btn_seqb2, col_btn_seqb3 = st.columns([2, 2, 3])
+    with col_btn_seqb1:
+        if st.button("▶️ Avanzar Secuencia (B)", use_container_width=True, key="avanzar_b"):
+            st.session_state.paso_seq_b = (st.session_state.paso_seq_b % 4) + 1
+    with col_btn_seqb2:
+        if st.button("🔄 Reiniciar Ciclo (B)", use_container_width=True, key="reiniciar_b"):
+            st.session_state.paso_seq_b = 1
+    with col_btn_seqb3:
+        st.markdown(f"<p style='text-align: right; font-weight: bold; color: #16a34a; padding-top: 6px;'>Paso actual: {st.session_state.paso_seq_b} / 4</p>", unsafe_allow_html=True)
 
     st.markdown("""
         <div class="sistema-compacto-box" style="border-color: #16a34a; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
-            <div class="ambiente-titulo" style="color: #15803d;">🌐 AMBIENTE: U.H. El Rosario (Zona Suburbana)</div>
+            <div class="ambiente-titulo" style="color: #16a34a;">🌐 AMBIENTE: U.H. El Rosario (Zona Suburbana)</div>
     """, unsafe_allow_html=True)
 
     col_bn1, col_bn2, col_bn3, col_bn4 = st.columns(4)
 
+    # 1. ENTRADA B
     with col_bn1:
-        if st.session_state.ver_entrada_b:
+        if st.session_state.paso_seq_b == 1:
             st.markdown(f"""
-            <div class="card-paso" style="border: 3px solid #16a34a; background: #ffffff;">
-                <h4 style="color: #15803d; margin: 0 0 6px 0; font-size: 14px; font-weight: 900;">📥 1. ENTRADA (Insumos)</h4>
+            <div class="card-paso card-activa-entrada">
+                <h4 style="color: #0284c7; margin: 0 0 6px 0; font-size: 14px; font-weight: 900;">📥 1. ENTRADA (Insumos)</h4>
                 <p style="font-size: 11px; margin: 0; line-height: 1.3;">
-                    <strong>Recursos:</strong> {unidades_reparto} vehículos.<br>
-                    <strong>Demanda:</strong> <span style="color: #15803d; font-weight: bold;">{pedidos_diarios} garrafones</span>
+                    <strong>Vehículos:</strong> {unidades_reparto} unidades.<br>
+                    <strong>Demanda:</strong> <span style="color: #0284c7; font-weight: bold;">{pedidos_diarios} garrafones</span>
                 </p>
             </div>
             """, unsafe_allow_html=True)
         else:
-            st.markdown("<div style='text-align: center; padding: 50px 10px; color: #94a3b8; font-style: italic; font-size: 12px;'>Haz clic arriba en '1. ENTRADA' para desplegar.</div>", unsafe_allow_html=True)
+            st.markdown("""
+            <div class="card-paso card-inactiva">
+                <h4 style="margin: 0 0 6px 0; font-size: 13px; font-weight: 700;">📥 1. ENTRADA</h4>
+                <p style="font-size: 10px; margin: 0;">En espera...</p>
+            </div>
+            """, unsafe_allow_html=True)
 
+    # 2. PROCESO B
     with col_bn2:
-        if st.session_state.ver_proceso_b:
+        if st.session_state.paso_seq_b == 2:
             st.markdown(f"""
-            <div class="card-paso" style="background: linear-gradient(135deg, #14532d 0%, #052e16 100%); border: 3px solid #22c55e; color: #ffffff;">
-                <h4 style="color: #4ade80; margin: 0 0 6px 0; font-size: 14px; font-weight: 900;">⚙️ 2. PROCESAMIENTO</h4>
+            <div class="card-paso card-activa-proceso">
+                <h4 style="color: #fbbf24; margin: 0 0 6px 0; font-size: 14px; font-weight: 900;">⚙️ 2. PROCESAMIENTO</h4>
                 <p style="font-size: 11px; margin: 0; line-height: 1.3; color: #f0fdf4;">
                     Ruteo domiciliario y conversión operativa.<br><em>{demanda_estacional}</em>
                 </p>
             </div>
             """, unsafe_allow_html=True)
         else:
-            st.markdown("<div style='text-align: center; padding: 50px 10px; color: #94a3b8; font-style: italic; font-size: 12px;'>Haz clic arriba en '2. PROCESO' para desplegar.</div>", unsafe_allow_html=True)
+            st.markdown("""
+            <div class="card-paso card-inactiva">
+                <h4 style="margin: 0 0 6px 0; font-size: 13px; font-weight: 700;">⚙️ 2. PROCESO</h4>
+                <p style="font-size: 10px; margin: 0;">En espera...</p>
+            </div>
+            """, unsafe_allow_html=True)
 
+    # 3. SALIDA B
     with col_bn3:
-        if st.session_state.ver_salida_b:
+        if st.session_state.paso_seq_b == 3:
             st.markdown(f"""
-            <div class="card-paso" style="border: 3px solid #16a34a; background: #ffffff;">
-                <h4 style="color: #15803d; margin: 0 0 6px 0; font-size: 14px; font-weight: 900;">📤 3. SALIDA (Producto)</h4>
+            <div class="card-paso card-activa-salida">
+                <h4 style="color: #16a34a; margin: 0 0 6px 0; font-size: 14px; font-weight: 900;">📤 3. SALIDA (Producto)</h4>
                 <p style="font-size: 11px; margin: 0; line-height: 1.3;">
-                    <strong>Exportación:</strong><br><span style="color: #15803d; font-weight: bold;">{pedidos_diarios} entregados</span> en hogares.
+                    <strong>Exportación:</strong><br><span style="color: #16a34a; font-weight: bold;">{pedidos_diarios} entregados</span> en hogares.
                 </p>
             </div>
             """, unsafe_allow_html=True)
         else:
-            st.markdown("<div style='text-align: center; padding: 50px 10px; color: #94a3b8; font-style: italic; font-size: 12px;'>Haz clic arriba en '3. SALIDA' para desplegar.</div>", unsafe_allow_html=True)
+            st.markdown("""
+            <div class="card-paso card-inactiva">
+                <h4 style="margin: 0 0 6px 0; font-size: 13px; font-weight: 700;">📤 3. SALIDA</h4>
+                <p style="font-size: 10px; margin: 0;">En espera...</p>
+            </div>
+            """, unsafe_allow_html=True)
 
+    # 4. RETROALIMENTACIÓN B
     with col_bn4:
-        if st.session_state.ver_retro_b:
+        if st.session_state.paso_seq_b == 4:
             if pedidos_diarios > capacidad_total_flota:
                 txt_rb = "⚠️ Ajuste necesario: Demanda supera capacidad de flota."
             else:
                 txt_rb = "✅ Homeostasis: Reparto y retorno de envases estables."
             st.markdown(f"""
-            <div class="card-paso" style="border: 3px solid #16a34a; background: #f0fdf4;">
-                <h4 style="color: #15803d; margin: 0 0 6px 0; font-size: 13px; font-weight: 900;">🔄 4. RETROALIMENTACIÓN</h4>
-                <p style="font-size: 10px; margin: 0; line-height: 1.3; color: #064e3b; font-weight: 700;">
+            <div class="card-paso card-activa-retro">
+                <h4 style="color: #ea580c; margin: 0 0 6px 0; font-size: 13px; font-weight: 900;">🔄 4. RETROALIMENTACIÓN</h4>
+                <p style="font-size: 10px; margin: 0; line-height: 1.3; color: #9a3412; font-weight: 700;">
                     {txt_rb}
                 </p>
             </div>
             """, unsafe_allow_html=True)
         else:
-            st.markdown("<div style='text-align: center; padding: 50px 10px; color: #94a3b8; font-style: italic; font-size: 12px;'>Haz clic arriba en '4. RETRO' para desplegar.</div>", unsafe_allow_html=True)
+            st.markdown("""
+            <div class="card-paso card-inactiva">
+                <h4 style="margin: 0 0 6px 0; font-size: 13px; font-weight: 700;">🔄 4. RETRO</h4>
+                <p style="font-size: 10px; margin: 0;">En espera...</p>
+            </div>
+            """, unsafe_allow_html=True)
 
     st.markdown("</div>", unsafe_allow_html=True)
