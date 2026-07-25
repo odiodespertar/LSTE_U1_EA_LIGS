@@ -267,10 +267,117 @@ if "paso_seq_a" not in st.session_state:
 if "paso_seq_b" not in st.session_state:
     st.session_state.paso_seq_b = 1
 
+
+
 # ==========================================
-# PESTAÑA A: CETRAM EL ROSARIO
+# PESTAÑA A: CETRAM EL ROSARIO (CORREGIDA)
 # ==========================================
 with tab1:
+    st.markdown("<p style='font-weight: bold; color: #ea580c; font-size: 18px; margin-bottom: 8px;'>A. Sistema Multimodal de Pasajeros - CETRAM El Rosario [Modelo con variables T, A, V, S]</p>", unsafe_allow_html=True)
+
+    col_c1, col_c2, col_c3, col_c4 = st.columns(4)
+    with col_c1:
+        num_trenes = st.slider("🚆 Trenes (L6/L7)", 10, 50, 25, key="t_pax_c")
+    with col_c2:
+        num_buses = st.slider("🚍 Autobuses", 5, 40, 20, key="b_pax_c")
+    with col_c3:
+        pasajeros_flota = st.slider("👥 Demanda Base [A] (Pax)", 500, 5000, 1800, step=100, key="p_flota_c")
+    with col_c4:
+        horario_operativo = st.selectbox("🕒 Franja Horaria:", ["Pico Matutina", "Hora Valle", "Pico Nocturna"], key="h_pax_c")
+
+    if horario_operativo == "Pico Matutina":
+        factor_franja = 1.35
+    elif horario_operativo == "Pico Nocturna":
+        factor_franja = 1.20
+    else:
+        factor_franja = 0.85
+
+    matriz_capacidad = np.array([
+        ["Metro Línea 6", num_trenes, 110],
+        ["Metro Línea 7", num_trenes, 110],
+        ["Autobuses", num_buses, 80]
+    ], dtype=object)
+
+    capacidad_l6 = int(matriz_capacidad[0, 1]) * int(matriz_capacidad[0, 2])
+    capacidad_l7 = int(matriz_capacidad[1, 1]) * int(matriz_capacidad[1, 2])
+    capacidad_bus = int(matriz_capacidad[2, 1]) * int(matriz_capacidad[2, 2])
+
+    capacidad_oferta = capacidad_l6 + capacidad_l7 + capacidad_bus
+    total_unidades_a = (num_trenes * 2) + num_buses
+    demanda_ajustada = int(pasajeros_flota * factor_franja)
+
+    modelo_pasajeros = calcular_modelo_manheim(
+        T=capacidad_oferta,
+        A=demanda_ajustada,
+        capacidad_total=capacidad_oferta
+    )
+
+    tasa_saturacion = modelo_pasajeros["Saturacion"]
+    nivel_servicio_s = modelo_pasajeros["Nivel_servicio"]
+
+    # Contenedor principal estilo "Ambiente" con Flexbox limpio
+    st.markdown("""
+        <div style="
+            border: 4px solid #f97316; 
+            border-radius: 25px; 
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); 
+            padding: 25px; 
+            margin-top: 20px;
+            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.15);
+        ">
+            <div style="text-align: center; font-size: 24px; font-weight: 900; color: #c2410c; margin-bottom: 20px;">
+                🌐 AMBIENTE: CETRAM EL ROSARIO
+            </div>
+    """, unsafe_allow_html=True)
+
+    # Sub-columnas para Entrada, Proceso y Salida de forma ordenada
+    col_a_ent, col_a_pro, col_a_sal = st.columns(3)
+
+    with col_a_ent:
+        st.markdown(f"""
+            <div style="background: #dbeafe; border: 3px solid #0284c7; padding: 20px; border-radius: 15px; text-align: center; height: 100%;">
+                <h4 style="color: #0369a1; margin-top:0;">📥 ENTRADA</h4>
+                <strong>Oferta [T]</strong><br><br>
+                🚆 {num_trenes*2} trenes<br>
+                🚍 {num_buses} autobuses<br><br>
+                <strong>Capacidad:</strong><br>{capacidad_oferta:,} pasajeros
+            </div>
+        """, unsafe_allow_html=True)
+
+    with col_a_pro:
+        st.markdown(f"""
+            <div style="background: #1e293b; color: white; border: 3px solid #f59e0b; padding: 20px; border-radius: 15px; text-align: center; height: 100%;">
+                <h4 style="color: #fbbf24; margin-top:0;">⚙️ PROCESO</h4>
+                <strong>Flujo [V]</strong><br><br>
+                Demanda ajustada:
+                <h2 style="color: #ffb703; margin: 5px 0;">{demanda_ajustada:,}</h2>
+                pasajeros<br><br>
+                <strong>Horario:</strong> {horario_operativo}
+            </div>
+        """, unsafe_allow_html=True)
+
+    with col_a_sal:
+        st.markdown(f"""
+            <div style="background: #dcfce7; border: 3px solid #16a34a; padding: 20px; border-radius: 15px; text-align: center; height: 100%;">
+                <h4 style="color: #15803d; margin-top:0;">📤 SALIDA</h4>
+                <strong>Servicio [S]</strong><br><br>
+                Nivel: <strong>{nivel_servicio_s:.2f}</strong><br><br>
+                Saturación: <br><strong style="font-size: 18px;">{tasa_saturacion:.1f}%</strong>
+            </div>
+        """, unsafe_allow_html=True)
+
+    # Bloque inferior de Retroalimentación simétrica
+    st.markdown(f"""
+            <div style="background: #ffffff; border: 3px solid #ea580c; border-radius: 15px; padding: 18px; text-align: center; margin-top: 20px;">
+                <h4 style="color: #ea580c; margin: 0 0 8px 0;">🔄 RETROALIMENTACIÓN</h4>
+                <p style="margin: 0; font-weight: bold; color: #334155; font-size: 16px;">{modelo_pasajeros["Estado"]}</p>
+                <p style="margin: 5px 0 0 0; color: #64748b; font-size: 14px;">El sistema ajusta frecuencias, capacidad y operación según la demanda.</p>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
+
+
+    
     st.markdown("<p style='font-weight: bold; color: #ea580c; font-size: 18px; margin-bottom: 8px;'>A. Sistema Multimodal de Pasajeros - CETRAM El Rosario [Modelo con variables T, A, V, S]</p>", unsafe_allow_html=True)
 
     col_c1, col_c2, col_c3, col_c4 = st.columns(4)
