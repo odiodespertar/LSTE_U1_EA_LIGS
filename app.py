@@ -261,14 +261,14 @@ st.markdown("""
     }
 
     .card-activa-salida {
-        background: linear-gradient(135deg, #ffffff 0%, #dcfce7 100%);
+        background: linear-gradient(135deg, #d8f2e1 0%, #b0e8c4 100%);
         border: 4px solid #16a34a;
         color: #0f172a;
         box-shadow: 0 8px 22px rgba(22, 163, 74, 0.25);
     }
 
     .card-activa-retro {
-        background: linear-gradient(135deg, #ffffff 0%, #ffedd5 100%);
+        background: linear-gradient(135deg, #ffedd5 0%, #facf96 100%);
         border: 4px solid #ea580c;
         color: #0f172a;
         box-shadow: 0 8px 22px rgba(234, 88, 12, 0.25);
@@ -277,7 +277,7 @@ st.markdown("""
     /* Animación de marquesina/brillo para el banner dinámico principal */
     @keyframes banner-glow {
         0% { filter: brightness(1); }
-        50% { filter: brightness(1.05); }
+        50% { filter: brightness(1.06); }
         100% { filter: brightness(1); }
     }
 
